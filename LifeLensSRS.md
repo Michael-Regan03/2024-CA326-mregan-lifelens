@@ -1,3 +1,8 @@
+# Software Requirements Specification for LifeLens: Data Visualisation for Chronic Illness Prevention 
+
+Prepared by Michael Regan 22112111 25/11/2023
+
+
 # 1. Introduction
 
 ## 1.1 Purpose 
@@ -23,7 +28,7 @@ The tertiary goal of the system is to incorporate a text generator API so that u
 - **Chronic Illness**: A health condition or disease that is persistent or otherwise long-lasting in its effects or a disease that comes with time.
 - **Lifelog**: A lifelog is a personal record of one's daily life in varying detail.
 
-##1.4 References
+## 1.4 References
 
 1. Willett, W. C. Balancing Life-Style and Genomics Research for Disease Prevention. Science Vol. 296, 5568 (Apr. 2002), https://www.science.org/doi/10.1126/science.1071055 
 
