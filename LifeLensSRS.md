@@ -126,19 +126,19 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 
 ### 3.2.1.1 Use Case 1.1 Create Account
 
-|UC-1.1        |     Create Account                                                                                     | 
-|--------------| -------------------------------------------------------------------------------------------------------|
-| Precondition | 1 |  A novice user wants to set up an account on LifeLens.                                             |
-|              |2  |System indicates to the user to enter their email username and password.                            |
-|              |3  |User enters their email, username and password.                                                     |
-|              |3a |The system throws an error if an account with the entered email is already registered.              |
-|              |3b |If an account with the same username exists, the system throws an error.                            |
-|              |3c |If the password is unsafe, the system throws an error.                                              |
-|              |3d |Password is encrypted, and email, username and password are saved to the database.                  |
-|              |4  |The system sends an email confirming account creation.                                              |
-|              |5  |The user is logged in.                                                                              |   
-|              |6  |The home page is loaded.                                                                            |
-|Postcondition |1  |A user account is    created.                                                                        |                                       
+|UC-1.1        |step|Create Account                                                                                          | 
+|--------------|----|---------------------------------------------------------------------------------------------------|
+| Precondition | 1  |  A novice user wants to set up an account on LifeLens.                                             |
+|              |2   |System indicates to the user to enter their email username and password.                            |
+|              |3   |User enters their email, username and password.                                                     |
+|              |3a  |The system throws an error if an account with the entered email is already registered.              |
+|              |3b  |If an account with the same username exists, the system throws an error.                            |
+|              |3c  |If the password is unsafe, the system throws an error.                                              |
+|              |3d  |Password is encrypted, and email, username and password are saved to the database.                  |
+|              |4   |The system sends an email confirming account creation.                                              |
+|              |5   |The user is logged in.                                                                              |   
+|              |6   |The home page is loaded.                                                                            |
+|Postcondition |1   |A user account is created.                                                                          |                                                        
 |Expectations |1   |The user will choose the appropriate username.                                                      |
 |             |2   |The user will create an account with their email.                                                   |
-| Notes       |If any condition for steps 3a - 3c are met, then the system breaks from the process; else, 3d is executed|
+| Notes       |    |If any condition for steps 3a - 3c are met, then the system breaks from the process; else, 3d is executed|
