@@ -289,7 +289,7 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 
 # 5.  High-Level Design - Data flow diagram
 
-![Figure 6](images/image1.png)
+![Figure 6](images/image1.jpg)
 * Figure 6:  Data flow glossary*
 
 ![Figure 7](images/image9.jpg)
