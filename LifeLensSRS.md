@@ -40,9 +40,12 @@ The tertiary goal of the system is to incorporate a text generator API so that u
 
 ## 2.1 Product Perspective
 
-Lifelog is a self-contained product with two purposes:
-1:  Turn the user’s lifelog data from raw data into a clear, comprehensible form through data visualisation.
-2: Prevent chronic illness by identifying the user’s current risk and suggesting behavioural changes to reduce that risk.
+LifeLens is a self-contained product with two purposes:
+
+1.  Turn the user’s lifelog data from raw data into a clear, comprehensible form through data visualisation.
+
+2. Prevent chronic illness by identifying the user’s current risk and suggesting behavioural changes to reduce that risk.
+
 
 ## 2.2 Product Functions 
 
@@ -119,7 +122,7 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 
 | ACT-1      |User                                                 |
 |------------|-----------------------------------------------------|
-|Description |A person who wants to access the app's functionality |
+|Description |A person who wants to access the app's functionality, |
 |Notes:      | Users are either inactive or active in use cases.   |
 
 | ACT-1      |Developer                                                                                                 |
@@ -164,7 +167,7 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 |              |5   |The user gets access to their account.                                                                                   |   
 |              |6   |The home page is loaded.                                                                                                 |
 |Postcondition |1   |The user is logged in and can upload their lifelog data or access features that incorporate their already uploaded data. |    
-|Expectations  |2   |Users will remember their username or email and password.                                                                |                                                   
+|Expectations  |1   |Users will remember their username or email and password.                                                                |                                                   
 | Notes        |    |If the system logs in after an account creation, skip steps 1a-1b. If conditions from 4a-4b are met, the system breaks   |
 
 
@@ -193,13 +196,12 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 |--------------|----|-------|
 | Precondition |1   |A user logged into their account. |
 ||2   |A user has uploaded lifelog data. |
-||3   |A user selects a page on the website for data |
+||3   |A user selects a page on the website for data. |
 |Description   |1   |A  Fetch request is made from the frontend to a REST API for necessary lifelog data.|
 |              |2   |The backend processes the request.|
 |              |3   |The request is approved. |
 |              |4   |The data is sent as JSON. |
 |              |5  |The JSON data is inserted into graphs and charts.|
-|              |6  |The system accepts the data and stores it in its database. |
 |Postcondition |1   |Lifelog data is visualised on the front end for users to comprehend their health patterns easily.|    
 |Expectations  |1   |The user has uploaded lifelog data.|  
 |Notes:||The type of graph or chart visualised will depend on the page requesting the data.|    
@@ -215,6 +217,7 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 |              |4   |Data is categorised based on different behaviours and chronic conditions.|
 |              |5  |Static methods analyse the relationship between specific behaviours and chronic illnesses .|
 |              |6  |Strong correlations that indicate a higher risk of certain illnesses are identified.|
+|              |7|Sensitive data is deleted from the system.|
 |Postcondition |1   |The system is aware of behaviours that increase the risk of chronic illness.|    
 |Expectations  |1   |The correlation will have a high degree of accuracy|  
 |Notes:||The correlation algorithm will be simple, and we cannot account for nonce causes of chronic disease.|    
@@ -263,7 +266,7 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 |              |4   |Future activities are sent to the frontend as JSON data|
 |              |5  |The data is displayed on the UI.|
 |Postcondition |1   |The user can view activities that will reduce their risk of chronic illness.|    
-|Expectations  |1   |The current risk of chronic illness is accurately calculated.| 
+|Expectations  |1   |Activity suggestions should be relevant to the person's health risk.| 
 ||2|Suggestions should be applicable and feasible within the user’s daily routine.| 
 ||3|Suggestions should contribute positively to the user’s physical, mental and emotional health.| 
 
@@ -272,14 +275,11 @@ Testing and demonstration are dependent on  ETRI’s lifelog dataset 2020 editio
 |UC-8|step|Prompt text generation API|  
 |--------------|----|-------|
 | Precondition |1   |The user is indicated to enter a prompt to discuss any health trend they see for their data visualisation.|
-||2|The user enters a prompt.|
-||3|The frontend calls a text generator API.|
-||4 |The response from the API is sent back and displayed on the UI.|
 |Description   |1  |The user is indicated to enter a prompt to discuss any health trend they see for their data visualisation.|
 |              |2   |The user enters a prompt.|
 |              |3   |The frontend calls a text generator API.|
 |              |4   |The response from the API is sent back and displayed on the UI.|
-|Postcondition |1   |The user can view activities that will reduce their risk of chronic illness.|    
+|Postcondition |1   |The user gains further insight into their data.|    
 |Expectations  |1   |The text generator’s response to the prompt will be insightful to the user.| 
 
 # 4.  System Architecture Diagram
