@@ -41,12 +41,12 @@ Lifelog is a self-contained product with two purposes:
 
 ## 2.2 Product Functions 
 
-![Figure 1](images/image3.jpg)
+![Figure 1](images/image3.png)
 * Figure 1: Context level use cases* 
 
 A user wants to create an account on the LifeLens web application to visualise their lifelog data.
 
-![Figure 2](images/image4.jpg)
+![Figure 2](images/image4.png)
 * Figure 2: User account actions*
 
 Once users have logged into their account and lifelog data have been uploaded to the system; it can be visualised with various graphs and charts highlighting the frequency of daily activities and health patterns.
@@ -69,12 +69,12 @@ A Developer wants to Correlate behaviours to Chronic illness. Behaviours and chr
 
 Now that the developer has correlated behaviour to chronic illnesses The system can provide the user with their current risk of chronic illness based on their behaviours seen in their lifelog data. Users are also offered suggested activities to reduce their risk of chronic illness.
 
-![Figure 5](images/image4.jpg)
+![Figure 5](images/image5.jpg)
 * Figure 5: Chronic illness prevention use cases *
 
 For users who want to ask questions or gain further insights about their data, a chatbot will be incorporated that queries a text generator API.
 
-![Figure 6](images/image4.jpg)
+![Figure 6](images/image6.jpg)
 * Figure 6: Prompt text generation API use case *
 
 
