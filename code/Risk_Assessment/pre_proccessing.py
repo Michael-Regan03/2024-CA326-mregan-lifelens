@@ -74,7 +74,7 @@ df_filtered = df[(df['_TOTINDA'] != 'Unknown') &
                   ]
                   
 
-df_filtered = pd.get_dummies(df_filtered, columns=['_TOTINDA', 'DIABETE3', 'ADDEPEV2', '_AGEG5YR', '_SMOKER3', '_RFDRMN4', '_RFDRWM4','CHCCOPD', 'CHCKIDNY', 'CVDCRHD4', 'CHCSCNCR' , 'CVDINFR4', 'CVDSTRK3' , 'HAVARTH3', 'SLEPTIM1' ])
+df_filtered = pd.get_dummies(df_filtered, columns=['_TOTINDA', 'DIABETE3', 'ADDEPEV2', '_AGEG5YR', '_SMOKER3', '_RFDRMN4', '_RFDRWM4','CHCCOPD', 'CHCKIDNY', 'CVDCRHD4', 'CHCSCNCR' , 'CVDINFR4', 'CVDSTRK3' , 'HAVARTH3', 'SLEPTIM1'])
 
 
 df_filtered['Heavy_Drinker'] = df_filtered['_RFDRMN4_Heavy_Drinker'] | df_filtered['_RFDRWM4_Heavy_Drinker']
@@ -107,7 +107,15 @@ df_filtered = df_filtered.loc[:,[
                 'CHCSCNCR_Yes',
                 'CVDINFR4_Yes',
                 'CVDSTRK3_Yes',
-                'HAVARTH3_Yes'
+                'HAVARTH3_Yes',
+                
+                '_SMOKER3_smokes_every_day',
+                '_SMOKER3_smokes_some_days',
+                '_SMOKER3_Former_smoker' ,
+                 '_SMOKER3_Never_smoked'
+
+
+
 ]] 
 
 
@@ -133,7 +141,13 @@ df_filtered = df_filtered.rename(columns={ '_AGEG5YR_18-29': 'Age:18-29',
                                             'CVDINFR4_Yes':'Myocardial_infarction',
                                             'CVDSTRK3_Yes':'Stroke',
                                             'HAVARTH3_Yes':'Arthritis,Gout,Lupus,Fibromyalgia',
-                                            'CHCSCNCR_Yes': 'Skin cancer'})
+                                            'CHCSCNCR_Yes': 'Skin cancer',
+                                            '_SMOKER3_smokes_every_day' : 'Smokes_Every_Day',
+                                            '_SMOKER3_smokes_some_days' : 'Smokes_Some_Days',
+                                            '_SMOKER3_Former_smoker' : 'Former_smoker',
+                                            '_SMOKER3_Never_smoked': 'Never_Smoked',
+                                            '_TOTINDA_Yes' : 'Active',
+                                            })
 
 
 output_file_path = 'filtered_data.csv'
