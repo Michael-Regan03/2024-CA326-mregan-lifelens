@@ -1,22 +1,15 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
+from .serializers import UserAccountSerializer
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
-def login_user(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate (request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.success(request, ("Incorrect username or password"))
-            return redirect('login')
-    else:
-        return render(request, 'authenticate/login.html', {})
 
-# Create your views here.
-    
-def home(request):
-    return render(request, 'authenticate/confirmation.html', {})
+class CurrentUserView(viewsets.ReadOnlyModelViewSet):
+    print("helloo-world")
+    permission_classes = [IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        user = request.user
+        print(request.user)
+        serializer = UserAccountSerializer(user)
+        return Response(serializer.data)

@@ -21,7 +21,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'rest_framework',
     'channels',
@@ -128,11 +127,17 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", # node on port 3000
-    "http://127.0.0.1:3000",  # node on port 3000
+    "http://localhost:3000", 
+    "http://127.0.0.1:3000",
     "http://127.0.0.1",
     "http://localhost"
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS = False 
+CORS_ALLOW_CREDENTIALS = True 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
