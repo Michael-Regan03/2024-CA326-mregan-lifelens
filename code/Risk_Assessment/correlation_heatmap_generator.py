@@ -4,7 +4,7 @@ import seaborn as sns
 import numpy as np
 
 #read file
-df = pd.read_csv('filtered_data.csv')
+df = pd.read_csv('balanced_data.csv')
 
 #correlation matric
 correlation_matrix = df.corr()
