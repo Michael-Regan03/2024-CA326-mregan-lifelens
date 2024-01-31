@@ -17,7 +17,7 @@ I cleaned the data frame by creating a new data frame that excluded rows where t
 
 Here is the total number of behaviours and chronic illnesses present in the data.
 
-![](../code/Risk_Assessment/Images/bar_chart.png)
+![](../code/Risk_Assessment/images/bar_chart.png)
 
 
 ## Data Balancing
@@ -26,7 +26,7 @@ Here is the total number of behaviours and chronic illnesses present in the data
 
 
 
-![](../code/Risk_Assessment/Images/Multi_Ilness_Distrabution.png)
+![](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
 
 
 And the illness distribution:
