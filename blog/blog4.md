@@ -1,4 +1,4 @@
-# Blog 4 -Risk Assessment of Chronic Illness Model Training and Evaluation with Logistical Regression & Random Forest
+# Blog 4 -Risk Assessment of Chronic Illness Model Training and Evaluation with Logistic Regression & Random Forest
 
 I created a correlation heat map with the balanced data to visualise the correlation between behaviours and chronic illnesses.
 
@@ -12,12 +12,10 @@ Challenges faced when training a model.
 * The model does not place the user in a class but gives a risk assessment of the likelihood of them eventually being in that class. This is challenging because I am only using binary data(has a chronic illness or doesn’t).
 * A user can have several illnesses or not have any which makes this a multi-classification problem.
 
-These challenges led me to choose Logistic regression and Random Forest Classification to train my model. Logistical regression, although being a binary classifier, outputs the probability of an event occurring which suits my risk assessment however i it probabyly will not be able to handle the non-linear relationship between behaviours and ilnesses. Thats why I am also creating a Random Forest Classification model. Random Forest is an ensemble method that takes the mean prediction across several decision trees. For Random Forest risk assesment i will be taking the models probability for each ilness of the user best fiting into each of the classes. The proabilitys will be linked to the following risk levels: 
+These challenges led me to choose Logistic regression and Random Forest Classification to train my model. Logistical regression, although being a binary classifier, outputs the probability of an event occurring which suits my risk assessment however i it probabyly will not be able to handle the non-linear relationship between behaviours and illnesses. Thats why I am also creating a Random Forest Classification model. Random Forest is an ensemble method that takes the mean prediction across several decision trees. For Random Forest risk assesment I will be taking the models probability for each illness of the user best fiting into each of the classes. The proabilitys will be linked to the following risk levels: 
 * 0.3 > : low risk
 * 0.3 ->  0.7 :medium risk
 * < 0.7 : high risk
-
-
 
 For training im doing a random 70/30 data split. For reproducability i added a seed ("326") to the data splitting function which adds determinism.
 
@@ -29,7 +27,7 @@ For training im doing a random 70/30 data split. For reproducability i added a s
 | ML Algorithm | Accurancy |
 | ---- | ---- |
 |  Logistical Regression | 0.22663185378590078  | 
-|  Random Forest Classification | Precision | 
+|  Random Forest Classification | 0.3199303742384682 | 
 
 
 <style>
@@ -62,7 +60,7 @@ td {
     </td>
   </tr>
 <td rowspan="30" colspan="4" > 
-        Logistical Regression
+        Logistic Regression
     </td>    
     <td rowspan=3>
         Diebetes
