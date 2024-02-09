@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import handleSubmit from '../actions/handleSubmit';
+import FetchComp from '../actions/FetchComp';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ export default function Signup() {
     const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await handleSubmit("http://127.0.0.1:8000/auth/users/?Content-Type=application/json", { email,name, password, re_password });
+      const response = await FetchComp("http://127.0.0.1:8000/auth/users/?Content-Type=application/json", { email,name, password, re_password });
       console.log('Login successful:', response);
       nav('/AwaitEmail');
     } catch (error) {

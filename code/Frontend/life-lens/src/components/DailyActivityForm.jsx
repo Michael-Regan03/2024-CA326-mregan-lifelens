@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import loadData from '../loaders/loadData';
 
 function DailyActivityForm() {
     const [file, setFile] = useState(null);
-
+    
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
@@ -16,19 +17,9 @@ function DailyActivityForm() {
         const formData = new FormData();
         formData.append('file', file);
 
-        fetch('http://127.0.0.1:8000/api/upload-csv/', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            alert('File uploaded successfully');
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Error uploading file');
-        });
+        loadData('http://127.0.0.1:8000/api/upload-csv/', 'POST', FormData)
+        
+
     };
 
     return (

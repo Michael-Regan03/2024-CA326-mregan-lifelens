@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-//import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import DailyActivityForm from'./components/DailyActivityForm';
 
 import Home from './containers/Home'
@@ -17,7 +17,6 @@ import { BrowserRouter, Route, Switch, Routes } from 'react-router-dom';
 
 import Layout from './hocs/Layout';
 
-import useToken from './actions/useToken';
 
 
 
@@ -33,6 +32,9 @@ function App() {
 
         <Route path="/login" element={<Login />} />
 
+
+
+        <Route path="/upload" element={<DailyActivityForm />} />
       </Routes>
     </BrowserRouter>
   );

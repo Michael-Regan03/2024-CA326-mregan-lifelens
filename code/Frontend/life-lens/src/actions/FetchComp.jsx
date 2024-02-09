@@ -1,9 +1,8 @@
-
-const handleSubmit =  async (url, data) => {
-    try { 
+const FetchComp =  async (url, data, HTTP_method) => {
+  try { 
     console.log('Sending data:', data);
     const response = await fetch( url , {
-      method: 'POST',
+      method: HTTP_method,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -17,10 +16,11 @@ const handleSubmit =  async (url, data) => {
   
       return await response.json();
     } catch (error) {
-      // You can choose to handle the error here or throw it to be handled by the caller
-      console.error('Error in handleSubmit:', error);
-      throw error;
+        console.error('Error in FetchComp:', error);
+      
+        //throwing error  to be handled by the caller
+        throw error;
     }
   };
 
-export default handleSubmit;
+export default FetchComp;

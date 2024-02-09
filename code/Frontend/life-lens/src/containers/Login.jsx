@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import handleSubmit from '../actions/handleSubmit';
+import FetchComp from '../actions/FetchComp';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
@@ -10,12 +10,14 @@ export default function Login() {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await handleSubmit("http://127.0.0.1:8000/auth/jwt/create/?Content-type=application/json", { email , password });
+      const response = await FetchComp("http://127.0.0.1:8000/auth/jwt/create/?Content-type=application/json", { email , password }, 'POST');
       console.log('Login successful:', response);
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
+      //storing access and refreash tokens locally
+      localStorage.setItem('accessToken', response.access);
+      localStorage.setItem('refreshToken', response.refresh);
+      //redirect to homepage
       nav('/');
-    } catch (error) {
+    } catch (error) {  
       console.error('Login failed:', error);
       
     }
