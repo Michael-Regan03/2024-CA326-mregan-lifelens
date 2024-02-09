@@ -1,15 +1,15 @@
 from .serializers import UserAccountSerializer
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
-class CurrentUserView(viewsets.ReadOnlyModelViewSet):
-    print("helloo-world")
-    permission_classes = [IsAuthenticated]
+class CurrentUserView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
 
-    def retrieve(self, request, *args, **kwargs):
-        user = request.user
-        print(request.user)
-        serializer = UserAccountSerializer(user)
+    
+    def get(self, request, *args, **kwargs):
+        serializer = UserAccountSerializer(request.user)
         return Response(serializer.data)

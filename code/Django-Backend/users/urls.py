@@ -5,8 +5,8 @@ from .views import  CurrentUserView
 app_name = 'users'
 
 router = DefaultRouter()
-router.register(r'current_user', CurrentUserView, basename='current_user')
 
 urlpatterns = [
+    path('current_user/', CurrentUserView.as_view(), name='current_user'),
     path('', include(router.urls)),
 ]

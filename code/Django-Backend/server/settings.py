@@ -70,7 +70,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
+   'AUTH_HEADER_TYPES': ('JWT', 'Bearer',),
 }
 
 
@@ -175,15 +175,23 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'ERROR',  # Log only errors and higher severity
+        'level': 'DEBUG',  # Log only errors and higher severity
     },
     'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'ERROR',  # Log only errors and higher severity
-            'propagate': True,
-        },
+    'django': {
+        'handlers': ['console'],
+        'level': 'DEBUG', 
+        'propagate': True,
     },
+    'django.request': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+    'rest_framework_simplejwt': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
 }
 
 AUTH_USER_MODEL = 'users.UserAccount'
