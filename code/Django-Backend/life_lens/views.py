@@ -3,12 +3,23 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, DailyActivitySerializer, DaySerializer
-from .models import DailyActivities, Day
+from .serializers import CSVUploadSerializer, DaySerializer
+from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity
 from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping
 from django.db.models import Max
 import pandas as pd
 import numpy as np
+from datetime import time
+
+
+actions = ['actionSubOption', 'condition' , 'conditionSub1Option', 'conditionSub2Option', 'place',
+            'emotionPositive', 'emotionTension','activity']
+                
+models = [SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place,
+            EmotionPositive, EmotionTension, Activity ]
+
+
+
 
 
 class DailyActivitiesCSVUpload(APIView):
@@ -22,10 +33,9 @@ class DailyActivitiesCSVUpload(APIView):
         if serializer.is_valid():
             csv_file = serializer.validated_data['file']
             data_set = csv_file.read().decode('UTF-8')
-            
+        
             #coverting into data frame for mapping using pandas
             df = pd.read_csv(pd.io.common.StringIO(data_set))
-            
             
             df.loc[df['actionSubOption'] == 'meal_amount', 'actionSub'] = df.loc[df['actionSubOption'] == 'meal_amount', 'actionSub'].map(mealAmountMapping)
             df.loc[df['actionSubOption'] == 'move_method', 'actionSub'] = df.loc[df['actionSubOption'] == 'move_method', 'actionSub'].map(transportMapping)
@@ -34,36 +44,101 @@ class DailyActivitiesCSVUpload(APIView):
             df['conditionSub1Option'] = df['conditionSub1Option'].replace({np.nan: None})
             df['conditionSub2Option'] = df['conditionSub2Option'].replace({np.nan: None})
 
+            #Converting unix time to date time
+            #Coordinated Universal Time = True //instead of local time
+            df['datetime'] = pd.to_datetime(df['ts'], unit='s', utc=True)
+
+            #Dataset used is from korea
+            df['datetime'] = df['datetime'].dt.tz_convert('Asia/Seoul')
+
+            #accessing a single object to get the days date
+            first_row = df.iloc[0]
+            date = first_row["datetime"].strftime('%Y-%m-%d')
+            
+            #Figuring out where the actions stop
+            df['activity_change'] = df['actionOption'] != df['actionOption'].shift(1)
+            #conferting where the bolleans lie into unique numbered groups
+            df['group_id'] = df['activity_change'].cumsum()
+
+            dailyActivities = df.groupby(['actionOption', 'group_id']).agg(
+                start_time=pd.NamedAgg(column='datetime', aggfunc='min'),
+                end_time=pd.NamedAgg(column='datetime', aggfunc='max')
+
+            ).reset_index()
+
             #calulate next day
             last_day = Day.objects.filter(user=request.user).aggregate(max_day=Max('days'))['max_day'] or 0
             day_num = last_day + 1
             days = Day.objects.create(user=request.user,
-                                       days = day_num )
+                                       days = day_num,
+                                       date = date )
+
+            #calculating duration of activity
+            dailyActivities['duration'] = dailyActivities['end_time'] - dailyActivities['start_time']
+
+            #sort activities in order
+            dailyActivities = dailyActivities.sort_values(by='group_id')
+
 
             # interate through dataframe
-            for index, row in df.iterrows():
-                DailyActivities.objects.create(
-                    day=days,
-                    ts=float(row['ts']),
-                    action=row['action'],
-                    actionOption=int(row['actionOption']),
-                    actionSub=row.iloc[3] if row['actionSub'] else None,
-                    actionSubOption=float(row['actionSubOption']) if row['actionSubOption'] else None,
-                    condition=row['condition'],
-                    conditionSub1Option=float(row['conditionSub1Option']) if row['conditionSub1Option'] else None,
-                    conditionSub2Option=float(row['conditionSub2Option']) if row['conditionSub2Option'] else None,
-                    place=row['place'],
-                    emotionPositive=int(row['emotionPositive']),
-                    emotionTension=int(row['emotionTension']),
-                    activity=int(row['activity']),
-                ) 
+            for index, row in dailyActivities.iterrows():
+
+                duration_seconds = int(row['duration'].total_seconds())
+                hours, remainder = divmod(duration_seconds, 3600)
+                minutes, seconds = divmod(remainder, 60)
+                duration = time(hour=hours, minute=minutes, second=seconds)
+
+                da = DailyActivity.objects.create(day=days,
+                                            action = row['actionOption'],     
+                                            startTime = row['start_time'],
+                                            endTime = row['end_time'],                      
+                                            duration = duration
+                )
+                
+                
+        
+                for i in range(len(actions)):
+                    
+                    ##all entries per action
+                    action_df = df[(df['group_id'] == row['group_id'])]
+                    
+                    #Group first before start/end time calc
+                    action_df = action_df.groupby([actions[i]])
+
+            
+                    #create seperate df of durations of attributes within each activity
+                    action_df = action_df.agg(
+                                start_time=pd.NamedAgg(column='datetime', aggfunc='min'),
+                                end_time=pd.NamedAgg(column='datetime', aggfunc='max')
+                        ).reset_index()
+
+                    action_df['duration'] = action_df['end_time'] - action_df['start_time']
+
+                    for index2, row2 in action_df.iterrows():  
+                        
+                            duration_seconds = int(row['duration'].total_seconds())
+                            hours, remainder = divmod(duration_seconds, 3600)
+                            minutes, seconds = divmod(remainder, 60)
+                            duration = time(hour=hours, minute=minutes, second=seconds)
+                  
+                            #as actions[i] cannot be declared in objects.create() directly
+                            kwargs = {
+                                'dailyActivity': da,
+                                actions[i]: row2[actions[i]], 
+                                'startTime': row2['start_time'],
+                                'endTime': row2['end_time'],
+                                'duration': duration
+                            }
+                        
+                            models[i].objects.create(**kwargs)
+
 
             return Response({"message": "CSV file processed successfully"}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
-class DailyActivitiesView(APIView):
+""" class DailyActivitiesView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated] 
 
@@ -82,7 +157,7 @@ class DailyActivitiesView(APIView):
 
         serializer = DailyActivitySerializer(activities, many=True)
 
-        return Response(serializer.data)
+        return Response(serializer.data) """
     
 class DayView(APIView):
     authentication_classes = [JWTAuthentication]
