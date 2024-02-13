@@ -3,13 +3,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, DaySerializer
+from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, ConditionSub1OptionSerialiser
 from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity
 from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping
 from django.db.models import Max
 import pandas as pd
 import numpy as np
-from datetime import time
+from datetime import time, datetime
 
 
 actions = ['actionSubOption', 'condition' , 'conditionSub1Option', 'conditionSub2Option', 'place',
@@ -137,27 +137,6 @@ class DailyActivitiesCSVUpload(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-
-""" class DailyActivitiesView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated] 
-
-    
-    def post(self, request, *args, **kwargs):
-        days = request.data.get('days')
-
-        try:
-            days = int(days)  
-        except ValueError:
-            return Response({'error': 'Invalid days'}, status=400)
-
-        day = Day.objects.filter(user=request.user, days=days)
-        activities = DailyActivities.objects.filter(day__in=day)
-
-
-        serializer = DailyActivitySerializer(activities, many=True)
-
-        return Response(serializer.data) """
     
 class DayView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -169,3 +148,27 @@ class DayView(APIView):
         serializer = DaySerializer(day, many=True)
         return Response(serializer.data)
     
+
+class DailyActivityView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    
+    def post(self, request, *args, **kwargs):
+        date = request.data.get('date')
+        date = str(date)
+        date = datetime.strptime(date, '%Y-%m-%d').date()
+
+        """ try:
+            days = int(days)  
+        except ValueError:
+            return Response({'error': 'Invalid days'}, status=400) """
+
+        day = Day.objects.filter(user=request.user, date=date)
+        activities = DailyActivity.objects.filter(day__in=day)
+
+        serializer = DailyActivitySerializer(activities, many=True)
+
+        return Response(serializer.data)
+    
+
