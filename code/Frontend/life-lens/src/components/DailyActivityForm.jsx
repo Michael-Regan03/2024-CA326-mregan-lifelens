@@ -17,8 +17,8 @@ function DailyActivityForm() {
         const formData = new FormData();
         formData.append('file', file);
 
-        loadData('http://127.0.0.1:8000/api/upload-csv/', 'POST', FormData)
-        
+        loadData('http://127.0.0.1:8000/api/upload-csv/', 'POST', formData)
+
 
     };
 

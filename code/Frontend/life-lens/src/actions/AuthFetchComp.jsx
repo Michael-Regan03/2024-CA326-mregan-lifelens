@@ -10,20 +10,23 @@ const AuthFetchComp =  async (url, HTTP_method, body=null) => {
   };
   
 
+
   if(body instanceof FormData){
     //Sending csv data
-    message.body = body;
-    message.headers = headers;
+    console.log("csv on its way!");
+    message['body'] = body;
+    message['headers'] = headers;
 
   }else if(body != null){
     //Sending JSON data
-    message.body = JSON.stringify(body);
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-    message.headers = headers;
+    console.log("No csv here!");
+    message['body'] = JSON.stringify(body);
+    headers['Accept'] = 'application/json';
+    headers['Content-Type'] = 'application/json';
+    message['headers'] = headers;
   }else{
     //Requests without body i.e GET requests
-    message.headers = headers;
+    message['headers'] = headers;
   }
 
 

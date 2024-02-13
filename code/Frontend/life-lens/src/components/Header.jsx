@@ -16,7 +16,7 @@ function Header() {
         }
   }
   fetchUserInfo()
-}})
+}}, []); //load only on refreash
 
 if(!accessToken){
   return(
