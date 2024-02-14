@@ -9,7 +9,7 @@ from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping
 from django.db.models import Max
 import pandas as pd
 import numpy as np
-from datetime import time, datetime
+from datetime import time, datetime, timedelta
 
 
 actions = ['actionSubOption', 'condition' , 'conditionSub1Option', 'conditionSub2Option', 'place',
@@ -157,14 +157,34 @@ class DailyActivityView(APIView):
     def post(self, request, *args, **kwargs):
         date = request.data.get('date')
         date = str(date)
-        date = datetime.strptime(date, '%Y-%m-%d').date()
+        
+        #determining if date is year, year-month, year-month-day
+        dateF=''
+        if len(date) == 4:  # Year only
+            dateF = '%Y'
+        elif len(date) == 7 or len(date) == 6:  # Year and month
+            dateF = '%Y-%m'
+        elif len(date) == 10 or len(date) == 9 or len(date) == 8:  # Year, month, and day
+            dateF = '%Y-%m-%d'
+        
 
-        """ try:
-            days = int(days)  
-        except ValueError:
-            return Response({'error': 'Invalid days'}, status=400) """
+        ##Format date correctly
+        startDate = datetime.strptime(date, dateF).date()
+        
+        ##Determine ranges
+        if dateF == '%Y':
+            endDate = datetime(startDate.year, 12, 31).date()
+        elif dateF == '%Y-%m':
+            if startDate.month == 12:
+                endDate = datetime(startDate.year, 12, 31).date()
+            else:
+                endDate = datetime(startDate.year, startDate.month + 1, 1) - timedelta(days=1)
+        else:  
+            # Specific day
+            endDate = startDate
 
-        day = Day.objects.filter(user=request.user, date=date)
+
+        day = Day.objects.filter(user=request.user, date__range=(startDate, endDate))
         activities = DailyActivity.objects.filter(day__in=day)
 
         serializer = DailyActivitySerializer(activities, many=True)
