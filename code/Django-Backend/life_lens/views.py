@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, ConditionSub1OptionSerialiser, EmotionTensionSerialiser
+from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser,  ConditionSub1OptionSerialiser, EmotionTensionSerialiser
 from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity
 from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping
 from django.db.models import Max
@@ -17,9 +17,6 @@ actions = ['actionSubOption', 'condition' , 'conditionSub1Option', 'conditionSub
                 
 models = [SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place,
             EmotionPositive, EmotionTension, Activity ]
-
-
-
 
 
 class DailyActivitiesCSVUpload(APIView):
@@ -37,8 +34,8 @@ class DailyActivitiesCSVUpload(APIView):
             #coverting into data frame for mapping using pandas
             df = pd.read_csv(pd.io.common.StringIO(data_set))
             
-            df.loc[df['actionSubOption'] == 'meal_amount', 'actionSub'] = df.loc[df['actionSubOption'] == 'meal_amount', 'actionSub'].map(mealAmountMapping)
-            df.loc[df['actionSubOption'] == 'move_method', 'actionSub'] = df.loc[df['actionSubOption'] == 'move_method', 'actionSub'].map(transportMapping)
+            df.loc[df['actionSub'] == 'meal_amount', 'actionSubOption'] = df.loc[df['actionSub'] == 'meal_amount', 'actionSubOption'].map(mealAmountMapping)
+            df.loc[df['actionSub'] == 'move_method', 'actionSubOption'] = df.loc[df['actionSub'] == 'move_method', 'actionSubOption'].map(transportMapping)
             
             #resolving NaN error for nullable attributes
             df['conditionSub1Option'] = df['conditionSub1Option'].replace({np.nan: None})
@@ -196,6 +193,10 @@ class DailyActivityView(APIView):
         elif(action == "emotionTension"):
             emtionalTensionData = EmotionTension.objects.filter(dailyActivity__in=activities)
             serializer = EmotionTensionSerialiser(emtionalTensionData, many=True)
+            return Response(serializer.data)
+        elif(action == "travel"):
+            SubOptionData = SubOption.objects.filter(dailyActivity__in=activities)
+            serializer = SubOptionSerialiser(SubOptionData, many=True)
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
