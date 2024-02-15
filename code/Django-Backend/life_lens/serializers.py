@@ -53,7 +53,7 @@ class ConditionSerialiser(serializers.ModelSerializer):
 class ConditionSub1OptionSerialiser(serializers.ModelSerializer):
     conditionSub1Option_label = serializers.SerializerMethodField()
     class Meta:
-        model = Condition
+        model = ConditionSub1Option
         fields = [
                 'ConditionSub1Option',
                 'conditionSub1Option_label',
@@ -68,7 +68,7 @@ class ConditionSub1OptionSerialiser(serializers.ModelSerializer):
 class ConditionSub1OptionSerialiser(serializers.ModelSerializer):
     conditionSub2Option_label = serializers.SerializerMethodField()
     class Meta:
-        model = Condition
+        model = ConditionSub2Option
         fields = [
                 'ConditionSub2Option',
                 'conditionSub2Option_label',
@@ -79,4 +79,14 @@ class ConditionSub1OptionSerialiser(serializers.ModelSerializer):
 
     def get_conditionSub2Option_label(self, obj):
         return obj.get_conditionSub1Option_display()
+    
+class EmotionTensionSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = EmotionTension
+        fields = [
+                'emotionTension',
+                'startTime',
+                'endTime',
+                'duration'
+        ]
  

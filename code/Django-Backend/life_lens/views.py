@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, ConditionSub1OptionSerialiser
+from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, ConditionSub1OptionSerialiser, EmotionTensionSerialiser
 from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity
 from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping
 from django.db.models import Max
@@ -156,6 +156,9 @@ class DailyActivityView(APIView):
     
     def post(self, request, *args, **kwargs):
         date = request.data.get('date')
+
+        action = request.data.get('action')
+
         date = str(date)
         
         #determining if date is year, year-month, year-month-day
@@ -187,8 +190,16 @@ class DailyActivityView(APIView):
         day = Day.objects.filter(user=request.user, date__range=(startDate, endDate))
         activities = DailyActivity.objects.filter(day__in=day)
 
-        serializer = DailyActivitySerializer(activities, many=True)
-
-        return Response(serializer.data)
+        if(action == "action"):
+            serializer = DailyActivitySerializer(activities, many=True)
+            return Response(serializer.data)
+        elif(action == "emotionTension"):
+            emtionalTensionData = EmotionTension.objects.filter(dailyActivity__in=activities)
+            serializer = EmotionTensionSerialiser(emtionalTensionData, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     
 
+
+    

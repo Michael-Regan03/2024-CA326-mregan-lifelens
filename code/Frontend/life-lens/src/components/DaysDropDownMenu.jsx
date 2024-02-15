@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import loadData from '../loaders/loadData';
-import GraphGen from './GraphGen';
+import GraphGenActivities from './GraphGenActivities';
+import GraphGenEmotionalTension from './GraphGenEmotionalTension';
+
 
 
 function DaysDropDownMenu() {
@@ -159,7 +161,9 @@ return(
       ))}
     </select>} 
       
-    <GraphGen date={date} /> 
+     <GraphGenActivities date={date}  /> 
+     <GraphGenEmotionalTension date={date} />
+  
   </div>
 );
 
