@@ -35,6 +35,9 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     age = models.IntegerField(validators=[MinValueValidator(18), MaxValueValidator(120)])
 
+    genders = [(0, "Male"), ( 1, "Female")]
+
+    gender = models.IntegerField(choices=genders)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

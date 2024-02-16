@@ -10,7 +10,7 @@ from django.db.models import Max
 import pandas as pd
 import numpy as np
 from datetime import time, datetime, timedelta
-
+from .converts import sleepConverter, smokeConverter, activeConverter, ageConverter, alcoholConverter
 
 actions = ['actionSubOption', 'condition' , 'conditionSub1Option', 'conditionSub2Option', 'place',
             'emotionPositive', 'emotionTension','activity']
@@ -293,9 +293,13 @@ class SurveyAMUpload(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-#Calulate minutes in a duration
-def timeConverter(timeObj):
+#Calulate hours in a duration
+def timeConverterHours(timeObj):
     return timeObj.hour + timeObj.minute / 60 + timeObj.second / 3600
+
+#Calulate minutes in a duration
+def timeConverterMinutes(timeObj):
+    return timeObj.hour * 60 + timeObj.minute + timeObj.second / 60
     
 class ChronicIllnessParametersView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -319,7 +323,7 @@ class ChronicIllnessParametersView(APIView):
                 sleeps = DailyActivity.objects.filter(day=day,action=111).order_by('startTime')
                 for sleep in sleeps:
                     #calulate the time spent sleeping in that day
-                    sleepTime += timeConverter(sleep.duration)
+                    sleepTime += timeConverterHours(sleep.duration)
                 #get Active satus in that day
                 activeStatuses  = Activity.objects.filter(dailyActivity__in=activities).order_by('startTime')
                 for activityStatus in  activeStatuses:
@@ -327,7 +331,7 @@ class ChronicIllnessParametersView(APIView):
                     for active in actives:
                         if(activityStatus.activity == active):
                             #Calulate time spent bing active in that day
-                            activeTime += timeConverter(activityStatus.duration)
+                            activeTime += timeConverterMinutes(activityStatus.duration)
                 try:
                     #In try as a surveyPM object may not exist however we use get as there is only one surveyPm object per day
                     drinks = SurveyPM.objects.get(day=day)
@@ -372,5 +376,29 @@ class ChronicIllnessParametersView(APIView):
                     #if smoking has never occured
                     smokingStatus = "Never Smoker"
             return Response({"age": age, "sleepAverage": sleepAverage, "alcoholAverageAprox" : alcoholAverageAprox, "activeTimeAverage" : activeTimeAverage , "smokingStatus" : smokingStatus})
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+
+class ChronicIllnessFormatedView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def post(self, request, *args, **kwargs):
+        try:
+            sleepAverage = request.data.get('sleepAverage')
+            alcoholAverageAprox = request.data.get('alcoholAverageAprox')
+            activeTimeAverage = request.data.get('activeTimeAverage')
+            smokingStatus = request.data.get('smokingStatus')
+        
+
+            ageFormated = ageConverter(request.user.age)
+            sleepFormated = sleepConverter(sleepAverage)
+            alcoholFormated = alcoholConverter(alcoholAverageAprox, request.user.gender)
+            activeFormatted = activeConverter(activeTimeAverage)
+            smokingFormatted = smokeConverter(smokingStatus)
+        
+            output = ageFormated + sleepFormated + alcoholFormated + activeFormatted + smokingFormatted
+            return Response({"output": output})
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
