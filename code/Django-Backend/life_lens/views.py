@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser,  ConditionSub1OptionSerialiser, EmotionTensionSerialiser
-from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity
+from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser, EmotionPositiveSerialiser, ConditionSub1OptionSerialiser, EmotionTensionSerialiser
+from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity, SurveyAM, SurveyPM
 from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping
 from django.db.models import Max
 import pandas as pd
@@ -141,7 +141,7 @@ class DayView(APIView):
 
     
     def get(self, request, *args, **kwargs):
-        day = Day.objects.filter(user=request.user)
+        day = Day.objects.filter(user=request.user).order_by('date')
         serializer = DaySerializer(day, many=True)
         return Response(serializer.data)
     
@@ -183,16 +183,19 @@ class DailyActivityView(APIView):
             # Specific day
             endDate = startDate
 
-
         day = Day.objects.filter(user=request.user, date__range=(startDate, endDate))
-        activities = DailyActivity.objects.filter(day__in=day)
-
+        activities = DailyActivity.objects.filter(day__in=day).order_by('startTime')
+    
         if(action == "action"):
             serializer = DailyActivitySerializer(activities, many=True)
             return Response(serializer.data)
         elif(action == "emotionTension"):
-            emtionalTensionData = EmotionTension.objects.filter(dailyActivity__in=activities)
+            emtionalTensionData = EmotionTension.objects.filter(dailyActivity__in=activities).order_by('startTime')
             serializer = EmotionTensionSerialiser(emtionalTensionData, many=True)
+            return Response(serializer.data)
+        elif(action == "emotionPositive"):
+            emtionalPositiveData = EmotionPositive.objects.filter(dailyActivity__in=activities).order_by('startTime')
+            serializer = EmotionPositiveSerialiser(emtionalPositiveData, many=True)
             return Response(serializer.data)
         elif(action == "travel"):
             SubOptionData = SubOption.objects.filter(dailyActivity__in=activities)
@@ -202,5 +205,91 @@ class DailyActivityView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
     
 
+class DayViewForSurvey(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def post(self, request, *args, **kwargs):
+        day = Day.objects.filter(user=request.user).order_by('date')
+        
+        meridiemIndicator = request.data.get('meridiemIndicator')
+
+        if(meridiemIndicator == "am"):
+            # Filter days that have one associated SurveyAM
+            days_with_am_survey = SurveyAM.objects.filter(day__in=day).values_list('day', flat=True)
+            days_without_am_survey = day.exclude(pk__in=days_with_am_survey)
+            serializer = DaySerializer(days_without_am_survey, many=True)
+            return Response(serializer.data)
+        elif(meridiemIndicator == "pm"):
+            #Filter days that have one associated SurveyPM
+            days_with_pm_survey = SurveyPM.objects.filter(day__in=day).values_list('day', flat=True)
+            days_without_pm_survey = day.exclude(pk__in=days_with_pm_survey)
+            serializer = DaySerializer(days_without_pm_survey, many=True)
+            return Response(serializer.data)
+        
+        return Response({"error": "Invalid meridiemIndicator provided."}, status=400)
 
     
+class SurveyPMUpload(APIView):
+    #User authentication
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def post(self, request, *args, **kwargs):
+        try:
+            date = request.data.get('date')
+            emotion = request.data.get('emotion')
+            stress = request.data.get('stress')
+            fatigue = request.data.get('fatigue')
+            caffeine = request.data.get('caffeine')
+            cAmount = request.data.get('cAmount')
+            alcohol = request.data.get('alcohol')
+            aAmount = request.data.get('aAmount')
+
+            day = Day.objects.get(user=request.user, date=date)
+        
+        
+            SurveyPM.objects.create(day=day,
+                                    emotion = emotion,     
+                                    stress = stress,
+                                    fatigue = fatigue,                      
+                                    caffeine = caffeine,
+                                    cAmount = cAmount,
+                                    alcohol = alcohol,                      
+                                    aAmount = aAmount,
+                )
+            
+            return Response({"message": "Survey successfully posted"}, status=status.HTTP_201_CREATED)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class SurveyAMUpload(APIView):
+    #User authentication
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def post(self, request, *args, **kwargs):
+        try:
+            date = request.data.get('date')
+            sleep = request.data.get('sleep')
+            sleepProblem = request.data.get('sleepProblem')
+            dream = request.data.get('dream')
+            condition = request.data.get('condition')
+            emotion = request.data.get('emotion')
+
+            day = Day.objects.get(user=request.user, date=date)
+        
+        
+            SurveyAM.objects.create(day=day,
+                                    sleep = sleep,     
+                                    sleepProblem = sleepProblem,                      
+                                    dream = dream,
+                                    condition = condition,                      
+                                    emotion = emotion,
+                )
+            
+            return Response({"message": "Survey successfully posted"}, status=status.HTTP_201_CREATED)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+                

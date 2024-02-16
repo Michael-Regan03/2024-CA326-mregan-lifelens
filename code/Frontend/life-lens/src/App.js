@@ -16,6 +16,7 @@ import AwaitEmail from './containers/AwaitEmail'
 import { BrowserRouter, Route, Switch, Routes } from 'react-router-dom';
 
 import Layout from './hocs/Layout';
+import SurveyForm from './components/SurveyForm';
 
 
 
@@ -33,7 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
 
-
+        <Route path="/survey" element={<SurveyForm />} />
         <Route path="/upload" element={<DailyActivityForm />} />
       </Routes>
     </BrowserRouter>

@@ -1,38 +1,77 @@
 import React, { useEffect, useState } from 'react';
 import TimeSeriesLineChart from '../../components/TimeSeriesLineChart';
 import KoreanTimeConverter from '../KoreanTimeConverter';
+import getValue from './getValue';
 
 //Graph time data across a day
-const TimeSeriesGraphDay = ({timeSeriesData}) => {
+const TimeSeriesGraphDay = ({timeSeriesData, type }) => {
     const [timeData, setTimeData] = useState([]);
     const [timeConfig, setTimeConfig] = useState({});
+    const [Type, setType] = useState('');
+    
+    var i = 0;
+    let currentValue ;
+    let nextValue ;
+    let addTime = {};
 
     useEffect(() => {
-        const processData = () => { 
+      setType(type)
+    }, [type])
+
+    useEffect(() => {
+        const processData = async() => { 
             try { 
                 const data = [];
         
-                var i = 0;
-                
-                while(i < timeSeriesData.length){
             
+                
+                console.log(timeSeriesData)
+                while(i < timeSeriesData.length){
+
                     const currentTime = timeSeriesData[i]
                     
                     //Create the first Data point on the graph
-                    let addTime = {
+                    
+
+                    currentValue = await getValue(currentTime, Type);
+
+                    addTime = {
                         x: KoreanTimeConverter(currentTime.startTime, "date"),
-                        y: currentTime.emotionTension,
+                        y: currentValue,
                     };
+
                     data.push(addTime);
 
                     let nextIndex = i + 1;
                     //Iterate through timestamps until one has a diffent value
-                    while (nextIndex < timeSeriesData.length && timeSeriesData[nextIndex].emotionTension === currentTime.emotionTension) {
-                      nextIndex++;
+
+                    
+                    if(nextIndex < timeSeriesData.length){
+                      nextValue =  await getValue(timeSeriesData[nextIndex], Type);
                     }
+                    while (nextIndex < timeSeriesData.length && nextValue === currentValue) {
+                      nextIndex++;
+                      if(nextIndex < timeSeriesData.length){
+                        nextValue =  await getValue(timeSeriesData[nextIndex], Type);
+                      }
+                    }
+
+                
 
                 i = nextIndex;
             }
+
+            //For instances where the value is consistant across the timeSpan
+            if(data.length == 1){
+              nextValue =  await getValue(timeSeriesData[i-1], Type);
+              addTime = {
+                x: KoreanTimeConverter(timeSeriesData[i-1].endTime, "date"),
+                y: nextValue,
+              };
+              data.push(addTime)
+            }
+
+            console.log(data)
 
 
             setTimeData(data);
@@ -55,7 +94,7 @@ const TimeSeriesGraphDay = ({timeSeriesData}) => {
 
     setTimeConfig(time_Config);
     
-  }, [timeSeriesData]); //When timeSeriesData is refreashed
+  }, [timeSeriesData, Type]); //When timeSeriesData is refreashed
     
  
     return(

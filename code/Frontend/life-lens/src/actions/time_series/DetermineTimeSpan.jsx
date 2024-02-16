@@ -5,9 +5,11 @@ import TimeSeriesGraphAverage from './TimeSeriesGraphAverage';
 
 
 
-const DetermineTimeSpan = ({ timeSeriesData }) => {
+const DetermineTimeSpan = ({ timeSeriesData, type }) => {
     const [timeData, setTimeData] = useState([]);
+    const [Type, setType] = useState('');
     
+
     const [startDay, setStartDay] = useState(null);
     const [endDay, setEndDay] = useState(null);
     const [startMonth, setStartMonth] = useState(null);
@@ -23,6 +25,9 @@ const DetermineTimeSpan = ({ timeSeriesData }) => {
         setTimeData(timeSeriesData)
     }, [timeSeriesData])
 
+    useEffect(() => {
+        setType(type)
+    }, [type])
 
     useEffect(()=>{
         if (timeData.length > 0) {
@@ -89,13 +94,13 @@ const DetermineTimeSpan = ({ timeSeriesData }) => {
     return (
         <div>
             {timeSpan === "day" && (
-                <TimeSeriesGraphDay timeSeriesData={timeData} />
+                <TimeSeriesGraphDay timeSeriesData={timeData} type={type} />
             )}
             {timeSpan === "month"  && (
-                <TimeSeriesGraphAverage timeSeriesData={timeData} timeSpan={"yearMonthDay"} time_Config={timeConfig} />
+                <TimeSeriesGraphAverage timeSeriesData={timeData} timeSpan={"yearMonthDay"} time_Config={timeConfig} type={Type} />
             )}
             {timeSpan === "year"  && (
-                <TimeSeriesGraphAverage timeSeriesData={timeData} timeSpan={"yearMonth"} time_Config={timeConfig} />
+                <TimeSeriesGraphAverage timeSeriesData={timeData} timeSpan={"yearMonth"} time_Config={timeConfig} type={Type} />
             )}
         </div>
     );

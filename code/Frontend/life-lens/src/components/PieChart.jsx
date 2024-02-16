@@ -24,9 +24,13 @@ const PieChart = ({ activities, durations }) => {
         ]
     };
 
+     const options = {
+        maintainAspectRatio: false //fits page
+    };
+
     return(
-        <div>
-            <Pie data={data}/>
+        <div style={{ height: '400px' }} >
+            <Pie data={data} options={options}/>
         </div>
         );
 }

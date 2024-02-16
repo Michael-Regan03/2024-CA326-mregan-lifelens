@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react';
 import TimeSeriesLineChart from '../../components/TimeSeriesLineChart';
 import KoreanTimeConverter from '../KoreanTimeConverter';
 import TimeConverter from '../TimeConverterSeconds';
+import getValue from './getValue';
 
 //Graph an average value across days or months
-const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config }) => {
+const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config, type}) => {
     const [timeData, setTimeData] = useState([]);
     const [timeConfig, setTimeConfig] = useState({});
+    const [Type, setType] = useState('');
+    
 
     useEffect(() => {
-        const processData = () => { 
+      setType(type)
+    }, [type])
+
+  
+    useEffect(() => {
+        const processData = async() => { 
             try { 
                 const data = [];
         
@@ -27,9 +35,15 @@ const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config }) => {
                     let nextIndex = i + 1;
 
                     var duration = TimeConverter(currentTime.duration)
-                    var emotionalTension = currentTime.emotionTension
+                    
+                    let value = 0;
+                    
+                    
+                    value = await getValue(currentTime, type)
+                    
 
-                    acc = acc + (emotionalTension * duration)
+                    
+                    acc = acc + (value * duration)
                   
                     divider = divider + duration
                  
@@ -37,10 +51,13 @@ const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config }) => {
                     while (nextIndex < timeSeriesData.length && KoreanTimeConverter(timeSeriesData[nextIndex].startTime, timeSpan) === KoreanTimeConverter(currentTime.startTime, timeSpan)) {
                         //Convert duration into seconds so it can be multiplied  
                         duration = TimeConverter(timeSeriesData[nextIndex].duration)
-                        emotionalTension = timeSeriesData[nextIndex].emotionTension
-                        
+                        value = await getValue(timeSeriesData[nextIndex], type)
+
+
+
+
                         //Multiply the emotional tension by duration to get an accurate time span of the duration of the value
-                        acc = acc + (emotionalTension * duration)
+                        acc = acc + (value * duration)
 
                         
                         divider = divider + duration
@@ -79,7 +96,10 @@ const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config }) => {
    
     setTimeConfig(time_Config);
 
-  }, [timeSeriesData, timeConfig ]); // Whne timeSeriesData and timeConfig is updated
+    console.log(timeData)
+    
+
+  }, [timeSeriesData, timeConfig , type]); // When timeSeriesData and timeConfig is updated
     
 
     return(

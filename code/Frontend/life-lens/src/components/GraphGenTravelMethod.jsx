@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import loadData from "../loaders/loadData";
-import PieChart from './PieChart';
+import BarChart from './BarChart';
 import AddItemOrUpdateDuration from '../actions/AddItemOrUpdateDuration';
 
-const GraphGenActivities = ({ date }) => {
-    const [activity, setActivity] = useState([]);
+const GraphGenTravelMethod = ({ date }) => {
+    const [method, setMethod] = useState([]);
     const [duration, setDuration] = useState([]);
     
 
@@ -13,15 +13,15 @@ const GraphGenActivities = ({ date }) => {
         const fetchData = async () => {
             
             try {
-                    const response = await loadData('http://127.0.0.1:8000/daily-activity-data/', 'POST', { date: date, action: 'action' });
+                    const response = await loadData('http://127.0.0.1:8000/daily-activity-data/', 'POST', { date: date, action: 'travel' });
                     if (response && response.length > 0) {
-                        let activities = [];
-                        let durations = [];
+                        let activities = ['walk', 'driving', 'taxi', 'peronal-mobility', 'bus', 'train/subway', 'other'];
+                        let durations = [0,0,0,0,0,0,0];
                         for(const item of response) {
-                            //activity/durations must be passed to the func as lists instead of setting hooks as the hooks werent async updating
-                           ({activities, durations} = await AddItemOrUpdateDuration(item, activities, durations, "activity"));
+                            //methods/durations must be passed to the func as lists instead of setting hooks as the hooks werent async updating
+                           ({activities, durations} = await AddItemOrUpdateDuration(item, activities, durations, "travel"));
                          } 
-                        setActivity(activities);
+                        setMethod(activities);
                         setDuration(durations); 
                  
                 } else {
@@ -40,11 +40,11 @@ const GraphGenActivities = ({ date }) => {
     return(
         <div>
             {date}
-            <PieChart activities={activity}
+            <BarChart activities={method}
                         durations={duration} >
-            </PieChart>
+            </BarChart>
         </div>
     );
 };
 
-export default GraphGenActivities;
+export default GraphGenTravelMethod;

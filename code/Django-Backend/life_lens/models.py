@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import UserAccount
-from life_lens.lifelogDataMapping import actionOption,  actionSubOption, condition, conditionSub1Option, conditionSub2Option, activity, place
+from life_lens.lifelogDataMapping import actionOption,  actionSubOption, condition, conditionSub1Option, conditionSub2Option, activity, place, sleep, sleepProblem, dream, amCondition, amEmotion, pmStress_Fatigue, alcoholType
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Day(models.Model):
@@ -76,5 +76,33 @@ class Activity(models.Model):
     duration = models.TimeField()
 
 
+
+
+
+
+
+
+
+#######  Survey Data
+
+
+class SurveyAM(models.Model):
+    day = models.ForeignKey(Day, on_delete=models.CASCADE)
+    sleep = models.IntegerField(choices=sleep)
+    sleepProblem = models.IntegerField(choices=sleepProblem)
+    dream = models.IntegerField(choices=dream)
+    condition = models.IntegerField(choices=amCondition)
+    emotion = models.IntegerField(choices=amEmotion)
+    
+
+class SurveyPM(models.Model):
+    day = models.ForeignKey(Day, on_delete=models.CASCADE)
+    emotion = models.IntegerField(choices=amEmotion)
+    stress = models.IntegerField(choices=pmStress_Fatigue)
+    fatigue = models.IntegerField(choices=pmStress_Fatigue)
+    caffeine = models.CharField(max_length=100)
+    cAmount = models.IntegerField()
+    alcohol = models.IntegerField(choices=alcoholType)
+    aAmount = models.IntegerField()
 
 
