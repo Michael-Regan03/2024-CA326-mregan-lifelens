@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Group, Permission
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class UserAccountManager(BaseUserManager):
     def create_user(self, email, name, password=None):
@@ -32,6 +33,9 @@ class UserAccountManager(BaseUserManager):
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length= 255, unique=True)
     name = models.CharField(max_length=255)
+    age = models.IntegerField(validators=[MinValueValidator(18), MaxValueValidator(120)])
+
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 

@@ -5,7 +5,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser, EmotionPositiveSerialiser, ConditionSub1OptionSerialiser, EmotionTensionSerialiser
 from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity, SurveyAM, SurveyPM
-from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping
+from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping, alcoholPerecent
 from django.db.models import Max
 import pandas as pd
 import numpy as np
@@ -292,4 +292,85 @@ class SurveyAMUpload(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-                
+
+#Calulate minutes in a duration
+def timeConverter(timeObj):
+    return timeObj.hour + timeObj.minute / 60 + timeObj.second / 3600
+    
+class ChronicIllnessParametersView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def get(self, request, *args, **kwargs):
+        try:
+            days = Day.objects.filter(user=request.user).order_by('date')
+            #default
+            sleepTime = 0
+            alcoholConsumedAprox = 0
+            activeTime = 0
+            smokingStatus = 'Never Smoker'
+            age = request.user.age
+            if(len(days) == 0):
+                return Response({"age": age, "sleepAverage": sleepTime, "alcoholAverageAprox" : alcoholConsumedAprox, "activeTimeAverage" : activeTime , "smokingStatus" : smokingStatus})
+            for day in days:
+                #activities within a day
+                activities = DailyActivity.objects.filter(day=day)
+                # Sleeps within a day
+                sleeps = DailyActivity.objects.filter(day=day,action=111).order_by('startTime')
+                for sleep in sleeps:
+                    #calulate the time spent sleeping in that day
+                    sleepTime += timeConverter(sleep.duration)
+                #get Active satus in that day
+                activeStatuses  = Activity.objects.filter(dailyActivity__in=activities).order_by('startTime')
+                for activityStatus in  activeStatuses:
+                    actives = [1, 2, 7, 8]
+                    for active in actives:
+                        if(activityStatus.activity == active):
+                            #Calulate time spent bing active in that day
+                            activeTime += timeConverter(activityStatus.duration)
+                try:
+                    #In try as a surveyPM object may not exist however we use get as there is only one surveyPm object per day
+                    drinks = SurveyPM.objects.get(day=day)
+                    #If object exists
+                    if drinks:
+                        if drinks.alcohol != "":
+                            percent = alcoholPerecent[drinks.alcohol]
+                            alcoholConsumedAprox += drinks.aAmount * percent
+                except:
+                        #keeps status                
+                        alcoholConsumedAprox += 0
+            #average sleep time per day
+            sleepAverage = sleepTime / len(days)
+            #aproximate the alchol consumption per day
+            alcoholAverageAprox = alcoholConsumedAprox  / len(days)
+            #average time spent being active per day
+            activeTimeAverage = activeTime / len(days)
+            ##Get last entry
+            lastDay = Day.objects.filter(user=request.user).order_by('date').last()
+            #arbitrary time span
+            thirtyDaysAgo = lastDay.date - timedelta(days=30)
+            ##Get all days within the time frame from last entry
+            lastThirtyDays = Day.objects.filter(user=request.user, date__range=(thirtyDaysAgo, lastDay.date))
+            ##get all smokes within the time frame
+            smokes = DailyActivity.objects.filter(day__in=lastThirtyDays,action=792).order_by('startTime')
+            if smokes:
+                ## Days where a smoke occured within time span
+                distinct_smoking_days = smokes.values('startTime').distinct().count()
+                if distinct_smoking_days ==len(lastThirtyDays):
+                    #if smokes occured everyday with the last 30 days
+                    smokingStatus = "Everyday Smoker"
+                else:
+                    #if smokes occured but not everyday with the last 30 days
+                    smokingStatus = "Sometimes Smoker"
+            else:
+                #check all instances of smoking
+                smokes = DailyActivity.objects.filter(day__in=days ,action=792).order_by('startTime')
+                if smokes:
+                    #If smoking has occured previously but not past 30 days
+                    smokingStatus = "Former Smoker"
+                else:
+                    #if smoking has never occured
+                    smokingStatus = "Never Smoker"
+            return Response({"age": age, "sleepAverage": sleepAverage, "alcoholAverageAprox" : alcoholAverageAprox, "activeTimeAverage" : activeTimeAverage , "smokingStatus" : smokingStatus})
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

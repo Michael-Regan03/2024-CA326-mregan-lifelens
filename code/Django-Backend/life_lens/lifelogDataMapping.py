@@ -237,3 +237,19 @@ alcoholType = {
         (10, "Tequilla"),
         (11, "Vodka"),   
    }
+
+
+# https://www.alcoholrehabguide.org/alcohol/types/
+alcoholPerecent = {
+        1: 0.05, #Beer
+        2: 0.11, #Wine
+        3: 0.05, #Hard Cider
+        4: 0.12, #Mead
+        5 : 0.16, #Sake
+        6: 0.45, #Gin
+        7: 0.4, #Brandy
+        8: 0.4, #Whiskey
+        9: 0.4, #Rum
+        10: 0.4, #Tequilla
+        11 :0.4, #Vodka
+}
