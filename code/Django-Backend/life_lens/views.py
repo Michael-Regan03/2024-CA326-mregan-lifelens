@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser, EmotionPositiveSerialiser, ConditionSub1OptionSerialiser, EmotionTensionSerialiser
-from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity, SurveyAM, SurveyPM
+from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser, EmotionPositiveSerialiser, ConditionSub1OptionSerialiser, EmotionTensionSerialiser, IllnessSerialiser
+from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity, SurveyAM, SurveyPM, Illness
 from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping, alcoholPerecent
 from django.db.models import Max
 import pandas as pd
@@ -400,5 +400,23 @@ class ChronicIllnessFormatedView(APIView):
         
             output = ageFormated + sleepFormated + alcoholFormated + activeFormatted + smokingFormatted
             return Response({"output": output})
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+
+class IllnessDescriptionView(APIView):
+    #User authentication
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def post(self, request, *args, **kwargs):
+        try:
+            shortCode = request.data.get('shortCode')
+            
+            ilness = Illness.objects.get(shortCode=shortCode)
+
+            serializer = IllnessSerialiser(ilness)
+
+            return Response(serializer.data)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -77,12 +77,6 @@ class Activity(models.Model):
 
 
 
-
-
-
-
-
-
 #######  Survey Data
 
 
@@ -105,4 +99,13 @@ class SurveyPM(models.Model):
     alcohol = models.IntegerField(choices=alcoholType)
     aAmount = models.IntegerField()
 
+
+class Illness(models.Model):
+    name = models.CharField(max_length=255)
+    shortCode = models.CharField(max_length=50)
+    url = models.CharField(max_length=255)
+    description = models.TextField()
+    def __str__(self):
+        #makes it easier for admin
+        return self.name
 

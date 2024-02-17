@@ -12,7 +12,7 @@ import Activate from './containers/Activate'
 import ResetPassword from './containers/ResetPassword'
 import ResetPasswordConfirm from './containers/ResetPasswordConfirm'
 import AwaitEmail from './containers/AwaitEmail'
-
+import ChronicIllnessRiskAssesment from './components/ChronicIllnessRiskAssesment'
 import { BrowserRouter, Route, Switch, Routes } from 'react-router-dom';
 
 import Layout from './hocs/Layout';
@@ -33,7 +33,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
 
-
+        <Route path="/risk-assesment" element={<ChronicIllnessRiskAssesment />} />
         <Route path="/survey" element={<SurveyForm />} />
         <Route path="/upload" element={<DailyActivityForm />} />
       </Routes>

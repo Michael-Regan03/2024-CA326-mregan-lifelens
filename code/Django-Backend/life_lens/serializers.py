@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity
+from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity, Illness
 
 
 class CSVUploadSerializer(serializers.Serializer):
@@ -88,5 +88,25 @@ class EmotionTensionSerialiser(serializers.ModelSerializer):
                 'startTime',
                 'endTime',
                 'duration'
+        ]
+
+class EmotionPositiveSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = EmotionPositive
+        fields = [
+                'emotionPositive',
+                'startTime',
+                'endTime',
+                'duration'
+        ]
+
+
+class IllnessSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Illness
+        fields = [
+                'name',
+                'url',
+                'description'
         ]
  

@@ -61,7 +61,7 @@ class riskAssesment(Resource):
             'Skin_cancer' : risks[9] }
 
 
-        payload = json.dumps(payload)
+        #return object not string
         return payload, 200
 
 
