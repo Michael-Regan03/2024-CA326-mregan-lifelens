@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import loadData from '../loaders/loadData';
-import DaysDropDownMenu from './DaysDropDownMenu';
 import LoggedOutNavbar from './LoggedOutNavbar';
 import LoggedInNavbar from './LoggedInNavbar';
 import '../style_components/Header.css'

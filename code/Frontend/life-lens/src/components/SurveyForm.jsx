@@ -17,7 +17,6 @@ function SurveyForm() {
 
     return (
         <div>
-            <Header></Header>
             <h2 className="form-header" >Select a Survey</h2>
             <select onChange={handleChange} >
             <option>Select</option>

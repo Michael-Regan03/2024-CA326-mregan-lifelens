@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import loadData from '../loaders/loadData';
-import Header from './Header';
 import '../style_components/FileForm.css'
 import '../style_components/Survey.css'
 
@@ -27,7 +26,6 @@ function DailyActivityForm() {
 
     return (
         <div>
-            <Header></Header>
             <div className="file-container">
             {/* using label for the file input for styling */}
             <label for="file-upload" className="file-upload">

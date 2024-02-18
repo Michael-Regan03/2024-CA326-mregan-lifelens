@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import loadData from "../loaders/loadData";
-import BarChart from './BarChart';
-import AddItemOrUpdateDuration from '../actions/AddItemOrUpdateDuration';
 import FetchComp from '../actions/FetchComp';
 import RiskView from './RiskView';
-import Header from './Header';
+
 
 import '../style_components/ChronicIllnessParamsLayout.css'
 
@@ -103,7 +101,6 @@ function ChronicIllnessRiskAssesment() {
 
     return(
         <div>
-            <Header></Header>
             <div className="param-container" >
                 <p>The models risk assessment is based off of this data about you:</p>
                 <p>Your age: <strong>{age}</strong></p>

@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import loadData from "../loaders/loadData";
-import PieChart from './PieChart';
-import AddItemOrUpdateDuration from '../actions/AddItemOrUpdateDuration';
+import React from 'react';
 import '../style_components/Navbar.css'
+import { Link } from 'react-router-dom';
 
 const LoggedInNavbar = () => (
     <div className="navbar" >
-        <a href="http://localhost:3000/upload" >Upload LifeLog Data</a>
-        <a href="http://localhost:3000/survey">Fill out Survey</a>
-        <a href="http://localhost:3000/visualisations" >Visualise Data</a>
-        <a href="http://localhost:3000/risk-assesment">Chronic Illness Risk Assessment</a>
-        <a>Sign out</a>
+        <Link to="/upload" >Upload LifeLog Data</Link>
+        <Link to="/survey">Fill out Survey</Link>
+        <Link to="/visualisations" >Visualise Data</Link>
+        <Link to="/risk-assesment">Chronic Illness Risk Assessment</Link>
+        <Link>Sign out</Link>
     </div>
 );
 

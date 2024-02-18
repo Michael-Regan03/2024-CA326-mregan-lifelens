@@ -19,12 +19,13 @@ import SurveyForm from './components/SurveyForm';
 
 import Visualisations from './containers/Visualisations';
 
-
+import Header from './components/Header';
 
 
 function App() {
   return(
     <BrowserRouter>
+      <Header></Header>
       <Routes>
         <Route path="/"element={<Home />} />
 
