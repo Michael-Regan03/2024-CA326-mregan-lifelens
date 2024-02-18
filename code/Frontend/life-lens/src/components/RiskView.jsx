@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import loadData from "../loaders/loadData";
-import BarChart from './BarChart';
-import AddItemOrUpdateDuration from '../actions/AddItemOrUpdateDuration';
+import '../style_components/RiskBorders.css'
 
-const RiskView = ({ Illness, risk }) => {
+const RiskView = ({ Illness, risk, sty }) => {
     const [Name, setName] = useState('');
     const [url, setUrl] = useState('');
     const [description, seDescription] = useState('');
     const [risklevel, setRiskLevel] = useState('');
+    const [styles, setStyles] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,12 +23,15 @@ const RiskView = ({ Illness, risk }) => {
         };
         fetchData();
         setRiskLevel(risk)
-    }, [Illness, risk]);//runs when date has been updated
+        setStyles(sty)
+    }, [Illness, risk, sty]);//runs when date has been updated
 
+    useEffect(() => {console.log(styles)}, [styles]);
 
+      
 
     return(
-        <div>
+        <div className={styles}>
             <h2>{Name}: {risklevel}</h2>
             <p>{description}</p>
             <p> find out more <a href={url}>here</a></p>

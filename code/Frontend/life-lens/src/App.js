@@ -15,9 +15,9 @@ import AwaitEmail from './containers/AwaitEmail'
 import ChronicIllnessRiskAssesment from './components/ChronicIllnessRiskAssesment'
 import { BrowserRouter, Route, Switch, Routes } from 'react-router-dom';
 
-import Layout from './hocs/Layout';
 import SurveyForm from './components/SurveyForm';
 
+import Visualisations from './containers/Visualisations';
 
 
 
@@ -36,6 +36,7 @@ function App() {
         <Route path="/risk-assesment" element={<ChronicIllnessRiskAssesment />} />
         <Route path="/survey" element={<SurveyForm />} />
         <Route path="/upload" element={<DailyActivityForm />} />
+        <Route  path="/Visualisations" element={<Visualisations />}/>
       </Routes>
     </BrowserRouter>
   );

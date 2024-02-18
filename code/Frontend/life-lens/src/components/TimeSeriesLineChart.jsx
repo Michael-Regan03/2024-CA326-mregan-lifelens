@@ -2,6 +2,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2'; // https://www.chartjs.org/docs/latest/charts/line.html
 import 'chart.js/auto';
 import 'chartjs-adapter-moment'; 
+import '../style_components/Graph.css'
 
 
 const TimeSeriesLineChart = ({ timeData, timeConfig}) => {
@@ -45,7 +46,7 @@ const TimeSeriesLineChart = ({ timeData, timeConfig}) => {
     };
 
     return (
-        <div style={{ height: '400px' }}> {/* Temp styling as graph was to small during testing */}
+        <div className="timeSeriesGraph"> 
             <Line data={data} options={options} />
         </div>
     );

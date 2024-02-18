@@ -39,7 +39,6 @@ const GraphGenActivities = ({ date }) => {
 
     return(
         <div>
-            {date}
             <PieChart activities={activity}
                         durations={duration} >
             </PieChart>

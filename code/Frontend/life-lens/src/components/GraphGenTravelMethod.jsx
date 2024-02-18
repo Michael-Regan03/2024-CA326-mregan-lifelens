@@ -39,7 +39,7 @@ const GraphGenTravelMethod = ({ date }) => {
 
     return(
         <div>
-            {date}
+            
             <BarChart activities={method}
                         durations={duration} >
             </BarChart>

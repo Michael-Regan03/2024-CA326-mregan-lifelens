@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FetchComp from '../actions/FetchComp';
+import Header from '../components/Header';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -23,8 +24,9 @@ export default function Signup() {
 
 
   return(
-    <div className="Signup-wrapper">
-      <h1>Sign up</h1>
+    <div>
+      <Header></Header>
+      <h2 className="form-header" >Sign up</h2>
       <form onSubmit={submitForm}>
         <label>
           <p>Email</p>

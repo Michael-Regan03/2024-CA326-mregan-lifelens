@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FetchComp from '../actions/FetchComp';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -24,8 +25,10 @@ export default function Login() {
   };
 
   return(
+    
     <div className="login-wrapper">
-      <h1>Please Log In</h1>
+      <Header></Header>
+      <h2 className="form-header">Please Log In</h2>
       <form onSubmit={submitForm}>
         <label>
           <p>Email</p>

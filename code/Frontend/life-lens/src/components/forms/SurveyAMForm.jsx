@@ -118,9 +118,10 @@ const handleSubmit = (event) => {
 };
 
 return (
-    <div>
+        <div>
             <form onSubmit={handleSubmit}>
                 <label >
+                    <p>Select a date</p>
                     <select value={selectedDate} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedDate(e.target.value)}}}>
                         <option>Select Date</option>
                         {days.map((item) => ( 
@@ -132,35 +133,35 @@ return (
                     </select>
                 </label>
                 <label>
-                    <p1>Are you satisfied with your sleep?</p1>
+                    <p>Are you satisfied with your sleep?</p>
                     <select value={selectedSleep} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedSleep(e.target.value)}else{ setSelectedSleep('')}}}>
                         <option>Select </option>
                         {renderSelectOptions(sleep)}
                     </select>
                 </label>
                 <label>
-                    <p1>Did you have problems during sleep?</p1>
+                    <p>Did you have problems during sleep?</p>
                     <select value={selectedSleepProblem} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedSleepProblem(e.target.value)}else{ setSelectedSleepProblem('')}}}>
                         <option>Select</option>
                         {renderSelectOptions(sleepProblem)}
                     </select>
                 </label>
                 <label>
-                    <p1>Did you have a dream?</p1>
+                    <p>Did you have a dream?</p>
                     <select value={selectedDream} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedDream(e.target.value)}else{ setSelectedDream('')}}}>
                         <option>Select</option>
                         {renderSelectOptions(dream)}
                     </select>
                 </label>
                 <label>
-                    <p1>Do you feel refreshed after awakening?</p1>
+                    <p>Do you feel refreshed after awakening?</p>
                     <select value={selectedCondition} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedCondition(e.target.value)}else{ setSelectedCondition('')}}}>
                         <option>Select</option>
                         {renderSelectOptions(condition)}
                     </select>
                 </label>
                 <label>
-                    <p1>How do you feel after awakening?</p1>
+                    <p>How do you feel after awakening?</p>
                     <select value={selectedEmotion} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedEmotion(e.target.value)}else{ setSelectedEmotion('')}}}>
                         <option>Select</option>
                         {renderSelectOptions(emotion)}

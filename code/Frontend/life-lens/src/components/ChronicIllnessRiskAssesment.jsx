@@ -4,6 +4,10 @@ import BarChart from './BarChart';
 import AddItemOrUpdateDuration from '../actions/AddItemOrUpdateDuration';
 import FetchComp from '../actions/FetchComp';
 import RiskView from './RiskView';
+import Header from './Header';
+
+import '../style_components/ChronicIllnessParamsLayout.css'
+
 
 function ChronicIllnessRiskAssesment() {
     const [age, setAge] = useState('');
@@ -99,23 +103,24 @@ function ChronicIllnessRiskAssesment() {
 
     return(
         <div>
-            <div>
-                <p>The models risk assesment is based off of this data about you:</p>
-                <p>Your age: {age}</p>
-                <p>Your average sleep per day: {body.sleepAverage} hours</p>
-                <p>Your average alcohol consumption per day: {body.alcoholAverageAprox} ml</p>
-                <p>Your average time being active per day: {body.activeTimeAverage} minutes</p>
-                <p>Your smoking status: {body.smokingStatus}</p>
+            <Header></Header>
+            <div className="param-container" >
+                <p>The models risk assessment is based off of this data about you:</p>
+                <p>Your age: <strong>{age}</strong></p>
+                <p>Your average sleep per day: <strong>{body.sleepAverage}</strong> hours</p>
+                <p>Your average alcohol consumption per day: <strong>{body.alcoholAverageAprox}</strong> ml</p>
+                <p>Your average time being active per day: <strong>{body.activeTimeAverage}</strong> minutes</p>
+                <p>Your smoking status: <strong>{body.smokingStatus}</strong></p>
             </div>
             <div>
             {highRisk.map((illness) => (
-                <RiskView Illness={illness} risk={"High Risk"}  />
+                <RiskView Illness={illness} risk={"High Risk"} sty="high-risk" />
                 ))}
             {midRisk.map((illness) => (
-                <RiskView Illness={illness} risk={"Mid Risk"}  />
+                <RiskView Illness={illness} risk={"Mid Risk"} sty="mid-risk"  />
                 ))}
             {lowRisk.map((illness) => (
-                <RiskView Illness={illness} risk={"Low Risk"}  />
+                <RiskView Illness={illness} risk={"Low Risk"} sty="low-risk" />
                 ))}
                  
             </div>

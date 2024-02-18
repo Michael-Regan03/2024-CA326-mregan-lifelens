@@ -1,0 +1,21 @@
+.file-upload {
+    display: block;
+    padding: 100px 100px; 
+    cursor: pointer;
+    background-color: rgb(31, 159, 238);
+    color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;  /* Shows its clickable */
+    
+}
+
+.file-upload:hover {
+    background-color: rgb(31, 121, 238);
+}
+
+.file-input {
+    display: none;
+}

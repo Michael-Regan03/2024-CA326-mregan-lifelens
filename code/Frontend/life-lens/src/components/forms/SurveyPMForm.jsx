@@ -109,7 +109,8 @@ const handleSubmit = (event) => {
 return (
     <div>
             <form onSubmit={handleSubmit}>
-                <label >
+                <div >
+                    <p>Select a date</p>
                     <select value={selectedDate} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedDate(e.target.value)}}}>
                         <option>Select Date</option>
                         {days.map((item) => ( 
@@ -119,29 +120,35 @@ return (
                             </option>
                         ))}
                     </select>
-                </label>
-                <label>
-                    <p1>How do you feel now?</p1>
+                </div>
+                <div>
+                    <p>How do you feel now?</p>
                     <select value={selectedEmotion} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedEmotion(e.target.value)}else{ setSelectedEmotion('')}}}>
                         <option>Select </option>
                         {renderSelectOptions(emotion)}
                     </select>
-                </label>
-                <label>
-                    <p1>How stressed are you today?</p1>
+                </div>
+                <div>
+                    <p>How stressed are you today?</p>
                     <select value={selectedStress} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedStress(e.target.value)}else{ setSelectedStress('')}}}>
                         <option>Select </option>
                         {renderSelectOptions(Stress_Fatigue)}
                     </select>
-                </label>
-                <label>
-                    <p1>How tired are you today? </p1>
+                </div>
+                <div>
+                    <p>How tired are you today? </p>
                     <select value={selectedFatigue} onChange={(e) => { if(e.target.value !== "Select"){ setSelectedFatigue(e.target.value)}else{ setSelectedFatigue('')}}}>
                         <option>Select</option>
                         {renderSelectOptions(Stress_Fatigue)}
                     </select>
-                </label>
-                
+                </div>
+                <div>
+                    <p>Types of beverage cosnsumed today that contains alcohol, if any.. </p>
+                    <select value={selectedAlcohol} onChange={(e) => { if(e.target.value !== "No Alcohol"){ setSelectedAlcohol(e.target.value)}else{ setSelectedAlcohol('')}}}>
+                        <option>No Alcohol</option>
+                        {renderSelectOptions(alcoholType)}
+                    </select>
+                </div>
                 <div>
                     <p>Types of beverages that contains caffeine, if any.</p>
                     <input type="cafinated beverages" onChange={(e) => setSelectedCaffeine(e.target.value)} />
@@ -151,13 +158,6 @@ return (
                     <input type="Cafinated beverages in ml" onChange={(e) => setSelectedCAmount(e.target.value)} />
                 </div>
        
-                <label>
-                    <p1>Types of beverage cosnsumed today that contains alcohol, if any.. </p1>
-                    <select value={selectedAlcohol} onChange={(e) => { if(e.target.value !== "No Alcohol"){ setSelectedAlcohol(e.target.value)}else{ setSelectedAlcohol('')}}}>
-                        <option>No Alcohol</option>
-                        {renderSelectOptions(alcoholType)}
-                    </select>
-                </label>
                 <div>
                     <p>Amount of alcoholic beverages (in ml).</p>
                     <input type="alcoholic beverages in ml" onChange={(e) => setselectedAAmount(e.target.value)} />

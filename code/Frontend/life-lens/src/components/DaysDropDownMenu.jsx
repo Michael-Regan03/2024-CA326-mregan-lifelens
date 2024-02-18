@@ -160,7 +160,7 @@ return(
         </option>
       ))}
     </select>} 
-      
+     <h2>Visualising data from: {date}</h2>
      <GraphGenActivities date={date}  /> 
      <GraphGenEmotionData date={date} type={"emotionPositive"} />
      <GraphGenEmotionData date={date} type={"emotionTension"} />
