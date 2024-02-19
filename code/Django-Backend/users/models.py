@@ -3,12 +3,12 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, name, password=None):
+    def create_user(self, email, name, password=None,  **extra_fields):
         if not email:
             raise ValueError("no email")
         
         email = self.normalize_email(email)
-        user = self.model(email=email, name=name)
+        user = self.model(email=email, name=name,**extra_fields)
         
         user.set_password(password)
         
@@ -21,7 +21,7 @@ class UserAccountManager(BaseUserManager):
             raise ValueError("Email is required")
 
         email = self.normalize_email(email)
-        user = self.model(email=email, name=name)
+        user = self.model(email=email, name=name, **extra_fields)
 
         user.set_password(password)
         user.is_superuser = True 
@@ -67,3 +67,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
     
+    def create_user(self, email, name, password=None, **extra_fields):
+        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault('is_staff', False)
+
+        return self.create_user(email, name, password, **extra_fields)

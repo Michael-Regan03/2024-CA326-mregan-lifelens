@@ -1,0 +1,8 @@
+ts,action,actionOption,actionSub,actionSubOption,condition,conditionSub1Option,conditionSub2Option,place,emotionPositive,emotionTension,activity
+1598713200.0,sleep,111,,,WITH_ONE,2,1,other_indoor,4,2,3
+1598713260.0,sleep,111,,,WITH_ONE,2,1,other_indoor,4,2,3
+1598713320.0,sleep,111,,,WITH_ONE,2,1,other_indoor,4,2,3
+1598713380.0,meal,121,meal_amount,2,WITH_ONE,2,1,other_indoor,6,1,3
+1598713440.0,meal,121,meal_amount,2,WITH_ONE,2,1,other_indoor,6,1,3
+1598713500.0,travel,81,move_method,5,ALONE,,,outdoor,4,2,0
+1598713560.0,travel,81,move_method,5,ALONE,,,outdoor,4,2,0
