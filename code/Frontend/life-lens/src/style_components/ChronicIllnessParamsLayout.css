@@ -1,0 +1,26 @@
+.param-container {
+    background-color: white; 
+    border: 1px solid  rgb(87.8, 87.8, 87.8); 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin: 20px 0; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+}
+  
+/*Seperating first line in model params*/
+.param-container p {
+    color: #333; 
+    font-size: 16px; 
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+  
+.param-container p:first-child {
+    font-weight: bold; 
+}
+
+strong {
+    font-weight: bold; 
+}
+
+

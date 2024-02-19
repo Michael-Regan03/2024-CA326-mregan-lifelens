@@ -1,0 +1,41 @@
+.high-risk {
+  border: 2px solid red;
+  background-color: rgba(255, 0, 0, 0.1); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px; 
+  padding: 10px;
+  margin: 5px;
+  color: #333;
+}
+  
+.mid-risk {
+  border: 2px solid orange;
+  background-color: rgba(255, 165, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px; 
+  padding: 10px;
+  margin: 5px;
+  color: #333;
+}
+  
+.low-risk {
+  border: 2px solid green;
+  background-color: rgba(0, 128, 0, 0.1); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px; 
+  padding: 10px;
+  margin: 5px;
+  color: #333;
+}
+
+.low-risk:hover {
+  background-color: rgba(0, 128, 0, 0.3); 
+}
+  
+.mid-risk:hover {
+  background-color: rgba(255, 165, 0, 0.3); 
+}
+
+.high-risk:hover {
+  background-color: rgba(255, 0, 0, 0.3); 
+}

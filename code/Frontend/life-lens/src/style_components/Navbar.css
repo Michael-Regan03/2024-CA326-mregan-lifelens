@@ -1,0 +1,19 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: rgb(31, 159, 238); 
+}
+  
+.navbar a {
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;  /* Shows its clickable */
+}
+  
+.navbar a:hover {
+    background-color: rgb(31, 121, 238); 
+}
+  

@@ -1,0 +1,65 @@
+form, .file-container {
+    background-color: rgba(0, 0, 0, 0.1); 
+    border: 1px solid #495057; 
+    border-radius: 5px; 
+    padding: 20px;
+    margin: 20px 0; 
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #495057;
+}
+  
+.form-header, h2 {
+    color: rgb(31, 159, 238); 
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+/* Lift question up*/
+p{
+    margin-bottom: 5px; 
+}
+
+/*Considering selects that arnt part of the surveys (graph visualisation, am/pm)*/
+select {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    display: block;
+    padding: 20px;
+}
+
+/* space year selection from navbar*/
+select:first-child{
+    margin-top: 20px;
+}
+
+select, input{
+    width: 100%; 
+    padding: 8px; 
+    margin-bottom: 15px; 
+    border: 1px solid 495057; 
+    border-radius: 4px;
+    background-color: white; 
+    cursor: pointer;  /* Shows its clickable */
+}
+  
+button {
+    background-color: rgb(31, 159, 238); 
+    color: white; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 100px;  /*Round out the button*/
+    cursor: pointer;  /* Shows its clickable */
+    display: block;  
+    width: 100%; 
+    margin-top: 20px; /* Space from last question */
+}
+  
+button:hover {
+    background-color:  rgb(31, 121, 238); 
+}
+  
