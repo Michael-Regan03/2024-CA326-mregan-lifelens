@@ -13,7 +13,7 @@ const GraphGenTravelMethod = ({ date }) => {
         const fetchData = async () => {
             
             try {
-                    const response = await loadData('http://127.0.0.1:8000/daily-activity-data/', 'POST', { date: date, action: 'travel' });
+                    const response = await loadData('http://127.0.0.1:8000/daily-activity-view/', 'POST', { date: date, action: 'travel' });
                     if (response && response.length > 0) {
                         let activities = ['walk', 'driving', 'taxi', 'peronal-mobility', 'bus', 'train/subway', 'other'];
                         let durations = [0,0,0,0,0,0,0];

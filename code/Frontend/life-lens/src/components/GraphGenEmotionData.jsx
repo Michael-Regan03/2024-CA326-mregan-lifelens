@@ -12,7 +12,7 @@ const GraphGenEmotionData = ({ date, type }) => {
         const fetchData = async () => {
             
             try {
-                    const responce = await loadData('http://127.0.0.1:8000/daily-activity-data/', 'POST', { date: date, action: type });
+                    const responce = await loadData('http://127.0.0.1:8000/daily-activity-view/', 'POST', { date: date, action: type });
                     if (responce && responce.length > 0) {
                       
                         setResponse(responce)

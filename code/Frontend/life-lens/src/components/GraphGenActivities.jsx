@@ -13,7 +13,7 @@ const GraphGenActivities = ({ date }) => {
         const fetchData = async () => {
             
             try {
-                    const response = await loadData('http://127.0.0.1:8000/daily-activity-data/', 'POST', { date: date, action: 'action' });
+                    const response = await loadData('http://127.0.0.1:8000/daily-activity-view/', 'POST', { date: date, action: 'action' });
                     if (response && response.length > 0) {
                         let activities = [];
                         let durations = [];
