@@ -154,9 +154,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIR = [
+""" STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'build/static')
-]
+] """
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
@@ -209,18 +209,22 @@ EMAIL_USE_TLS = True
 DJOSER = {
     'LOGIN_FIELD' : 'email',
     'SET_CREATE_PASSWORD_RETYPE' : True,
-    'USERNAME_CHANGED_EMAIL_CONFIRMATION' : True, 
-    'PASSWORD_CHANGED_EMAIL_CONFIRMATION' : True,
-    'SEND_CONFIRMATION_EMAIL' : True,
+#Reducing Scope
+#    'USERNAME_CHANGED_EMAIL_CONFIRMATION' : True, 
+#    'PASSWORD_CHANGED_EMAIL_CONFIRMATION' : True,
+#   'SEND_CONFIRMATION_EMAIL' : True,
     'SET_PASSWORD_RETYPE' : True,
-    'PASSWORD_RESET_CONFIRM_URL' : 'password/reset/confirm/{uid},{token}',
-    'USERNAME_RESET_CONFIRM_URL' : 'email/reset/confirm/{uid},{token}',
-    'ACTIVATION_URL' : 'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL' : True,
+#    'PASSWORD_RESET_CONFIRM_URL' : 'password/reset/confirm/{uid},{token}',
+#   'USERNAME_RESET_CONFIRM_URL' : 'email/reset/confirm/{uid},{token}',
+#   'ACTIVATION_URL' : 'activate/{uid}/{token}',
+#   'SEND_ACTIVATION_EMAIL' : True,
     'SERIALIZERS' : {
         'user_create' : 'users.serializers.UserCreateSerializer', 
         'user' : 'users.serializers.UserCreateSerializer', 
         'user_delete' : 'djoser.serializers.UserDeleteSerializer', 
-    }
+    },
+#    'EMAIL' : {
+#        'activation' : 'templates/email/activation.html' //file doesnt exist
+#    }
 
 }

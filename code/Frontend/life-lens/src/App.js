@@ -21,25 +21,32 @@ import Visualisations from './containers/Visualisations';
 
 import Header from './components/Header';
 
+import Logout from './containers/Logout';
+import { AuthProvider } from './components/AuthContext';
+
 
 function App() {
   return(
-    <BrowserRouter>
-      <Header></Header>
-      <Routes>
-        <Route path="/"element={<Home />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Header></Header>
+        <Routes>
+          <Route path="/"element={<Home />} />
 
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/awaitemail" element={<AwaitEmail />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/awaitemail" element={<AwaitEmail />} />
 
-        <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/signup" element={<Signup />} />
 
-        <Route path="/risk-assesment" element={<ChronicIllnessRiskAssesment />} />
-        <Route path="/survey" element={<SurveyForm />} />
-        <Route path="/upload" element={<DailyActivityForm />} />
-        <Route  path="/Visualisations" element={<Visualisations />}/>
-      </Routes>
-    </BrowserRouter>
+          <Route path="/risk-assesment" element={<ChronicIllnessRiskAssesment />} />
+          <Route path="/survey" element={<SurveyForm />} />
+          <Route path="/upload" element={<DailyActivityForm />} />
+          <Route  path="/Visualisations" element={<Visualisations />}/>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

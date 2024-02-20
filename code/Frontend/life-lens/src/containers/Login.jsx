@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import FetchComp from '../actions/FetchComp';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import { useAuth } from '../components/AuthContext'; 
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const nav = useNavigate();
+  const { login } = useAuth();
+  const [errorReport, setErrorReport] = useState(false);
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -16,18 +19,19 @@ export default function Login() {
       //storing access and refreash tokens locally
       localStorage.setItem('accessToken', response.access);
       localStorage.setItem('refreshToken', response.refresh);
+      //log user in
+      login()
       //redirect to homepage
       nav('/');
     } catch (error) {  
-      console.error('Login failed:', error);
-      
+        console.error('Login failed:', error);
+        setErrorReport(true)
     }
   };
 
   return(
     
     <div className="login-wrapper">
-      <Header></Header>
       <h2 className="form-header">Please Log In</h2>
       <form onSubmit={submitForm}>
         <label>
@@ -42,6 +46,9 @@ export default function Login() {
           <button type="submit">Submit</button>
         </div>
       </form>
+      {errorReport && <div>
+        <p className='Error-Report' >Error in Email or Password</p>
+      </div>}
     
     </div>
   )

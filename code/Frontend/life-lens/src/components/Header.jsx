@@ -3,19 +3,20 @@ import loadData from '../loaders/loadData';
 import LoggedOutNavbar from './LoggedOutNavbar';
 import LoggedInNavbar from './LoggedInNavbar';
 import '../style_components/Header.css'
+import {useAuth} from './AuthContext'
+
 
 function Header() {
   const [name, setName] = useState([]);
-  const accessToken = localStorage.getItem('accessToken'); 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { loggedIn } = useAuth();
 
-  if (accessToken) {
+
+  if (loggedIn) {
     const fetchUserInfo = async () => {
       try {
         const response = await loadData('http://127.0.0.1:8000/current_user/', 'GET');
         if (response && response.name) {
           setName(response.name);
-          setLoggedIn(true);
         } else {
           console.log("User not logged in or account no longer exists");
         }

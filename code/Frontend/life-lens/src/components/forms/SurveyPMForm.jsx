@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import loadData from '../../loaders/loadData';
 import { useNavigate } from 'react-router-dom';
+import renderSelectOptions from '../../actions/renderSelectOptions';
 
 
 const SurveyPMForm = () => {
@@ -67,12 +68,6 @@ const SurveyPMForm = () => {
     },[]) 
   
   
-
-  const renderSelectOptions = (dict) => (
-    Object.entries(dict).map(([key, value]) => (
-        <option key={key} value={key}>{value}</option>
-    )));
-
 const handleSubmit = (event) => {
     event.preventDefault(); //prevent page refreash
     
