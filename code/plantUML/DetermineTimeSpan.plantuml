@@ -1,0 +1,42 @@
+@startuml DetermineTimeSpan
+
+actor User
+participant GraphGen
+participant DetermineTimeSpan
+participant TimeSeriesGraphDay
+participant TimeSeriesGraphAverage
+participant User
+
+activate User
+User -> GraphGen: Generate Graph
+activate GraphGen
+GraphGen -> DetermineTimeSpan: timeSeriesData, type 
+activate DetermineTimeSpan
+
+DetermineTimeSpan -> DetermineTimeSpan: Store  timeSeriesData and type in useStates
+
+
+alt time series data isnt empty
+    DetermineTimeSpan -> DetermineTimeSpan: Calculate Start date of  timeSeriesData
+    DetermineTimeSpan -> DetermineTimeSpan: Calculate end date of time Series Data
+    DetermineTimeSpan -> DetermineTimeSpan: //Calculate start day and end day values
+end
+
+alt Start Day == End Day:
+    DetermineTimeSpan -> TimeSeriesGraphDay: Timespan = day
+    activate TimeSeriesGraphDay
+    TimeSeriesGraphDay --> User: Visualising Data
+    deactivate TimeSeriesGraphDay
+else Start Month = End Month:
+    DetermineTimeSpan -> TimeSeriesGraphAverage: Timespan = Month
+    activate TimeSeriesGraphAverage
+    TimeSeriesGraphAverage --> User: Visualising Dat
+    deactivate TimeSeriesGraphAverage
+else Start Year == End Year:
+    DetermineTimeSpan -> TimeSeriesGraphAverage: Timespan = Year
+    activate TimeSeriesGraphAverage
+    TimeSeriesGraphAverage --> User: Visualising Data
+    deactivate TimeSeriesGraphAverage
+end
+deactivate DetermineTimeSpan
+deactivate GraphGen

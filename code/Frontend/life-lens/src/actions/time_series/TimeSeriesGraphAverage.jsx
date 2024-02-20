@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TimeSeriesLineChart from '../../components/TimeSeriesLineChart';
 import KoreanTimeConverter from '../KoreanTimeConverter';
-import TimeConverter from '../TimeConverterSeconds';
+import TimeConverter from '../TimeConverterMinutes';
 import getValue from './getValue';
 
 //Graph an average value across days or months

@@ -1,0 +1,38 @@
+@startuml DaysDropDownMenu
+
+actor User
+participant DaysDropDownMenu
+participant LoadData
+participant getYearsMonthsDays
+
+
+activate User
+User -> DaysDropDownMenu: Load Drop Down Menu
+activate DaysDropDownMenu
+DaysDropDownMenu -> LoadData : 'http://127.0.0.1:8000/day/',  'GET'
+activate LoadData
+LoadData -> LoadData : Get User's Days
+LoadData --> DaysDropDownMenu : User's Days
+deactivate LoadData
+DaysDropDownMenu -> DaysDropDownMenu : DataStruct = {}
+
+loop for each of the users day
+    DaysDropDownMenu -> getYearsMonthsDays : Day , DataStruct
+    activate getYearsMonthsDays
+    getYearsMonthsDays --> DaysDropDownMenu : DataStruct
+    deactivate getYearsMonthsDays
+end
+
+
+DaysDropDownMenu -> DaysDropDownMenu : years = []
+
+loop for each year in the DataStruct
+    DaysDropDownMenu -> DaysDropDownMenu : add year to years
+end
+
+DaysDropDownMenu -> DaysDropDownMenu : Create hmtl select tag where the options are years
+
+DaysDropDownMenu --> User : Drop Down list of the users years 
+
+
+@enduml

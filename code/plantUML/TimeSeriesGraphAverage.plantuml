@@ -1,0 +1,55 @@
+@startuml TimeSeriesGraphAverage
+
+actor User
+participant DetermineTimeSpan
+participant TimeSeriesGraphAverage
+participant processData
+participant TimeConverter
+participant getValue
+participant KoreanTimeConverter
+participant TimeSeriesLineChart
+
+activate User
+activate DetermineTimeSpan
+DetermineTimeSpan -> TimeSeriesGraphAverage : timeSeriesData , timeSpan, time_Config, type
+Activate TimeSeriesGraphAverage
+
+TimeSeriesGraphAverage -> processData : Start data processing
+Activate processData
+loop for each timeSeriesData item
+    processData -> TimeConverter : Convert duration to minutes
+    Activate TimeConverter
+    TimeConverter --> processData : duration in minutes
+    deactivate TimeConverter
+    processData -> getValue : Get value for averaging
+    activate getValue
+    getValue --> processData: value
+    deactivate getValue
+    loop while same timespan
+        processData -> KoreanTimeConverter : get next timeStamp
+        activate KoreanTimeConverter
+        KoreanTimeConverter -> processData: next timestamp
+        deactivate KoreanTimeConverter
+        processData -> getValue : Get next value
+        activate getValue
+        getValue --> processData: next value
+        deactivate getValue
+        processData -> processData: accumulate sum of duration
+        
+    end
+
+    processData -> processData: Calculate average value in timespan
+    processData -> processData: Create point for time series visualisation
+
+end
+
+processData --> TimeSeriesGraphAverage: List of Points for time series visualisation
+deactivate processData
+TimeSeriesGraphAverage -> TimeSeriesLineChart  : List of points
+activate TimeSeriesLineChart 
+deactivate TimeSeriesGraphAverage
+deactivate DetermineTimeSpan
+TimeSeriesLineChart --> User : Visulaise Data
+deactivate TimeSeriesLineChart
+
+@enduml

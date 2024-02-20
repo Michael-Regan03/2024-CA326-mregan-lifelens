@@ -26,10 +26,6 @@ const RiskView = ({ Illness, risk, sty }) => {
         setStyles(sty)
     }, [Illness, risk, sty]);//runs when date has been updated
 
-    useEffect(() => {console.log(styles)}, [styles]);
-
-      
-
     return(
         <div className={styles}>
             <h2>{Name}: {risklevel}</h2>

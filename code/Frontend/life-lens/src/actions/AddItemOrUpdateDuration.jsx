@@ -1,4 +1,4 @@
-import TimeConverter from "./TimeConverterSeconds";
+import TimeConverter from "./TimeConverterMinutes";
 
 const AddItemOrUpdateDuration = async (item, activities, durations, clause) => {
     //Check if the actvity has already present in the list

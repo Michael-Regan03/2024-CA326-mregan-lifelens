@@ -13,13 +13,13 @@ const AuthFetchComp =  async (url, HTTP_method, body=null) => {
 
   if(body instanceof FormData){
     //Sending csv data
-    console.log("csv on its way!");
+    //console.log("csv on its way!");
     message['body'] = body;
     message['headers'] = headers;
 
   }else if(body != null){
     //Sending JSON data
-    console.log("No csv here!");
+    // console.log("No csv here!");
     message['body'] = JSON.stringify(body);
     headers['Accept'] = 'application/json';
     headers['Content-Type'] = 'application/json';
