@@ -1,41 +1,41 @@
-#Life Lens technical Manual
+# Life Lens technical Manual
 by Michael Regan 22112111
 
-##React App
+## React App
 
-###AuthFetchComp
+### AuthFetchComp
 ![](../code/plantUML/images/AuthFetchComp.png)
 
-###Load Data
+### Load Data
 ![](../code/plantUML/images/LoadData.png)
 
-###Survey Forms
+### Survey Forms
 ![](../code/plantUML/images/SurveyForm.png)
 
-###Cronic Ilness risk assessment
+### Cronic Ilness risk assessment
 ![](../code/plantUML/images/ChronicIllnessRiskAssesment.png)
 
-###Risk View
+### Risk View
 ![](../code/plantUML/images/RiskView.png)
 
-###getYearsMonthsDays
+### getYearsMonthsDays
 ![](../code/plantUML/images/getYearsMonthsDays.png)
 
-###Add Item or update duration
+### Add Item or update duration
 ![](../code/plantUML/images/AddItemOrUpdateDuration.png)
 
-###Days Drop Down Menu
+### Days Drop Down Menu
 ![](../code/plantUML/images/DaysDropDownMenu.png)
 
-###Menu Select
+### Menu Select
 ![](../code/plantUML/images/MenuSelect.png)
 
-###Determine TimeSpan
+### Determine TimeSpan
 ![](../code/plantUML/images/DetermineTimeSpan.png)
 
-###TimeSeriesGraphAverage
+### TimeSeriesGraphAverage
 ![](../code/plantUML/images/TimeSeriesGraphAverage.png)
 
-###TimeSeriesGraphDay
+### TimeSeriesGraphDay
 ![](../code/plantUML/images/TimeSeriesGraphDay.png)
 
