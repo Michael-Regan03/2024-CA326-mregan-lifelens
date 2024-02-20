@@ -1,6 +1,11 @@
 # Life Lens technical Manual
 by Michael Regan 22112111
 
+## Dango App
+![](../images/ERDiagram.jpeg)
+
+
+
 ## React App
 
 ### AuthFetchComp
