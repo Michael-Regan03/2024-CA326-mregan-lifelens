@@ -1,0 +1,65 @@
+@startuml LoadData
+
+actor User
+participant ChronicIllnessRiskAssesment
+participant LoadData
+participant FetchComp
+participant RiskView
+
+activate User
+User -> ChronicIllnessRiskAssesment: view risk assessment
+activate ChronicIllnessRiskAssesment
+
+ChronicIllnessRiskAssesment -> LoadData: 'http://127.0.0.1:8000/chronic-illness-parameters-view/', 'GET'
+activate LoadData
+LoadData --> ChronicIllnessRiskAssesment: params for risk assessment
+deactivate LoadData
+
+ChronicIllnessRiskAssesment -> ChronicIllnessRiskAssesment: body derived from response
+
+ChronicIllnessRiskAssesment -> LoadData: 'http://127.0.0.1:8000/chronic-illness-formated-view/', 'POST', body 
+activate LoadData
+LoadData --> ChronicIllnessRiskAssesment: formatted params
+deactivate LoadData
+
+ChronicIllnessRiskAssesment -> FetchComp: 'http://127.0.0.1:5000/riskassessment', {"behaviours": formatted params }, 'POST')
+activate FetchComp
+FetchComp --> ChronicIllnessRiskAssesment: risk level for each illness the model predicts
+deactivate FetchComp
+
+
+loop  for each illness in assessment
+
+alt  if risk = low risk
+ChronicIllnessRiskAssesment -> ChronicIllnessRiskAssesment: store in low risk use state
+else if risk = mid risk
+ChronicIllnessRiskAssesment -> ChronicIllnessRiskAssesment: store in mid risk use state
+else if risk = high risk
+ChronicIllnessRiskAssesment -> ChronicIllnessRiskAssesment: store in high risk use state
+end
+
+
+ChronicIllnessRiskAssesment --> User: Params used for risk assessment
+
+loop for all high risk illnesses
+ChronicIllnessRiskAssesment -> RiskView: Illness, "high Risk"
+activate RiskView
+RiskView --> User: risk assessment
+deactivate RiskView
+end
+loop for all mid risk illnesses
+ChronicIllnessRiskAssesment -> RiskView: Illness, "Mid Risk"
+activate RiskView
+RiskView --> User: risk assessment
+deactivate RiskView
+end
+loop for all low risk illnesses
+ChronicIllnessRiskAssesment -> RiskView: Illness, "Low Risk"
+activate RiskView
+RiskView --> User: risk assessment
+deactivate RiskView
+end
+
+deactivate ChronicIllnessRiskAssesment
+
+@enduml

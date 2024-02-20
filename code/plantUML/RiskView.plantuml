@@ -1,0 +1,17 @@
+@startuml RiskView
+
+participant ChronicIllnessRiskAssesment
+participant RiskView
+participant LoadData
+
+activate ChronicIllnessRiskAssesment
+ChronicIllnessRiskAssesment->RiskView: Illness, risk, styles
+activate RiskView
+RiskView -> LoadData: 'http://127.0.0.1:8000/illness-description-view/', 'POST', { shortCode: Illness }
+activate LoadData
+LoadData --> RiskView: Illness name, Illness description, Illness Url 
+deactivate LoadData
+RiskView --> ChronicIllnessRiskAssesment: Illness name, Risk level,  Illness description, Illness Url 
+deactivate RiskView
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml AddItemOrUpdateDuration
+
+participant GraphGen
+participant AddItemOrUpdateDuration
+participant TimeConverter
+
+activate GraphGen
+GraphGen -> AddItemOrUpdateDuration : item, activities, durations, clause
+
+alt clause == "activity"
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find activity index
+else clause == "travel"
+    alt item actionSubOption is light, moderate, or heavy
+        AddItemOrUpdateDuration --> GraphGen : {activities, durations}
+    else item belongs to travel activity
+        AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find sub-option index
+    end
+end
+
+AddItemOrUpdateDuration -> TimeConverter : Convert item duration to minutes
+activate TimeConverter
+TimeConverter --> AddItemOrUpdateDuration: Duration in minutes
+deactivate TimeConverter
+
+alt activity or travel exists
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Update duration for existing activity/travel
+    AddItemOrUpdateDuration --> GraphGen: {activities, durations}
+else
+    alt clause == "activity"
+        AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Add new activity and duration
+    else clause == "travel"
+        AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Add new travel option and duration
+    end
+    AddItemOrUpdateDuration --> GraphGen : {activities, durations}
+end
+
+@enduml
+
+

@@ -1,0 +1,28 @@
+@startuml getYearsMonthsDays
+
+
+participant DaysDropDownMenu
+participant getYearsMonthsDays
+
+
+activate DaysDropDownMenu
+DaysDropDownMenu -> getYearsMonthsDays : item, dateStruct
+activate getYearsMonthsDays
+
+getYearsMonthsDays -> getYearsMonthsDays:Extract year, month, and day from item's date.
+
+
+alt dateStruct[year] doesnt exist
+    getYearsMonthsDays -> getYearsMonthsDays: dateStruct[year] = {}
+end
+
+alt !dateStruct[year][month] doesnt exist
+    getYearsMonthsDays -> getYearsMonthsDays: dateStruct[year][month] = []
+end
+
+getYearsMonthsDays -> getYearsMonthsDays: Append day to dataStruct[year][month]
+
+getYearsMonthsDays --> DaysDropDownMenu: dataStruct
+deactivate getYearsMonthsDays
+
+@enduml
