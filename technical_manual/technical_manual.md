@@ -2,7 +2,7 @@
 by Michael Regan 22112111
 
 ## Dango App
-![](../images/ERDiagram.jpeg)
+![](./images/ERDiagram.jpeg)
 
 
 
