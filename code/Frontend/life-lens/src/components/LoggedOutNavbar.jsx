@@ -1,10 +1,11 @@
 import React from 'react';
 import '../style_components/Navbar.css'
+import { Link } from 'react-router-dom';
 
 const LoggedOutNavbar = () => (
     <div className="navbar">
-        <a>Create an accont</a>
-        <a>Sign in</a>
+        <Link  to="/signup ">Create an accont</Link>
+        <Link  to="/login ">Sign in</Link>
     </div>
 );
 

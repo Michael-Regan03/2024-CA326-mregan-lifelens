@@ -8,7 +8,7 @@ const LoggedInNavbar = () => (
         <Link to="/survey">Fill out Survey</Link>
         <Link to="/visualisations" >Visualise Data</Link>
         <Link to="/risk-assesment">Chronic Illness Risk Assessment</Link>
-        <Link>Sign out</Link>
+        <Link to="/logout ">Sign out</Link>
     </div>
 );
 
