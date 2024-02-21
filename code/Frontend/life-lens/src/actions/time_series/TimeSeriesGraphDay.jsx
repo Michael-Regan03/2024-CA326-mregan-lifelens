@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TimeSeriesLineChart from '../../components/TimeSeriesLineChart';
+import TimeSeriesLineChart from '../../components/Graphs/TimeSeriesLineChart';
 import KoreanTimeConverter from '../KoreanTimeConverter';
 import getValue from './getValue';
 
@@ -25,7 +25,6 @@ const TimeSeriesGraphDay = ({timeSeriesData, type }) => {
         
             
                 
-                console.log(timeSeriesData)
                 while(i < timeSeriesData.length){
 
                     const currentTime = timeSeriesData[i]
@@ -43,9 +42,7 @@ const TimeSeriesGraphDay = ({timeSeriesData, type }) => {
                     data.push(addTime);
 
                     let nextIndex = i + 1;
-                    //Iterate through timestamps until one has a diffent value
-
-                    
+                    //Iterate through timestamps until one has a diffent value  
                     if(nextIndex < timeSeriesData.length){
                       nextValue =  await getValue(timeSeriesData[nextIndex], Type);
                     }
@@ -71,7 +68,6 @@ const TimeSeriesGraphDay = ({timeSeriesData, type }) => {
               data.push(addTime)
             }
 
-            console.log(data)
 
 
             setTimeData(data);
@@ -99,7 +95,7 @@ const TimeSeriesGraphDay = ({timeSeriesData, type }) => {
  
     return(
         <div>
-            <TimeSeriesLineChart timeData={timeData} timeConfig={timeConfig} />
+            <TimeSeriesLineChart timeData={timeData} timeConfig={timeConfig} title={type} />
         </div>
     );
     

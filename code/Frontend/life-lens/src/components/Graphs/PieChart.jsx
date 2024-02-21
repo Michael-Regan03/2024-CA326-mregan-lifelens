@@ -1,10 +1,12 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
-Chart.register(ArcElement, Tooltip, Legend);
+import '../../style_components/Graph.css'
 
 
-const PieChart = ({ activities, durations }) => {
+
+
+const PieChart = ({ activities, durations, title }) => {
+    
     const data = {
         labels: activities,
         datasets: [
@@ -25,11 +27,19 @@ const PieChart = ({ activities, durations }) => {
     };
 
      const options = {
-        maintainAspectRatio: false //fits page
-    };
+        maintainAspectRatio: false , //fits page
+        plugins: {
+            title: {
+                display: true,
+                text: title, // Set the title
+                font: {
+                    size: 30 // Styling
+                }
+            }
+    }}
 
     return(
-        <div style={{ height: '400px' }} >
+        <div className="pie-chart" >
             <Pie data={data} options={options}/>
         </div>
         );

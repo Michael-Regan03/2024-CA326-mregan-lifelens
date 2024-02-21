@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import FetchComp from '../actions/FetchComp';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import { useAuth } from '../components/AuthContext'; 
+import { useAuth } from '../context/AuthContext'; 
+import '../style_components/FormVerification.css'
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -47,7 +47,7 @@ export default function Login() {
         </div>
       </form>
       {errorReport && <div>
-        <p className='Error-Report' >Error in Email or Password</p>
+        <p className='error-message' >Error in Email or Password</p>
       </div>}
     
     </div>

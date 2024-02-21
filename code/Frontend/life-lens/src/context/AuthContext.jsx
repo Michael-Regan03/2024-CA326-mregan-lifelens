@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect  } from 'react';
 
 // Setting the app for global variables
 const AuthContext = createContext();
@@ -10,7 +10,15 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
   //Global varable across entire app
-  const [loggedIn, setloggedIn] = useState(false);
+  //Resolving refreash bug
+  const [loggedIn, setloggedIn] = useState(() => {
+    const isUserLoggedIn = localStorage.getItem('loggedIn');
+    return isUserLoggedIn === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('loggedIn', loggedIn.toString());
+  }, [loggedIn])
 
   //Global Methods
   const login = () => setloggedIn(true);

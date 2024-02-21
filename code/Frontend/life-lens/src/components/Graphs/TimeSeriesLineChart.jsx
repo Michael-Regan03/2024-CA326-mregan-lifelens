@@ -1,16 +1,15 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2'; // https://www.chartjs.org/docs/latest/charts/line.html
 import 'chart.js/auto';
-import 'chartjs-adapter-moment'; 
-import '../style_components/Graph.css'
+//import '../style_components/Graph.css'
 
 
-const TimeSeriesLineChart = ({ timeData, timeConfig}) => {
+const TimeSeriesLineChart = ({ timeData, timeConfig, title}) => {
     
+
     const data = {
         datasets: [
             {
-                label: '"Emotional Tension"',
                 data: timeData,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -20,13 +19,29 @@ const TimeSeriesLineChart = ({ timeData, timeConfig}) => {
     };
 
     const options = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: title, // Set the title
+                font: {
+                    size: 30 // Styling
+                }
+            },
+            legend: {
+                display: false, //Legend doesnt make sence for bar chart
+            },
+        },
         scales: {
             x: {
                 type: 'time',
                 time: timeConfig  ,
                 title: {
                     display: true,
-                    text: 'Time'
+                    text: timeConfig.unit,
+                    font: {
+                        size: 10  // Styling
+                    }
                 }
             },
             y: {
@@ -38,13 +53,17 @@ const TimeSeriesLineChart = ({ timeData, timeConfig}) => {
             },
                 title: {
                     display: true,
-                    text: 'Emotional Tension'
+                    text: title ,
+                    font: {
+                        size: 10  // Styling
+                    }
                 }
             }
         },
         maintainAspectRatio: false //fits page
     };
 
+  
     return (
         <div className="timeSeriesGraph"> 
             <Line data={data} options={options} />

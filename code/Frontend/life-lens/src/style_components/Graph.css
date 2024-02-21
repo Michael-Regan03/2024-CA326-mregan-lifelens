@@ -1,3 +1,14 @@
-.timeSeriesGraph {
+.bar-chart, .timeSeriesGraph {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 400px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.pie-chart {
+    height: 800px;
+    margin-left: 15%;
+    margin-right: 15%;
 }

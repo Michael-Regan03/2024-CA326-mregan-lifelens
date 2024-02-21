@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import loadData from "../loaders/loadData";
-import DetermineTimeSpan from '../actions/time_series/DetermineTimeSpan';
+import loadData from "../../loaders/loadData";
+import DetermineTimeSpan from '../../actions/time_series/DetermineTimeSpan';
 
 
 

@@ -1,28 +1,23 @@
 import React from 'react';
 import { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import DailyActivityForm from'./components/DailyActivityForm';
+import DailyActivityForm from'./components/forms/DailyActivityForm';
 
 import Home from './containers/Home'
 import Login from './containers/Login'
 import Signup from './containers/Signup'
-import Activate from './containers/Activate'
-import ResetPassword from './containers/ResetPassword'
-import ResetPasswordConfirm from './containers/ResetPasswordConfirm'
-import AwaitEmail from './containers/AwaitEmail'
 import ChronicIllnessRiskAssesment from './components/ChronicIllnessRiskAssesment'
-import { BrowserRouter, Route, Switch, Routes } from 'react-router-dom';
+import { BrowserRouter, Route,  Routes } from 'react-router-dom';
 
-import SurveyForm from './components/SurveyForm';
+import SurveyForm from './components/forms/SurveyForm';
 
 import Visualisations from './containers/Visualisations';
 
 import Header from './components/Header';
 
 import Logout from './containers/Logout';
-import { AuthProvider } from './components/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 
 function App() {
@@ -34,7 +29,6 @@ function App() {
           <Route path="/"element={<Home />} />
 
           <Route path="/signup" element={<Signup />} />
-          <Route path="/awaitemail" element={<AwaitEmail />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />

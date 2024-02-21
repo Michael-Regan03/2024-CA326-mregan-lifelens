@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TimeSeriesLineChart from '../../components/TimeSeriesLineChart';
+import TimeSeriesLineChart from '../../components/Graphs/TimeSeriesLineChart';
 import KoreanTimeConverter from '../KoreanTimeConverter';
 import TimeConverter from '../TimeConverterMinutes';
 import getValue from './getValue';
@@ -96,15 +96,13 @@ const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config, type}) 
    
     setTimeConfig(time_Config);
 
-    console.log(timeData)
     
-
   }, [timeSeriesData, timeConfig , type]); // When timeSeriesData and timeConfig is updated
     
 
     return(
         <div>
-            <TimeSeriesLineChart timeData={timeData} timeConfig ={timeConfig}/>
+            <TimeSeriesLineChart timeData={timeData} timeConfig ={timeConfig} title={type}  />
         </div>
     );
     

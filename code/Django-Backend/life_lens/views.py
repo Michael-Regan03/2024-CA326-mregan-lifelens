@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser, EmotionPositiveSerialiser, ConditionSub1OptionSerialiser, EmotionTensionSerialiser, IllnessSerialiser
+from .serializers import CSVUploadSerializer, DaySerializer, DailyActivitySerializer, SubOptionSerialiser, EmotionPositiveSerialiser, ConditionSub1OptionSerialiser, ConditionSub2OptionSerialiser, EmotionTensionSerialiser, IllnessSerialiser, ConditionSerialiser, PlaceSerialiser, ActivitySerialiser
 from .models import Day, DailyActivity, SubOption, Condition, ConditionSub1Option, ConditionSub2Option, Place, EmotionPositive, EmotionTension, Activity, SurveyAM, SurveyPM, Illness
 from life_lens.lifelogDataMapping import mealAmountMapping, transportMapping, alcoholPerecent
 from django.db.models import Max
@@ -34,13 +34,15 @@ class DailyActivitiesCSVUpload(APIView):
             #coverting into data frame for mapping using pandas
             df = pd.read_csv(pd.io.common.StringIO(data_set))
             
-            df.loc[df['actionSub'] == 'meal_amount', 'actionSubOption'] = df.loc[df['actionSub'] == 'meal_amount', 'actionSubOption'].map(mealAmountMapping)
-            df.loc[df['actionSub'] == 'move_method', 'actionSubOption'] = df.loc[df['actionSub'] == 'move_method', 'actionSubOption'].map(transportMapping)
+            df.loc[df['actionSub'] == 'meal_amount', 'actionSubOption'] = df.loc[df['actionSub'] == 'meal_amount', 'actionSubOption'].map(mealAmountMapping).astype(str) #resloving issues from testing
+            df.loc[df['actionSub'] == 'move_method', 'actionSubOption'] = df.loc[df['actionSub'] == 'move_method', 'actionSubOption'].map(transportMapping).astype(str) 
+            
             
             #resolving NaN error for nullable attributes
             df['conditionSub1Option'] = df['conditionSub1Option'].replace({np.nan: None})
             df['conditionSub2Option'] = df['conditionSub2Option'].replace({np.nan: None})
 
+            
             #Converting unix time to date time
             #Coordinated Universal Time = True //instead of local time
             df['datetime'] = pd.to_datetime(df['ts'], unit='s', utc=True)
@@ -141,10 +143,13 @@ class DayView(APIView):
 
     
     def get(self, request, *args, **kwargs):
-        day = Day.objects.filter(user=request.user).order_by('date')
-        serializer = DaySerializer(day, many=True)
-        return Response(serializer.data)
-    
+        try:
+            day = Day.objects.filter(user=request.user).order_by('date')
+            serializer = DaySerializer(day, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 class DailyActivityView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -188,19 +193,40 @@ class DailyActivityView(APIView):
     
         if(action == "action"):
             serializer = DailyActivitySerializer(activities, many=True)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         elif(action == "emotionTension"):
             emtionalTensionData = EmotionTension.objects.filter(dailyActivity__in=activities).order_by('startTime')
             serializer = EmotionTensionSerialiser(emtionalTensionData, many=True)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         elif(action == "emotionPositive"):
             emtionalPositiveData = EmotionPositive.objects.filter(dailyActivity__in=activities).order_by('startTime')
             serializer = EmotionPositiveSerialiser(emtionalPositiveData, many=True)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif(action == "condition"):
+            SubOptionData = Condition.objects.filter(dailyActivity__in=activities)
+            serializer = ConditionSerialiser(SubOptionData, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif(action == "conditionSub1"):
+            conditionSub1Option = ConditionSub1Option.objects.filter(dailyActivity__in=activities)
+            serializer = ConditionSub1OptionSerialiser(conditionSub1Option, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif(action == "conditionSub2"):
+            conditionSub2Option = ConditionSub2Option.objects.filter(dailyActivity__in=activities)
+            serializer = ConditionSub2OptionSerialiser(conditionSub2Option, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif(action == "place"):
+            place = Place.objects.filter(dailyActivity__in=activities)
+            serializer = PlaceSerialiser(place, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif(action == "activity"):
+            activity = Activity.objects.filter(dailyActivity__in=activities)
+            serializer = ActivitySerialiser(activity, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         elif(action == "travel"):
             SubOptionData = SubOption.objects.filter(dailyActivity__in=activities)
             serializer = SubOptionSerialiser(SubOptionData, many=True)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
     
@@ -375,7 +401,7 @@ class ChronicIllnessParametersView(APIView):
                 else:
                     #if smoking has never occured
                     smokingStatus = "Never Smoker"
-            return Response({"age": age, "sleepAverage": sleepAverage, "alcoholAverageAprox" : alcoholAverageAprox, "activeTimeAverage" : activeTimeAverage , "smokingStatus" : smokingStatus})
+            return Response({"age": age, "sleepAverage": sleepAverage, "alcoholAverageAprox" : alcoholAverageAprox, "activeTimeAverage" : activeTimeAverage , "smokingStatus" : smokingStatus}, status=status.HTTP_200_OK, content_type="application/json")
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
@@ -393,15 +419,15 @@ class ChronicIllnessFormatedView(APIView):
         
 
             ageFormated = ageConverter(request.user.age)
-            sleepFormated = sleepConverter(sleepAverage)
-            alcoholFormated = alcoholConverter(alcoholAverageAprox, request.user.gender)
-            activeFormatted = activeConverter(activeTimeAverage)
+            sleepFormated = sleepConverter(float(sleepAverage))
+            alcoholFormated = alcoholConverter(float(alcoholAverageAprox), request.user.gender)
+            activeFormatted = activeConverter(float(activeTimeAverage))
             smokingFormatted = smokeConverter(smokingStatus)
         
             output = ageFormated + sleepFormated + alcoholFormated + activeFormatted + smokingFormatted
-            return Response({"output": output})
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"output": output}, status=status.HTTP_200_OK, content_type="application/json")
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 
 class IllnessDescriptionView(APIView):
@@ -417,6 +443,8 @@ class IllnessDescriptionView(APIView):
 
             serializer = IllnessSerialiser(ilness)
 
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+

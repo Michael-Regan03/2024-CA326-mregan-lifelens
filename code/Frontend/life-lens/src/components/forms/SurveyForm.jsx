@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import SurveyAMForm from './forms/SurveyAMForm';
-import SurveyPMForm from './forms/SurveyPMForm';
-import '../style_components/Survey.css'
-import Header from './Header';
+import SurveyAMForm from './SurveyAMForm';
+import SurveyPMForm from './SurveyPMForm';
+import '../../style_components/Survey.css'
+
 
 
 function SurveyForm() {
