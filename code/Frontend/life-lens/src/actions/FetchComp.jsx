@@ -1,6 +1,6 @@
 const FetchComp =  async (url, data, HTTP_method) => {
   try { 
-    console.log('Sending data:', data);
+    //console.log('Sending data:', data);
     const response = await fetch( url , {
       method: HTTP_method,
       headers: {

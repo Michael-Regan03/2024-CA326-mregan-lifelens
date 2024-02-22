@@ -1,0 +1,37 @@
+@startuml LoadData
+
+participant Caller
+participant LoadData
+participant AuthFetchComp
+participant FetchComp
+
+activate Caller
+Caller -> LoadData : Url, HTTP_method, Body
+activate LoadData
+
+LoadData -> LoadData : Access refreash token from local storage
+
+LoadData -> AuthFetchComp : Url, HTTP_method, Body
+activate AuthFetchComp
+AuthFetchComp --> LoadData : response
+Deactivate AuthFetchComp
+
+alt fetch successful
+    LoadData --> Caller : Data
+else fetch failed
+    LoadData -> FetchComp : 'http://127.0.0.1:8000/auth/jwt/refresh/' , refreashToken', 'POST'
+    activate FetchComp 
+    FetchComp --> LoadData: response
+    deactivate FetchComp
+    LoadData -> LoadData: set new access token in local storage
+    LoadData -> AuthFetchComp: Url, HTTP_method, Body
+    activate AuthFetchComp
+    AuthFetchComp --> LoadData: response
+    deactivate AuthFetchComp
+    LoadData --> Caller: data
+    deactivate LoadData
+    
+
+end
+
+@enduml

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import loadData from '../loaders/loadData';
-import GraphGenActivities from './GraphGenActivities';
-import GraphGenEmotionData from './GraphGenEmotionData';
-import GraphGenTravelMethod from './GraphGenTravelMethod';
+import GraphGenPie from './GraphGens/GraphGenPie';
+import GraphGenEmotionData from './GraphGens/GraphGenEmotionData';
+import GraphGenBarChart from './GraphGens/GraphGenBarChart';
 
 
 function DaysDropDownMenu() {
@@ -160,11 +160,64 @@ return(
         </option>
       ))}
     </select>} 
-     <h2>Visualising data from: {date}</h2>
-     <GraphGenActivities date={date}  /> 
+     <h2 className="visualisation-form">Visualising data from: {date}</h2>
+     <GraphGenPie date={date} 
+                  action={"action"}
+                  labels={{title: "Total Activities"}} /> 
+     
      <GraphGenEmotionData date={date} type={"emotionPositive"} />
      <GraphGenEmotionData date={date} type={"emotionTension"} />
-     <GraphGenTravelMethod date={date} />
+     
+     
+     <GraphGenBarChart date={date} 
+                      action="travel" 
+                      list={[
+                            ['walk', 'driving', 'taxi', 'peronal-mobility', 'bus', 'train/subway', 'other'],
+                             [0,0,0,0,0,0,0]]}
+                      labels={{title: "Time Spent Travelling",
+                              x_axis: "Transport Method",
+                              y_axis: "Duration (minutes)"}} />
+     
+                
+     <GraphGenBarChart date={date} 
+                      action="condition" 
+                      list={[
+                              ['ALONE', 'WITH_ONE', 'WITH_MANY'],
+                             [0,0,0]]}
+                      labels={{title: "Time Spent with Others",
+                              x_axis: "Social Interaction Types",
+                              y_axis: "Duration (minutes)"}} />
+     
+     
+     <GraphGenPie date={date}  
+                  action={"conditionSub1"}
+                  labels={{title: "Social Interaction Distribution"}} /> 
+     
+     <GraphGenPie date={date}  
+                  action={"conditionSub2"}
+                  labels={{title: "Conversation Distrabution"}} /> 
+     
+
+     <GraphGenBarChart date={date} 
+                      action="place" 
+                      list={[
+                              ['home', 'workplace', 'restaurant', 'outdoor', 'other_indoor'],
+                             [0,0,0,0,0]]}
+                      labels={{title: "Places",
+                              x_axis: "Places",
+                              y_axis: "Duration (minutes)"}} />
+     
+     <GraphGenBarChart date={date} 
+                      action="activity" 
+                      list={[
+                             ['IN_VEHICLE', 'ON_FOOT', 'STILL', 'UNKNOWN', 'TILTING', 'WALKING', 'RUNNING'],
+                             [0,0,0,0,0,0,0]]}
+                      labels={{title: "Activity Statuses",
+                              x_axis: "Activiity Status",
+                              y_axis: "Duration (minutes)"}} />
+     
+
+
   </div>
 );
 

@@ -1,0 +1,67 @@
+@startuml SurveyForm
+
+actor User
+participant SurveyForm
+participant SurveyAMForm
+participant SurveyPMForm
+participant LoadData
+participant useNavigate
+participant renderSelectOption
+
+activate User
+User -> SurveyForm: Form loads
+activate SurveyForm
+User -> SurveyForm: meridiemIndicator
+
+alt meridiemIndicator == "am"
+    SurveyForm -> SurveyAMForm: Load Form
+    activate SurveyAMForm
+    SurveyAMForm -> LoadData : 'http://127.0.0.1:8000/day-without-survey/', 'POST', { meridiemIndicator: "am" }
+    activate LoadData
+    LoadData --> SurveyAMForm: Days without associated SurveyAMForm
+    deactivate LoadData
+    SurveyAMForm -> renderSelectOption: Get select options from dicts
+    activate renderSelectOption
+    renderSelectOption --> SurveyAMForm: Select Options
+    deactivate renderSelectOption
+    SurveyAMForm --> User: Dates, questions
+    User -> SurveyAMForm: Selected Date, question answers
+    SurveyAMForm -> LoadData: Send Data to backend
+    activate LoadData
+    LoadData --> SurveyAMForm:Confirmation
+    deactivate LoadData
+    SurveyAMForm -> useNavigate: get homepage
+    deactivate SurveyAMForm
+    activate useNavigate
+    useNavigate --> User: redirect to homepage
+    Deactivate useNavigate
+
+else meridiemIndicator == "pm"
+    SurveyForm -> SurveyPMForm: Load Form
+    activate SurveyPMForm
+    SurveyPMForm -> LoadData : 'http://127.0.0.1:8000/day-without-survey/', 'POST', { meridiemIndicator: "pm" }
+    activate LoadData
+    LoadData --> SurveyPMForm: Days without associated SurveyPMForm
+    deactivate LoadData
+    SurveyPMForm -> renderSelectOption: Get select options from dicts
+    activate renderSelectOption
+    renderSelectOption --> SurveyPMForm: Select Options
+    deactivate renderSelectOption
+    
+    SurveyPMForm --> User: Dates, questions
+    User -> SurveyPMForm: Selected Date, question answers
+    SurveyPMForm -> LoadData: Send Data to backend
+    activate LoadData
+    LoadData --> SurveyPMForm:Confirmation
+    deactivate LoadData
+    SurveyPMForm -> useNavigate: get homepage
+    deactivate SurveyPMForm
+    activate useNavigate
+    useNavigate --> User: redirect to homepage
+    deactivate useNavigate
+    deactivate SurveyForm
+end
+
+
+
+@enduml

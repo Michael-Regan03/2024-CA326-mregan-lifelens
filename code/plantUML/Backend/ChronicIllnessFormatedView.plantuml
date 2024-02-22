@@ -1,0 +1,22 @@
+@startuml ChronicIllnessFormatedView
+start
+:POST request with chronic illness params;
+partition Authentication {
+    :Verify JWT Authentication;
+    :Check if User is Authenticated;
+}
+if (Is request authenticated?) then (yes)
+    :Extract params from request;
+    :Format age with ageConverter;
+    :Format sleep time with sleepConverter;
+    :Format alchol consumption with alcoholConverter;
+    :Format active time with activeConverter;
+    :Format smoking status with smokeConverter;
+    :Create smokingStatus SurveyAM object;
+    :Concatenat results;
+    :Return Formatted data, HTTP 200 OK;
+else (no)
+    :Return error, HTTP 400 Bad Request;
+endif
+stop
+@enduml

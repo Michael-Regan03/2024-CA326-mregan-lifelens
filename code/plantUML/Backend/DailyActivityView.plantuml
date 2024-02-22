@@ -1,0 +1,61 @@
+@startuml DailyActivityView
+start
+:POST request with date and action;
+partition Authentication {
+    :Verify JWT Authentication;
+    :Check if User is Authenticated;
+}
+if (Is request authenticated?) then (yes)
+    :Extract date and action from request;
+    partition DateProcessing {
+        :Determine date format based on input length;
+        :Format date correctly;
+        :Determine date range (start and end dates);
+    }
+    partition GetDaysAndDailyActivities {
+        :Query Day objects within date range for user;
+        :Query DailyActivity objects within those days;
+    }
+    if (Action is "action") then (yes)
+        :Serialize DailyActivity data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "emotionTension") then (yes)
+        :Query EmotionTension objects\n associated with DailyActivitys;
+        :Serialize EmotionTension data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "emotionPositive") then (yes)
+        :Query EmotionPositive objects\n associated with DailyActivitys;
+        :Serialize EmotionPositive data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "condition") then (yes)
+        :Query Condition objects\n associated with DailyActivitys;
+        :Serialize Condition data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "conditionSub1") then (yes)
+        :Query ConditionSub1Option objects\n associated with DailyActivitys;
+        :Serialize ConditionSub1Option data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "conditionSub2") then (yes)
+        :Query ConditionSub2Option objects\n associated with DailyActivitys;
+        :Serialize ConditionSub2Option data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "place") then (yes)
+        :Query Place objects\n associated with DailyActivitys;
+        :Serialize Place data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "activity") then (yes)
+        :Query Activity objects\n associated with DailyActivitys;
+        :Serialize Activity data;
+        :Return serialized data, HTTP 200 OK;
+    elseif (Action is "travel") then (yes)
+        :Query SubOption objects\n associated with DailyActivitys;
+        :Serialize SubOption data;
+        :Return serialized data, HTTP 200 OK;
+    else (no)
+        :Return HTTP 400 Bad Request;
+    endif
+else (no)
+    :Return Auth error response;
+endif
+stop
+@enduml

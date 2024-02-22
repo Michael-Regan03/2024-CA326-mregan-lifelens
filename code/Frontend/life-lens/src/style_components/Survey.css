@@ -10,7 +10,7 @@ form, .file-container {
     color: #495057;
 }
   
-.form-header, h2 {
+.form-header, .visualisation-form{
     color: rgb(31, 159, 238); 
     text-align: center;
     margin-bottom: 20px;

@@ -1,0 +1,60 @@
+@startuml AddItemOrUpdateDuration
+
+participant GraphGenPieorGraphGenBarChart
+participant AddItemOrUpdateDuration
+participant TimeConverterMinutes
+
+activate GraphGenPieorGraphGenBarChart
+GraphGenPieorGraphGenBarChart -> AddItemOrUpdateDuration : item, activities, durations, clause
+activate AddItemOrUpdateDuration
+alt clause == "action"
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find action's index in activities
+else clause == "condition"
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find condition's index in activities
+else clause == "conditionSub1"
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find conditionSub1's index in activities
+else clause == "conditionSub2"
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find conditionSub2's index in activities
+else clause == "place"
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find place's index in activities
+else clause == "activity"
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find activity's index in activities
+else clause == "travel"
+    alt item actionSubOption is light, moderate, or heavy
+        AddItemOrUpdateDuration --> GraphGenPieorGraphGenBarChart : {activities, durations}
+    else item belongs to travel activity
+        AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Find sub-option index
+    end
+end
+
+AddItemOrUpdateDuration -> TimeConverterMinutes : Convert item duration to minutes
+activate TimeConverterMinutes
+TimeConverterMinutes --> AddItemOrUpdateDuration: Duration in minutes
+deactivate TimeConverterMinutes
+
+alt item already exists in activities
+    AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Update duration 
+    AddItemOrUpdateDuration --> GraphGenPieorGraphGenBarChart: {activities, durations}
+else
+    alt clause == "action"
+        AddItemOrUpdateDuration -> AddItemOrUpdateDuration : Add new action option and duration
+    else clause == "travel"
+        AddItemOrUpdateDuration  -> AddItemOrUpdateDuration : Add new travel option and duration
+    else clause == "conditionSub1"
+        AddItemOrUpdateDuration  -> AddItemOrUpdateDuration : Add new conditionSub1 option and duration
+    else clause == "conditionSub2"
+        AddItemOrUpdateDuration  -> AddItemOrUpdateDuration : Add new conditionSub2 option and duration
+    else clause == "condition"
+        AddItemOrUpdateDuration  -> AddItemOrUpdateDuration : Add new condition option and duration
+    else clause == "place"
+        AddItemOrUpdateDuration  -> AddItemOrUpdateDuration : Add new place option and duration
+    else clause == "activity"
+        AddItemOrUpdateDuration  -> AddItemOrUpdateDuration : Add new activity option and duration
+    end
+    AddItemOrUpdateDuration --> GraphGenPieorGraphGenBarChart : {activities, durations}
+    deactivate AddItemOrUpdateDuration
+end
+
+@enduml
+
+

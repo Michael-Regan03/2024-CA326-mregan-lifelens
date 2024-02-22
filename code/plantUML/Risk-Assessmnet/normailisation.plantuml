@@ -1,0 +1,21 @@
+@startuml
+[*] --> StartDF: Begin
+StartDF --> NormalisedBehaviours: Normalise Behaviours
+StartDF --> NormalisedIllnesses: Noramlise Illnesses
+NormalisedBehaviours -up> NoramlisedDF
+NormalisedIllnesses -> NoramlisedDF
+NoramlisedDF --> [*]: End
+
+state NormalisedBehaviours {
+  [*] --> SelectColumnsNamedInBehavioursList
+   SelectColumnsNamedInBehavioursList --> BehaviourAsInt: convert from bool to int
+   BehaviourAsInt --> NormalisedBehaviourList: Extract values from columns
+}
+
+state NormalisedIllnesses {
+  [*] --> SelectColumnsNamedInIllnessList
+   SelectColumnsNamedInIllnessList --> IllnessAsInt: convert from bool to int
+   IllnessAsInt --> NormalisedIllnessList: Extract values from columns
+}
+
+@enduml

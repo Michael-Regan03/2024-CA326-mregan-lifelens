@@ -1,0 +1,16 @@
+@startuml DayView
+start
+:GET request;
+partition Authentication {
+    :Verify JWT Authentication;
+    :Check if User is Authenticated;
+}
+if (Is request authenticated?) then (yes)
+    :Retrieve user's Day objects;
+    :Serialize Day data;
+    :Return serialized data, HTTP 200 OK;
+else (no)
+    :Return HTTP 400 Bad Request;
+endif
+stop
+@enduml

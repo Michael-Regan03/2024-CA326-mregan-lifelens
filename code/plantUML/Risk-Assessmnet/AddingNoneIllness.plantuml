@@ -1,0 +1,21 @@
+@startuml DataBalancing
+start
+
+:Filter Illness_analysis for all entires with 0 illnesses;
+:explode that df by 'Illnesses' then group by 'illnesses'\ncalculate size and then calculate mean;
+
+:count is length of df with no illnesses;
+
+if (count > mean) then
+  :Undersample to mean;
+elseif (count < mean) then
+  :Oversample to mean;
+else
+  :Dont sample;
+endif
+  :concatenate sampled_df to Balanced_df;
+stop
+
+
+@enduml
+

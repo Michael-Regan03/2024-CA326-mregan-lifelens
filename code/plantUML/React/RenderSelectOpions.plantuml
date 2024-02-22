@@ -1,0 +1,15 @@
+@startuml renderSelectOptions
+
+participant Caller
+participant renderSelectOptions
+
+activate Caller
+Caller->renderSelectOptions: dict
+activate renderSelectOptions
+loop For each key value pair in the dict
+    renderSelectOptions -> Caller: Option HTML tag where options key = dicts key and option displays dicts value
+end
+deactivate  renderSelectOptions
+
+
+@enduml

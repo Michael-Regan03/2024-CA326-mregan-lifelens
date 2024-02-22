@@ -1,0 +1,37 @@
+@startuml AuthFetchComp
+
+participant Caller
+participant AuthFetchComp
+participant fetch
+
+
+activate Caller
+Caller -> AuthFetchComp : Url, HTTP_method, Body
+activate AuthFetchComp
+
+AuthFetchComp -> AuthFetchComp : get access token from local storage
+AuthFetchComp -> AuthFetchComp : declare herader Auth with access token
+AuthFetchComp -> AuthFetchComp : declare message with http body
+
+alt Body is an instance of FormData
+    AuthFetchComp -> AuthFetchComp :Configure request for Form Data
+else Body is JSON
+    AuthFetchComp -> AuthFetchComp :Configure request for Json
+else Get request
+    AuthFetchComp -> AuthFetchComp :Configure for get request
+end
+
+AuthFetchComp -> fetch: url, message
+activate fetch
+alt responce not ok
+    fetch --> Caller: error
+else response is ok
+    fetch --> AuthFetchComp: response
+    deactivate fetch
+end
+
+AuthFetchComp --> Caller : response
+deactivate AuthFetchComp
+
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml SignUp
+
+actor User
+participant SignUp
+participant useNavigate
+participant LoadData
+
+
+
+activate User
+User->SignUp: Sign up page select
+activate SignUp
+
+SignUp --> User : Display questions (email, name, age, gender password, re-password)
+User -> SignUp : Enters email, name, age, gender password, re-password
+SignUp -> LoadData: Create Account
+activate LoadData 
+LoadData --> SignUp: responce
+deactivate LoadData
+alt if Acount sucessfully created
+    SignUp -> useNavigate: Redirect to Login
+    activate useNavigate
+    useNavigate --> User: Return Login page
+    deactivate useNavigate
+else
+   SignUp->SignUp: set useState loadError to true
+   SignUp-> User: Render error message under Sign up form
+end
+deactivate SignUp
+
+
+@enduml

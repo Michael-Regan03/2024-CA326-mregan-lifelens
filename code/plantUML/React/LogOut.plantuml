@@ -1,0 +1,25 @@
+@startuml LogIn
+
+actor User
+participant LogOut
+participant useAuth
+participant HomePage
+
+activate User
+User->LogOut: LogOut page selected
+activate LogOut
+
+
+LogOut -> LogOut: remove Refreash token and Access token in local memmory
+LogOut -> useAuth: Log out
+activate useAuth
+useAuth --> LogOut: logs user out
+deactivate useAuth
+LogOut -> HomePage: Redirect to homepage
+activate HomePage
+HomePage --> User: Return Homepage
+deactivate HomePage
+deactivate LogOut
+
+
+@enduml
