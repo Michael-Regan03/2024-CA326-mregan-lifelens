@@ -1,0 +1,28 @@
+@startuml DayViewForSurvey
+start
+:Post request with meridiemIndicator;
+partition Authentication {
+    :Verify JWT Authentication;
+    :Check if User is Authenticated;
+}
+if (Is request authenticated?) then (yes)
+    :Retrieve user's Day objects
+    :Extract meridiemIndicator from request;
+    if (meridiemIndicator is "am") then (yes)
+        :Filter days with an associated SurveyAM;
+        :Exclude days that have SurveyAM;
+        :Serialize remaining Day objects;
+        :Return serialized data;
+    elseif (meridiemIndicator is "pm") then (yes)
+        :Filter days with an associated SurveyPM;
+        :Exclude days that have SurveyPM;
+        :Serialize remaining Day objects;
+        :Return serialized data;
+    else (Invalid meridiemIndicator)
+        :Return "Invalid meridiemIndicator provided", HTTP 400 Bad Request;
+    endif
+else (no)
+    :Return HTTP 400 Bad Request;
+endif
+stop
+@enduml

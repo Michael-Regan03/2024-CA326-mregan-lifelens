@@ -1,0 +1,19 @@
+@startuml
+[*] --> DataLoading: Start
+
+DataLoading -left> DataIntegration: Load Files
+DataIntegration --> DataDecoding: Concatenate DataFrames
+
+DataDecoding -right> DataCleaning: Decode Values Using Mapping
+DataCleaning --> DataBalancing: Remove Irelavant columns
+
+DataBalancing -left> DataNormalisation: Balance Data
+DataNormalisation --> DataStoring: Normalize Data
+
+DataStoring -right> [*]
+
+
+
+
+
+@enduml

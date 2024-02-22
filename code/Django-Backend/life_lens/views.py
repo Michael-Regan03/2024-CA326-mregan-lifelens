@@ -253,7 +253,7 @@ class DayViewForSurvey(APIView):
             serializer = DaySerializer(days_without_pm_survey, many=True)
             return Response(serializer.data)
         
-        return Response({"error": "Invalid meridiemIndicator provided."}, status=400)
+        return Response({"error": "Invalid meridiemIndicator provided."}, status=status.HTTP_400_BAD_REQUEST)
 
     
 class SurveyPMUpload(APIView):

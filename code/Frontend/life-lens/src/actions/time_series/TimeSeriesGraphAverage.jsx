@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TimeSeriesLineChart from '../../components/Graphs/TimeSeriesLineChart';
 import KoreanTimeConverter from '../KoreanTimeConverter';
-import TimeConverter from '../TimeConverterMinutes';
+import TimeConverterMinutes from '../TimeConverterMinutes';
 import getValue from './getValue';
 
 //Graph an average value across days or months
@@ -34,7 +34,7 @@ const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config, type}) 
 
                     let nextIndex = i + 1;
 
-                    var duration = TimeConverter(currentTime.duration)
+                    var duration = TimeConverterMinutes(currentTime.duration)
                     
                     let value = 0;
                     
@@ -50,7 +50,7 @@ const TimeSeriesGraphAverage = ({timeSeriesData , timeSpan, time_Config, type}) 
                     //While the timestamps lie in the smae timespan i.e same day or month
                     while (nextIndex < timeSeriesData.length && KoreanTimeConverter(timeSeriesData[nextIndex].startTime, timeSpan) === KoreanTimeConverter(currentTime.startTime, timeSpan)) {
                         //Convert duration into seconds so it can be multiplied  
-                        duration = TimeConverter(timeSeriesData[nextIndex].duration)
+                        duration = TimeConverterMinutes(timeSeriesData[nextIndex].duration)
                         value = await getValue(timeSeriesData[nextIndex], type)
 
 

@@ -5,7 +5,8 @@ participant SurveyForm
 participant SurveyAMForm
 participant SurveyPMForm
 participant LoadData
-participant HomePage
+participant useNavigate
+participant renderSelectOption
 
 activate User
 User -> SurveyForm: Form loads
@@ -19,16 +20,21 @@ alt meridiemIndicator == "am"
     activate LoadData
     LoadData --> SurveyAMForm: Days without associated SurveyAMForm
     deactivate LoadData
+    SurveyAMForm -> renderSelectOption: Get select options from dicts
+    activate renderSelectOption
+    renderSelectOption --> SurveyAMForm: Select Options
+    deactivate renderSelectOption
     SurveyAMForm --> User: Dates, questions
     User -> SurveyAMForm: Selected Date, question answers
     SurveyAMForm -> LoadData: Send Data to backend
     activate LoadData
+    LoadData --> SurveyAMForm:Confirmation
     deactivate LoadData
-    SurveyAMForm -> HomePage: get homepage
+    SurveyAMForm -> useNavigate: get homepage
     deactivate SurveyAMForm
-    activate HomePage
-    HomePage --> User: redirect to homepage
-    Deactivate HomePage
+    activate useNavigate
+    useNavigate --> User: redirect to homepage
+    Deactivate useNavigate
 
 else meridiemIndicator == "pm"
     SurveyForm -> SurveyPMForm: Load Form
@@ -37,16 +43,22 @@ else meridiemIndicator == "pm"
     activate LoadData
     LoadData --> SurveyPMForm: Days without associated SurveyPMForm
     deactivate LoadData
+    SurveyPMForm -> renderSelectOption: Get select options from dicts
+    activate renderSelectOption
+    renderSelectOption --> SurveyPMForm: Select Options
+    deactivate renderSelectOption
+    
     SurveyPMForm --> User: Dates, questions
     User -> SurveyPMForm: Selected Date, question answers
     SurveyPMForm -> LoadData: Send Data to backend
     activate LoadData
+    LoadData --> SurveyPMForm:Confirmation
     deactivate LoadData
-    SurveyPMForm -> HomePage: get homepage
+    SurveyPMForm -> useNavigate: get homepage
     deactivate SurveyPMForm
-    activate HomePage
-    HomePage --> User: redirect to homepage
-    deactivate HomePage
+    activate useNavigate
+    useNavigate --> User: redirect to homepage
+    deactivate useNavigate
     deactivate SurveyForm
 end
 

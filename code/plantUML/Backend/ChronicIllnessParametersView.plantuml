@@ -1,0 +1,52 @@
+@startuml ChronicIllnessParametersView
+start
+:GET request;
+partition Authentication {
+    :Verify JWT Authentication;
+    :Check if User is Authenticated;
+}
+if (Is request authenticated?) then (yes)
+    :Retrieve Days for user;
+    if (Days exist) then (yes)
+        :Query all user days;
+        :Initialize calculation variables;
+        
+        repeat
+        partition "For Each User Day" {
+            :Accumulate sleep duration;
+            :Accumulate activte time duration;
+            :Accumulate alchol consumption;
+        }
+        repeat while (0 <= Days) -> 
+        :Calculate sleep, alcohol, and active time averages;
+        
+        partition "Calculate Smoking status" {
+        :Find most recent day object associated with user;
+        :Query Day objects 30 days before most recent object;
+        :Query DailyActivity objects that are smoking with last 30 days;
+        
+
+        if (Smoking DailyActivity exists) then (yes)
+            if (Smoking activity occurred in every Day object) then (yes)
+                :User smoking status is Everyday Smoker;
+            else (no)
+                :User smoking status is Sometimes Smoker;
+            endif
+        else (no)
+            :Query DailyActivity objects that are smoking;
+            if (Smoking DailyActivity exists) then (yes)
+                :User smoking status is Former Smoker;
+            else (no)
+                :User smoking status is Never Smoker;
+            endif
+        endif
+        }
+        :Return age, averages,smoking status, HTTP 200 OK;
+    else (no)
+        :Return default response data, HTTP 200 OK;
+    endif
+else (no)
+    :Return Auth error, HTTP 400 Bad Request;
+endif
+stop
+@enduml

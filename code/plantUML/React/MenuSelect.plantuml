@@ -1,0 +1,81 @@
+@startuml MenuSelect
+
+actor User
+participant DaysDropDownMenu
+participant GraphGenEmotionData
+participant GraphGenPieChart
+participant GrapghGenBarChart
+
+
+activate User
+User -> DaysDropDownMenu: Change date in drop down menu
+activate DaysDropDownMenu
+
+DaysDropDownMenu -> DaysDropDownMenu: get date from selection change
+
+
+DaysDropDownMenu -> GraphGenPieChart: Graph activities
+activate GraphGenPieChart
+GraphGenPieChart --> User: Activities visualisation
+deactivate GraphGenPieChart
+
+
+DaysDropDownMenu -> GraphGenEmotionData: Graph emotion tension
+activate GraphGenEmotionData
+GraphGenEmotionData --> User: Emotion Tension visualisation
+deactivate GraphGenEmotionData
+DaysDropDownMenu -> GraphGenEmotionData: Graph emotion positive
+activate GraphGenEmotionData
+GraphGenEmotionData --> User: Emotion Positive visualisation
+deactivate GraphGenEmotionData
+
+DaysDropDownMenu -> GrapghGenBarChart: Graph Travel Methods
+activate GrapghGenBarChart
+GrapghGenBarChart --> User: Travel visualisation
+deactivate GrapghGenBarChart
+
+
+DaysDropDownMenu -> GrapghGenBarChart: Graph Time spent with others
+activate GrapghGenBarChart
+GrapghGenBarChart --> User: Time spent with others visualisation 
+deactivate GrapghGenBarChart
+
+DaysDropDownMenu -> GraphGenPieChart: Grapgh Social Interaction Distrabution
+activate GraphGenPieChart
+GraphGenPieChart --> User: Social interaction distrabution visualisation
+deactivate GraphGenPieChart
+
+
+
+
+DaysDropDownMenu -> GraphGenPieChart: Graph Conversation distrabution
+activate GraphGenPieChart
+GraphGenPieChart --> User: Conversation distrabution visualisation
+deactivate GraphGenPieChart
+
+
+
+
+
+DaysDropDownMenu -> GrapghGenBarChart: Graph Places
+activate GrapghGenBarChart
+GrapghGenBarChart --> User: Places visualisation
+deactivate GrapghGenBarChart
+
+DaysDropDownMenu -> GrapghGenBarChart: Graph Activity status
+activate GrapghGenBarChart
+GrapghGenBarChart --> User: Activity status visualisation 
+deactivate GrapghGenBarChart
+
+
+alt Change was the year menu
+    DaysDropDownMenu -> DaysDropDownMenu: render drop down menu of months asscoated with year in datastruct 
+     DaysDropDownMenu --> User : Remove Drop Down lists of Days
+    DaysDropDownMenu --> User : Render Drop Down list of months in year 
+else change was the month menu
+    DaysDropDownMenu -> DaysDropDownMenu: render drop down menu of day asscoated with year/month in datastruct 
+    DaysDropDownMenu --> User : Render Drop Down list of days in year/month 
+
+end
+    deactivate DaysDropDownMenu
+@enduml

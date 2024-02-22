@@ -1,0 +1,39 @@
+@startuml Header
+
+participant LifeLensApp
+participant AppHeader
+participant LoadData
+participant useAuth
+participant LoggedInNavbar
+participant LoggedOutNavbar
+
+activate LifeLensApp
+LifeLensApp->AppHeader: Initialise Header
+activate AppHeader
+
+AppHeader -> useAuth : Determine if user is logged in
+activate useAuth 
+useAuth --> AppHeader : Users logged in status (loggedIn)
+deactivate useAuth
+alt if loggedIn is True
+    AppHeader -> LoadData: Get user data
+    activate LoadData
+    LoadData --> AppHeader: Users data
+    deactivate LoadData
+    AppHeader -> LoggedInNavbar: get Navbar
+    activate LoggedInNavbar
+    LoggedInNavbar --> AppHeader: Navbar
+    deactivate LoggedInNavbar
+    AppHeader --> LifeLensApp: Display generic Header and Navbar
+
+else
+    AppHeader -> LoggedOutNavbar: get Navbar
+    activate LoggedOutNavbar
+    LoggedOutNavbar --> AppHeader: Navbar
+    deactivate LoggedOutNavbar
+    AppHeader --> LifeLensApp: Display generic Header and Navbar
+end
+deactivate AppHeader
+
+
+@enduml

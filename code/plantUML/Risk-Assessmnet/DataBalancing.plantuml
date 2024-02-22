@@ -1,0 +1,29 @@
+@startuml DataBalancing
+start
+
+:Initialize empty df, Balanced_df;
+:n=1 (balance up to a combination of 5 illnesses);
+
+
+repeat
+  :Filter Illness_analysis by number of illness's (n) per person;
+  :Group  by illnesses \n and calculate size;
+  :Calculate mean;
+  
+  :Generate unique\nillness combinations;
+  partition "For Each Unique Combination of Ilnesses" {
+    :Filter DataFrame by unique combinations;
+    :Calculate length as count;
+    if (count > mean) then
+      :Undersample to mean;
+    elseif (count < mean) then
+      :Oversample to mean;
+    else
+      :Dont sample;
+    endif
+    :concatenate sampled_df to Balanced_df;
+  }
+repeat while (n <= 5) ->Iterate n
+
+stop
+@enduml

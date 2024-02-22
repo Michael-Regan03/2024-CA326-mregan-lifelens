@@ -2,7 +2,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2'; // https://www.chartjs.org/docs/latest/charts/line.html
 import 'chart.js/auto';
 //import '../style_components/Graph.css'
-
+import 'chartjs-adapter-moment';
 
 const TimeSeriesLineChart = ({ timeData, timeConfig, title}) => {
     

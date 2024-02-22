@@ -1,4 +1,4 @@
-@startuml LoadData
+@startuml ChronicIllnessRiskAssesment
 
 actor User
 participant ChronicIllnessRiskAssesment

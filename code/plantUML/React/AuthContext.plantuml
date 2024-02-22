@@ -1,0 +1,40 @@
+@startuml AuthFetchComp
+
+participant LifeLensApp
+participant useAuth
+participant AuthProvider
+participant React
+
+
+activate LifeLensApp
+LifeLensApp -> useAuth : Initilaise Authentication system
+activate useAuth
+useAuth -> React: createContext()
+activate React
+React --> useAuth: Context
+deactivate React
+useAuth -> AuthProvider: Intialise global variabales
+activate AuthProvider
+
+
+AuthProvider -> AuthProvider: get locally storred variable 'loggedIn'
+
+alt loggedIn is True
+    AuthProvider -> AuthProvider: Initalise useState loggedIn to be True 
+else 
+   AuthProvider -> AuthProvider: Initalise useState loggedIn to be False 
+end 
+
+alt if page refreash
+    AuthProvider -> AuthProvider: set loggedIn from local stage
+end
+
+
+AuthProvider -> AuthProvider: Create methods login and logout
+
+AuthProvider -> useAuth: Global Variables and Methods for Auth
+
+useAuth -> LifeLensApp:  Global Variables and Methods for Auth
+
+
+@enduml

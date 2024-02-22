@@ -4,7 +4,7 @@ actor User
 participant DetermineTimeSpan
 participant TimeSeriesGraphDay
 participant processData
-participant TimeConverter
+participant TimeConverterMinutes
 participant getValue
 participant KoreanTimeConverter
 participant TimeSeriesLineChart
@@ -18,10 +18,10 @@ TimeSeriesGraphDay -> processData : Start data processing
 Activate processData
 loop for i in length of timeSeriesData
     
-    processData -> TimeConverter : Convert duration to minutes
-    Activate TimeConverter
-    TimeConverter --> processData : duration in minutes
-    deactivate TimeConverter
+    processData -> TimeConverterMinutes : Convert duration to minutes
+    Activate TimeConverterMinutes
+    TimeConverterMinutes --> processData : duration in minutes
+    deactivate TimeConverterMinutes
     processData -> getValue : Get current value
     activate getValue
     getValue --> processData: Current value

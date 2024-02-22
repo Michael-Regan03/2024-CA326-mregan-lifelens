@@ -9,7 +9,7 @@ activate Caller
 Caller -> LoadData : Url, HTTP_method, Body
 activate LoadData
 
-LoadData -> LoadData : refreashToken = localStorage.getItem('refreshToken')
+LoadData -> LoadData : Access refreash token from local storage
 
 LoadData -> AuthFetchComp : Url, HTTP_method, Body
 activate AuthFetchComp
@@ -23,7 +23,7 @@ else fetch failed
     activate FetchComp 
     FetchComp --> LoadData: response
     deactivate FetchComp
-    LoadData -> LoadData: localStorage.setItem('accessToken', refresh.access);
+    LoadData -> LoadData: set new access token in local storage
     LoadData -> AuthFetchComp: Url, HTTP_method, Body
     activate AuthFetchComp
     AuthFetchComp --> LoadData: response

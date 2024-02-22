@@ -1,0 +1,36 @@
+@startuml LogIn
+
+actor User
+participant LogIn
+participant LoadData
+participant useAuth
+participant useNavigate
+
+activate User
+User->LogIn: Login page select
+activate LogIn
+
+LogIn --> User : Display questions (email and password)
+User -> LogIn : Enters email and password
+LogIn -> LoadData: Log user in
+activate LoadData 
+LoadData --> LogIn: responce
+deactivate LoadData
+alt if log in sucessful
+    LogIn -> LogIn: set Refreash token and Access token in local memmory
+    LogIn -> useAuth: Log in
+    activate useAuth
+    useAuth --> LogIn: logs user in
+    deactivate useAuth
+    LogIn -> useNavigate: Redirect to homepage
+    activate useNavigate
+    useNavigate --> User: Return Homepage
+    deactivate useNavigate
+else
+   LogIn->LogIn: set useState errorReport to true
+   LogIn-> User: Render error message under login form
+end
+deactivate LogIn
+
+
+@enduml

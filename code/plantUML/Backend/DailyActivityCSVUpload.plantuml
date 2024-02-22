@@ -1,0 +1,46 @@
+@startuml DailyActivityCSVUpload
+start
+:Post request request with CSV file;
+partition Authentication {
+    :Verify JWT Authentication;
+    :Check if User is Authenticated;
+}
+if (Is request authenticated?) then (yes)
+    :Initialize CSVUploadSerializer with request data;
+    if (Is serializer valid?) then (yes)
+        :Read CSV file from request;
+        :Decode CSV content;
+        partition DataPreparation {
+            :Convert CSV content to pandas DataFrame;
+            :where actionSub is equal to meal_amount and move_method ,\n map actionSubOption to mealAmountMapping and transportmapping respectively;
+            :Replace NaN in conditionSub1Option and 'conditionSub2Option' to None;
+            :Convert unix time to datetime in Asia/Seoul timezone;
+            :Calculate activity changes and group_id;
+        }
+        partition GroupingAndAggregation {
+            :Group by actionOption and group_id;
+            :Calculate start_time and end_time for each group;
+            :Create Day object associated with user with date and day number;
+            :Calculate duration for each activity;
+            :Sort activities by 'group_id';
+        }
+        partition ActivityCreation {
+            :Iterate through grouped activities;
+            :Calculate duration in hours, minutes, seconds;
+            :Create DailyActivity objects associated with day;
+            partition AssocatedValueCreation {
+                :For every associated value grouped in activities;
+                :Calculate start_time, end_time, and duration for associated values;
+                :Create SubActivity objects;
+            }
+        }
+        :Return success response, HTTP 201 object created;
+    else (no)
+        :Return serializer error response, HTTP 400 Bad request;
+    endif
+else (no)
+    :Return Auth error response, HTTP 400 Bad request;;
+endif
+
+stop
+@enduml

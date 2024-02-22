@@ -1,4 +1,4 @@
-@startuml LoadData
+@startuml AuthFetchComp
 
 participant Caller
 participant AuthFetchComp
