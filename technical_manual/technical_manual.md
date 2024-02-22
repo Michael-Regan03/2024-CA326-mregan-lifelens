@@ -171,9 +171,9 @@ Lifelens is a web application that visualises its user's life-log data and based
 [](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
 
 
-![](../code/plantUML/Risk-Assessment/images/DataBalancing.png)
+![](../code/plantUML/Risk_Assessment/images/DataBalancing.png)
 
-![](../code/plantUML/Risk-Assessment/images/AddNoneIllness.png)
+![](../code/plantUML/Risk_Assessment/images/AddNoneIllness.png)
 
 
 
@@ -185,7 +185,7 @@ Lifelens is a web application that visualises its user's life-log data and based
 
 
 # 4.4 Data Normalisation
-![](../code/plantUML/Risk-Assessment/images/normalisation.png)
+![](../code/plantUML/Risk_Assessment/images/normalisation.png)
 
 # 4.5 Model Training 
 
