@@ -869,3 +869,11 @@ Trainig was done with a  70/30 data split. For reproducability the seed ("326") 
 
 # 4 User Testing
 
+### 4.2 User Tests
+User tests were conducting using google forms where participants were asked to demo the Life Lens web app and fill in a quistionaire.
+
+### 4.2 Results of User Testing
+The Results can be found on the repo under testing/user_testing/
+
+
+
