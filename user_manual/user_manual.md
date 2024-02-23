@@ -195,7 +195,7 @@ Back at the top of the page, you will now see the option to Select a Month.
 After selecting a month Life Lens will then visualise YYYY-MM data
 
 
-![](./images/MonthSelect.png)
+![](./images/MonthSelected.png)
 
 
 While Months is selected time series visualisations will now average values across days
