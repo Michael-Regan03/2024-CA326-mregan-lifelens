@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FetchComp from '../actions/FetchComp';
 import renderSelectOptions from '../actions/renderSelectOptions';
-import { useAuth } from '../context/AuthContext'; 
-import loadData from '../loaders/loadData';
+import '../style_components/FormVerification.css'
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -91,7 +90,7 @@ export default function Signup() {
         </div>
       </form>
 
-      {loadError && <p>{error}</p>}
+      {loadError && <p className="error-message">{error}</p>}
 
     </div>
   )

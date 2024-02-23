@@ -1,0 +1,16 @@
+.HomepageHeader {
+    color: rgb(31, 159, 238); 
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 50px;
+}
+
+.HomepageText { 
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 35px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
