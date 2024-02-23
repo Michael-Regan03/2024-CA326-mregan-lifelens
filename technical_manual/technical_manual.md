@@ -77,12 +77,8 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 
 
 # 3 High Level Design
-## 3.1 Design Overview
-
-## 3.2 Component Interaction Diagram
-
-## 3.3 Database Design
-### 3.3.1 Storing Life Log Data
+## 3.1 Database Design
+### 3.1.1 Storing Life Log Data
 This is how Lifelog Data is represented in a CSV file where every entry represents a minute in time recorded with a unix timestamp.
 
 |ts|action|actionOption|actionSub|actionSubOption| condition|conditionSub1Option|conditionSub2Option|place| emotionPositive | emotionTension | activity |
@@ -100,125 +96,136 @@ This is what each column means
 
 The Life Lens System stores data from such a file by creating an instances of a day entity with the date of the first timestamp. That day is associated with the user who uploaded the file. The database then stores actions as one instance with a start time, end time and duration. That action is stored in a table called DailyActivity. Each daily activity is assocated with sub actions which aslo have a start time, end time and duration. Sub actions include actionSubOption, condition, conditionSub1Option, conditionSub1Option, place emotionPositive, emotionTension and activity. Each of these actions represent
 
-### 3.3.2 Entity Relationship Diagram
+### 3.1.2 Entity Relationship Diagram
 ![](./images/ERDiagram.jpeg)
 
 
-## 3.4 API design
-### 3.4.1 Daily Activity CSV Upload
+## 3.3 API design
+### 3.3.1 Daily Activity CSV Upload
 
 ![](../code/plantUML/Backend/images/DailyActivityCSVUpload.png)
 
-### 3.5.2 Daily Activity View
+### 3.3.2 Daily Activity View
 
 ![](../code/plantUML/Backend/images/DailyActivityView.png)
 
-### 3.4.3 Day View
+### 3.3.3 Day View
 
 ![](../code/plantUML/Backend/images/DayView.png)
 
-### 3.4.4 Day View For Survey
+### 3.3.4 Day View For Survey
 
 ![](../code/plantUML/Backend/images/DayViewForSurvey.png)
 
-### 3.4.5 Survey AM Upload
+### 3.3.5 Survey AM Upload
 
 ![](../code/plantUML/Backend/images/SurveyAMUpload.png)
 
-### 3.4.5 Survey PM Upload
+### 3.3.5 Survey PM Upload
 
 ![](../code/plantUML/Backend/images/SurveyPMUpload.png)
 
-### 3.4.6 Chronic Illness Parameters View
+### 3.3.6 Chronic Illness Parameters View
 
 ![](../code/plantUML/Backend/images/ChronicIllnessParametersView.png)
 
-### 3.4.7 Chronic Illness Parameters View
+### 3.3.7 Chronic Illness Parameters View
 
 ![](../code/plantUML/Backend/images/ChronicIllnessFormatedView.png)
 
-### 3.4.8 Illness Description View
+### 3.3.8 Illness Description View
 
 ![](../code/plantUML/Backend/images/IllnessDesciptionView.png)
 
-## 3.5 Frontend Design
-### 3.5.1 Authorisation system
-#### 3.5.1.1 Authorisation Context
+### 3.3.9 API Testing
+
+#### 3.3.9.1 Unit Testing
+Django Unit testing was implemented to test all endpoints and API functionality
+
+#### 3.3.9.2 Postman
+Postman tests were implemented to test the RESTful API during development
+
+example of a postman test
+![](./images/postmatest.png)
+
+## 3.4 Frontend Design
+### 3.4.1 Authorisation system
+#### 3.4.1.1 Authorisation Context
 
 ![](../code/plantUML/React/images/AuthContext.png)
 
-#### 3.5.1.2 Log In
+#### 3.4.1.2 Log In
 
 ![](../code/plantUML/React/images/LogIn.png)
 
-#### 3.5.1.3 Log out
+#### 3.4.1.3 Log out
 
 ![](../code/plantUML/React/images/LogOut.png)
 
-#### 3.5.1.4 Sign up
+#### 3.4.1.4 Sign up
 
 ![](../code/plantUML/React/images/SignUp.png)
 
-#### 3.5.1.5 Navbar Contol
+#### 3.4.1.5 Navbar Contol
 
 ![](../code/plantUML/React/images/Header.png)
 
 
-### 3.5.2 Fetch Components
-#### 3.5.2.2 Fetch Component with Authorisation
+### 3.4.2 Fetch Components
+#### 3.4.2.2 Fetch Component with Authorisation
 
 ![](../code/plantUML/React/images/AuthFetchComp.png)
 
-#### 3.5.2.3 Load Data with Automatic Authorisation
+#### 3.4.2.3 Load Data with Automatic Authorisation
 
 ![](../code/plantUML/React/images/LoadData.png)
 
 ### Visualisation Menu
-#### 3.5.3.1 Create Data Structure Containing Dates in which the User has Uploaded Data
+#### 3.4.3.1 Create Data Structure Containing Dates in which the User has Uploaded Data
 
 ![](../code/plantUML/React/images/getYearsMonthsDays.png)
 
-#### 3.5.3.2 Load Menu for Visualisations
+#### 3.4.3.2 Load Menu for Visualisations
 ![](../code/plantUML/React/images/DaysDropDownMenu.png)
 
-#### 3.5.3.3 Date Select for visualistations
+#### 3.4.3.3 Date Select for visualistations
 
 ![](../code/plantUML/React/images/MenuSelect.png)
 
 
-### 3.5.4 Accumulate Activity Durations
+### 3.4.4 Accumulate Activity Durations
 ![](../code/plantUML/React/images/AddItemOrUpdateDuration.png)
 
 
-### 3.5.5 Time Series Data Visualisation
-#### 3.5.5.1 Determine Time Span
+### 3.4.5 Time Series Data Visualisation
+#### 3.4.5.1 Determine Time Span
 ![](../code/plantUML/React/images/DetermineTimeSpan.png)
 
-#### 3.5.5.2 Graph Data over a day
+#### 3.4.5.2 Graph Data over a day
 ![](../code/plantUML/React/images/TimeSeriesGraphDay.png)
 
-#### 3.5.5.3 Graph Averages over time
+#### 3.4.5.3 Graph Averages over time
 ![](../code/plantUML/React/images/TimeSeriesGraphAverage.png)
 
-### 3.5.6 Surveys
+### 3.4.6 Surveys
 
-#### 3.5.6.1 Survey Form
+#### 3.4.6.1 Survey Form
 ![](../code/plantUML/React/images/SurveyForm.png)
 
-#### 3.5.6.2 Render Option Tags From Dictionary
+#### 3.4.6.2 Render Option Tags From Dictionary
 ![](../code/plantUML/React/images/RenderSelectOptions.png)
 
-### 3.5.7 Chronic Illness Risk Assessment
+### 3.4.7 Chronic Illness Risk Assessment
 
-#### 3.5.7.1 View Risk Assessment
+#### 3.4.7.1 View Risk Assessment
 ![](../code/plantUML/React/images/ChronicIllnessRiskAssessment.png)
 
-#### 3.5.7.1 View Risk
+#### 3.4.7.1 View Risk
 ![](../code/plantUML/React/images/RiskView.png)
 
 
-## 3.6 Machine Learning Design
-### 3.6.1 Machine Leaning Overview
+## 3.5 Machine Learning Design
+### 3.5.1 Machine Leaning Overview
 The data that Life-lens is using for its risk assessment algorithm is from the CDC’s Behavioural Risk Factor Analysis Surveillance System. The data is of American adults and includes relevant data for corelating behaviour to chronic illness such as age, sleep, alcohol, tobacco consumption and activity. Life-lens uses this data to train a model that can take behaviour and user data and perform a risk assessment on a series of chronic illnesses.
 
 Anaylising the BRFSS data we can identify initial correlations from the heatmap
@@ -226,17 +233,17 @@ Anaylising the BRFSS data we can identify initial correlations from the heatmap
 ![](../code/Risk_Assessment/images/correlation_heatmap.png)
 
 
-### 3.6.2 Data Pre-Processing
-#### 3.6.2.1
+### 3.5.2 Data Pre-Processing
+#### 3.5.2.1
 State Machine Diagram of an overview of the preprocessing steps to prepare the data to train a model.
 
 ![](../code/plantUML/Risk-Assessment/images/preprocessing.png)
 
-#### 3.6.2.1 Data Loading and Integration
+#### 3.5.2.1 Data Loading and Integration
 To accumulate as much data as possible, 5 BRFSS datasets were used (2010, 2012, 2013, 2014, 2015).
 There we coverted into pandas data frames and concatenated together. This resulted total of *43211* rows,
 
-#### 3.6.2.1 Data Decoding and Cleaning
+#### 3.5.2.1 Data Decoding and Cleaning
 Relevant columns where decoded by mapping the values of each column to a dictionary that contained a string representation of the value.
 
 Overview oof the distrabution of both chronic ilnesses and behaviours
@@ -244,7 +251,7 @@ Overview oof the distrabution of both chronic ilnesses and behaviours
 ![](../code/Risk_Assessment/images/bar_chart.png)
 
 
-#### 3.6.2.2  Data Balancing
+#### 3.5.2.2  Data Balancing
 Data balancing began by adding two new columns to the data frame, one was the number of illnesses the user is suffering from, and the other column was a list representation of the user's chronic illnesses. 
 
 
@@ -277,7 +284,7 @@ Visualtisation of Illness Distrabution after balancing
 
 
 
-#### 3.6.2.3 Data Normalisation
+#### 3.5.2.3 Data Normalisation
 Finally, I normalised both the balanced distribution data frame and the natural distribution data frame. The normalised data frames have two columns (Behaviour, Illness) which are both bit lists where a 1 represents the presence of that Behaviour/Illness and 0 represents an absence. This form makes the dataset machine-readable for future machine-learning models.
 
 State Machine Diagram of Normalisation
@@ -291,23 +298,23 @@ Normalised Data Set Example
 |"[0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]"|"[1, 0, 0, 0, 0, 0, 0, 0, 0, 1]"|
 
 
-### 3.6.3 Model Training 
+### 3.5.3 Model Training 
 Trainig was done with a  70/30 data split. For reproducability the seed ("326") was adeed to the data splitting function, adding determinism.
 
-### 3.6.4 Model Selection
-#### 3.6.4.1 Logistical Regresion
+### 3.5.4 Model Selection
+#### 3.5.4.1 Logistical Regresion
 - **Description**: Logistical regression, although being a binary classifier, outputs the probability of an event occurring which suits the risk assessment however its unable to handle the non-linear relationship between behaviours and illnesses. 
  
  
-#### 3.6.4.2 Random Forest Classification
+#### 3.5.4.2 Random Forest Classification
 - **Description**: Random Forest is an ensemble method that takes the mean prediction across several decision trees. Random Forest risk assesment takes the models probability for each illness of the user best fiting into each of the classes. The proabilitys is linked to the following risk levels: 
 * 0.3 > : low risk
 * 0.3 ->  0.7 :medium risk
 * < 0.7 : high risk
 
 
-## 3.6.5 Model Evaluation and Results
-#### 4.6.5.1 Accuracy
+## 3.5.5 Model Evaluation and Results
+#### 4.5.5.1 Accuracy
 
 | ML Algorithm | Accurancy |
 | ---- | ---- |
@@ -315,7 +322,7 @@ Trainig was done with a  70/30 data split. For reproducability the seed ("326") 
 | Random Forest Classification | 0.3199303742384682 | 
 
 
-#### 4.6.5.2  Precison, Recall, F1-Score
+#### 4.5.5.2  Precison, Recall, F1-Score
 
 <table>
   <tr>
@@ -860,13 +867,5 @@ Trainig was done with a  70/30 data split. For reproducability the seed ("326") 
 
 </table>
 
-# 5 Problems and Resolutions
-
-## 5.1 Identfied Issues
-
-## 5.2 Resolution Strategies
-
-## 5.3 Lessons Learned
-
-## 5.4 Future Consideration
+# 4 User Testing
 
