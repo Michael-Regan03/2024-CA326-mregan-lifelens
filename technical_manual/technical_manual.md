@@ -79,7 +79,8 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 # 3 High Level Design
 
 ## 3.1 Overview of design
-This section outlines how each componenet and its sub compoenets interact with one another aswell as the design choicees made during the development of the system.
+This section outlines how each component and its sub-compoenets interact with one another as well as the design choices made during the development of the system.
+
 
 ## 3.2 Database Design
 ### 3.2.1 Storing Life Log Data
@@ -874,23 +875,28 @@ Trainig was done with a  70/30 data split. For reproducability the seed ("326") 
 # 4 User Testing
 
 ### 4.2 User Tests
-User tests were conducting using google forms where participants were asked to demo the Life Lens web app and fill in a quistionaire.
+User tests were conducted using Google Forms where participants were asked to demo the Life Lens web app and fill in a questionnaire.
+
 
 ### 4.2 Results of User Testing
 The Results can be found on the repo under *testing/user_testing/*
 
+
 # 5 Installation Guide
 
-## 5.1 Hardware 
+
+## 5.1 Hardware
 Life Lens app should work on any modern personal computer
 
+
 ## 5.2 Software
-- **Python** list of dependecies for both Django and Flask backends can be found at *code/Django-Backend/requirments.txt*
+- **Python** list of dependencies for both Django and Flask backends can be found at *code/Django-Backend/requirments.txt*
 - **Javascript**List of Javascript dependencies can be found at *code/Frontend/life-lens/package.json*
 
+
 ## 5.3 Running System
-- Naviage to *code/Frontend/life-lens* and run `npm start` in terminal 
-- Naviage to *code/Django-Backend/* and run `python3 manage.py runserver` in terminal 
-- Naviage to *code/Flask-Backend/* and run `flask run` in terminal 
+- Navigate to *code/Frontend/life-lens* and run `npm start` in terminal
+- Navigate to *code/Django-Backend/* and run `python3 manage.py runserver` in terminal
+- Navigate to *code/Flask-Backend/* and run `flask run` in terminal
 
 
