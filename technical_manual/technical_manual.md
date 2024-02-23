@@ -18,8 +18,8 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 - **Responsibilities**:
 - **Data Processing**: Processes CSV files containing lifelog data,
 -**Data Storage** Stores data in an SQLite database. This data includes user data, life-log data and illness data.
-- **RESTFUL API**: Offers RESTFUL API for the frontend to interact with, facilitating data exchanges using HTTP GET and POST requests.
-- **Authentication**: Handles Authentication using Json Web Tokens(JWT) supplied by the Djoser library. Security must be a priority of the system given the sensitive nature of Life Log Data.
+- **RESTful API**: Offers RESTul API for the frontend to interact with, facilitating data exchanges using HTTP GET and POST requests.
+- **Authentication**: Handles Authentication using Json Web Tokens(JWT) and Djoser RESTful APIs. Security must be a priority of the system given the sensitive nature of Life Log Data.
 
 ### 2.3.1 React Frontend
 - **Role**: Provides the User Interface. Maintains user authentication on the client side. Serves dynamic visualisations of lifelog data and displays users with a risk assessment of 10 chronic illnesses.
@@ -36,19 +36,38 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 - **Host Model**: Hosts model to be queried by frontend
 
 
-## 2.4 Third-Party Components
-
-### 2.4.1 sklearn
+## 2.4 Third-Party Components  
+### 2.4.1 Scikit-learn
+- **Role**: Scikit learn assists in ml model training and validation.
+- **Responsibilities**:
+- **Train Test Split**: Handles splitting of dataset for training and validation.
+- **Machine learning Algorithms**: Provides *Logistic Regression*and *Random Forest Classification* algorithms for creating ml models.
+- **Model Evaluation**: Provides evaluation the scores *accuracy score*, *precisison score*, *recall score* and *f1-score*.
 
 ### 2.4.2 Djoser
+- **Role**: Provides a set of RESTful APIs for user Authentication, and registration and also offers flexibility with custom user models.
+- **Responsibilities**:
+- **Authentication**: Provides a set of Restful APIs for Authentication which is a priority when dealing with sensitive life log data.
+- **Registration**: Provides a set of RESTful APIs for registration.
+- **Custom User Models**: Djoser provides flexibility with its RESTful API with its incorporation with custom user accounts.
 
-### 2.4.3 Chart.js
+
+### 2.4.3 React Chartjs 2
+- **Role**: React chartjs 2 is a react wrapper for the javascript library Chart.js. React chartjs 2 was used for dynamic visualisations of life log data.
+- **Responsibilities**:
+- **Data Visualisation**: Visualisations are implemented using React chartjs 2's `pie` , `bar` and `line`.
+- **Responsive Design**: Reacht chartjs 2 handles responsive design that will adapt to screen size.
+- **Integration with React**: Facilites the integration of Chart.js charts in a React application.
+
 
 ### 2.4.4 Moment
+- **Role**: Time Zone Conversion and Date Time Formatting on the frontend inside the component `KoreanTimeConverter`
+- **Responsibilities**:
+- **Time Zone Conversion**: Handles converting timestamps to Asia/Seoul time as an example dataset is from Korea.
+- **Date Time Formatting**: Provides flexible date time formats which are used to visualise data on different timespans.
+
 
 ## 2.5 Devations from SRS
-
-
 
 
 # 3 High Level Design
@@ -282,19 +301,6 @@ Normalised Data Set Example
 |  Logistical Regression | 0.22663185378590078  | 
 |  Random Forest Classification | 0.3199303742384682 | 
 
-
-
-<style>
-table {
-  border-collapse:collapse;
-}
-
-td {
-  border: 1px solid #000;
-  margin: 0;
-  padding: 0.5em;
-}
-</style>
 
 ### 4.7.2  Precison, Recall, F1-Score
 
