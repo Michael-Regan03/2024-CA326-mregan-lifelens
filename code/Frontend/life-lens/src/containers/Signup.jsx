@@ -15,7 +15,7 @@ export default function Signup() {
   const [re_password, setRePassword] = useState('');
 
 
-  const [loadError, setLoadError] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [error, setError] = useState(null);
   const nav = useNavigate();
 
