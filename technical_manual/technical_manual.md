@@ -27,7 +27,7 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 - **User Interface**: User Interface is the gateway in which the user can access the functionality of the Life Lens system.
 - **Maintaining Authorization on Client Side**: To improve user experience, the React app implements `useContext` for managing the global state and stores access and refresh tokens locally. This ensures that user sessions can be maintained seamlessly using a static API, allowing for efficient authentication checks without the need to constantly re-authenticate the user.
 - **Dynamic Data Visualisations**: Frontend handles lifelog data processing for dynamic visualisation of lifelog data across different periods.
--**Chronic Illness Risk Assessment View**: Displays the user's current risk for 10 different chronic illnesses.
+- **Chronic Illness Risk Assessment View**: Displays the user's current risk for 10 different chronic illnesses.
 
 ### 2.3.1 Flask Backend
 - **Role**: Hosts the random forest classification model that classifies chronic illness.
@@ -199,43 +199,636 @@ The Life Lens System stores data from such a file by creating an instances of a 
 
 
 # 4 Machine Learning 
-# 4.1 Machine Leaning Overview
+## 4.1 Machine Leaning Overview
+The data that Life-lens is using for its risk assessment algorithm is from the CDC’s Behavioural Risk Factor Analysis Surveillance System. The data is of American adults and includes relevant data to me such as age, sleep, alcohol, tobacco consumption and activity. Life-lens uses this data to train a model that can take behaviour and user data and perform a risk assessment on a series of chronic illnesses.
 
 ![](../code/Risk_Assessment/images/correlation_heatmap.png)
 
+Overview of the preprocessing steps to prepare the data to train the model
 
 ![](../code/plantUML/Risk-Assessment/images/preprocessing.png)
 
 
-# 4.2 Data Decoding and Cleaning
+## 4.2 Data Decoding and Cleaning
+Pandas was used to concatenated BRSS data from 5 years(2010, 2012, 2013, 2014, 2015). This resulted total of *43211* rows,
+
+
+Relevant columns where decoded by mapping the values of each column to a dictionary that contained a string representation of the value.
+
+An Overview oof the distrabution of both chronic ilnesses and behaviours
+
 ![](../code/Risk_Assessment/images/bar_chart.png)
 
 
 
-# 4.3 Data Balancing
+## 4.3 Data Balancing
+Data balancing began by adding two new columns to the data frame, one was the number of illnesses the user is suffering from, and the other column was a list representation of the user's chronic illnesses. 
 
+Visualisation of multi-illness distribution.
 [](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
 
+Visualisation of Illness Distribution
+[](../code/Risk_Assessment/images/IllnessDistrabution.png)
 
+
+The mean being much larger than the median signifies a rightward skew, which means there are a few outliers that have an overwhelming majority. This intuitively makes sense that some diseases will be more prevalent than others.  To handle multi-illness patients when balancing the data set was devided by the number of illnesses in each row. The mean number of people inflicted by each combination of Illnesses in each division was found up to combinations of 5 illnesses. Each combination of illnesses was then under and over-sampled to the mean in their division. For reproducible, I used a seed in sampling which adds determinism to the function. 
 ![](../code/plantUML/Risk-Assessment/images/DataBalancing.png)
 
+To prevent overfitting the model the mean number of illnesses after balancing was calulated and entries without illnesses where sampled to that mean and inserted that into the balanced df
 ![](../code/plantUML/Risk-Assessment/images/AddingNoneIllness.png)
 
 
-
-[](../code/Risk_Assessment/images/IllnessDistrabution.png)
-
+Visualtisation of Illness Distrabution after balancing
 [](../code/Risk_Assessment/images/BalancedIllnessDistrabution.png)
 
 
 
+## 4.4 Data Normalisation
+Finally, I normalised both the balanced distribution data frame and the natural distribution data frame. The normalised data frames have two columns (Behaviour, Illness) which are both bit lists where a 1 represents the presence of that Behaviour/Illness and 0 represents an absence. This form makes the dataset machine-readable for future machine-learning models.
 
-# 4.4 Data Normalisation
+Process of Normalisation
 ![](../code/plantUML/Risk-Assessment/images/normalisation.png)
 
-# 4.5 Model Training 
+Normalised Data Set Example
 
-# 4.6 Model Selection
+|Behaviour|Illnesses|
+|-|-|
+|"[0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]"|"[1, 0, 0, 0, 0, 0, 0, 0, 0, 1]"|
+
+
+
+## 4.5 Model Training 
+
+## 4.6 Model Selection
+
+## 4.7 Model Results
+
+
+### 4.7.1 Accuracy
+
+| ML Algorithm | Accurancy |
+| ---- | ---- |
+|  Logistical Regression | 0.22663185378590078  | 
+|  Random Forest Classification | 0.3199303742384682 | 
+
+
+
+<style>
+table {
+  border-collapse:collapse;
+}
+
+td {
+  border: 1px solid #000;
+  margin: 0;
+  padding: 0.5em;
+}
+</style>
+
+### 4.7.2  Precison, Recall, F1-Score
+
+<table>
+  <tr>
+    <td colspan="4">
+      ML-Algorithm
+    </td>
+    <td colspan="1" >
+      Ilnessess
+    </td>
+    <td >
+      Metrics
+    </td>
+    <td colspan="4">
+      Values
+    </td>
+  </tr>
+<td rowspan="30" colspan="4" > 
+        Logistic Regression
+    </td>    
+    <td rowspan=3>
+        Diebetes
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.18421053
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.00558214
+     </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.01083591
+  </tr>
+   <td rowspan=3>
+        Pre_Diebetes
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.
+    </td>
+  </tr>
+   <td rowspan=3>
+        Depression
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.62776025
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.15706393
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.25126263
+    </td>
+  </tr>
+   <td rowspan=3>
+        COPD
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.66573034
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.22170253
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.33263158
+    </td>
+  </tr>
+   <td rowspan=3>
+        Kidney Disease
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.61562021
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.24202288
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.3474503
+    </td>
+  </tr>
+   <td rowspan=3>
+        Angina/Coronary heart disease
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.65471884
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.72007233
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+     <td>
+        0.68584223
+    </td>
+  </tr>
+   <td rowspan=3>
+        Myocardial infarction
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.6779661
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.61840121
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.64681522
+    </td>
+  </tr>
+   <td rowspan=3>
+        Stroke
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.55305466
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.3733044
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.4457402
+    </td>
+  </tr>
+   <td rowspan=3>
+        Arthritis Gout Lupus Fibromyalgia
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.62117235
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td><td>
+        0.33793432
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td><td>
+       0.4377312
+    </td>
+  </tr>
+ <td rowspan=3>
+        Skin Cancer
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.52185609
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.41342568
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.46135553
+    </td>
+  </tr>
+
+
+
+
+  <td rowspan="30" colspan="4" > 
+        Random Forest Classification 
+    </td>    
+    <td rowspan=3>
+        Diebetes
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.7063197
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.3030303
+     </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+      0.42410714
+  </tr>
+   <td rowspan=3>
+        Pre_Diebetes
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.64044944
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.33187773
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.43720038
+    </td>
+  </tr>
+   <td rowspan=3>
+        Depression
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.69170579
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.34885556
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.46379853
+    </td>
+  </tr>
+   <td rowspan=3>
+        COPD
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.78830645
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.36576239
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.49968051
+    </td>
+  </tr>
+   <td rowspan=3>
+        Kidney Disease
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.70096852
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.34858519
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.46562123
+    </td>
+  </tr>
+   <td rowspan=3>
+        Angina/Coronary heart disease
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.70536618
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.75587703
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+     <td>
+        0.7297486
+    </td>
+  </tr>
+   <td rowspan=3>
+        Myocardial infarction
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.70802377
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.71870287
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.71332335
+    </td>
+  </tr>
+   <td rowspan=3>
+        Stroke
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.69310345
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.43624525
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.53546454
+    </td>
+  </tr>
+   <td rowspan=3>
+        Arthritis Gout Lupus Fibromyalgia
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.68888889
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td><td>
+        0.51642075
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td><td>
+          0.59031556
+    </td>
+  </tr>
+ <td rowspan=3>
+        Skin Cancer
+    </td>
+    <td>
+        Precision
+    </td>
+    <td>
+        0.66165414
+    </td>
+  </tr>
+  <tr>
+     <td>
+        Recall
+     </td>
+     <td>
+        0.56259989
+    </td>
+  </tr>
+  <tr>
+    <td>
+        F1-score
+    </td>
+    <td>
+        0.60811978
+    </td>
+  </tr>
+
+
+</table>
 
 # 5 Problems and Resolutions
 
