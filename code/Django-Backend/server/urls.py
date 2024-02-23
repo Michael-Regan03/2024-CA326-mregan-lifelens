@@ -31,4 +31,7 @@ urlpatterns = [
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+
+
+#Proceseses urls not matched by other patterns
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

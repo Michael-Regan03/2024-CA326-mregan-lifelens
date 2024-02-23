@@ -145,6 +145,7 @@ activity = [
     (2, 'ON_FOOT'),
     (3, 'STILL'),
     (4, 'UNKNOWN'),
+    (6, 'UNKNOWN'),
     (5, 'TILTING'),
     (7, 'WALKING'),
     (8, 'RUNNING')
@@ -253,3 +254,5 @@ alcoholPerecent = {
         10: 0.4, #Tequilla
         11 :0.4, #Vodka
 }
+
+
