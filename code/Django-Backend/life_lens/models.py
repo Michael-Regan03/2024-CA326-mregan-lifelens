@@ -8,10 +8,6 @@ class Day(models.Model):
     date = models.DateField()
     days = models.IntegerField()
 
-    #Throughning errors // needs fixing or new approach
-    #class Meta:
-    #    unique_together = [['user', 'days']]
-
 class DailyActivity(models.Model):
     day = models.ForeignKey(Day, on_delete=models.CASCADE)
     action = models.IntegerField(choices=actionOption)

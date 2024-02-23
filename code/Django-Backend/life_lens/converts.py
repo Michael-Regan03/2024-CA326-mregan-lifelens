@@ -16,13 +16,13 @@ def ageConverter(age):
     
 def sleepConverter(sleep):
     if sleep < 4:
-       return [0,0,0]
+       return [1,0,0,0]
     elif sleep < 8:
-        return [1,0,0]
+        return [0,1,0,0]
     elif sleep < 12:
-        return [0,1,0]
+        return [0,0,1,0]
     else:
-        return [0,0,1]
+        return [0,0,0,1]
     
 def smokeConverter(smoke):
     if smoke ==  "Everyday Smoker":
