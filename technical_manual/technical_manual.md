@@ -225,9 +225,13 @@ An Overview oof the distrabution of both chronic ilnesses and behaviours
 Data balancing began by adding two new columns to the data frame, one was the number of illnesses the user is suffering from, and the other column was a list representation of the user's chronic illnesses. 
 
 Visualisation of multi-illness distribution.
+
+
 ![](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
 
 Visualisation of Illness Distribution
+
+
 ![](../code/Risk_Assessment/images/IllnessDistrabution.png)
 
 
@@ -236,10 +240,14 @@ The mean being much larger than the median signifies a rightward skew, which mea
 ![](../code/plantUML/Risk-Assessment/images/DataBalancing.png)
 
 To prevent overfitting the model the mean number of illnesses after balancing was calulated and entries without illnesses where sampled to that mean and inserted that into the balanced df
+
+
 ![](../code/plantUML/Risk-Assessment/images/AddingNoneIllness.png)
 
 
 Visualtisation of Illness Distrabution after balancing
+
+
 ![](../code/Risk_Assessment/images/BalancedIllnessDistrabution.png)
 
 
@@ -248,6 +256,8 @@ Visualtisation of Illness Distrabution after balancing
 Finally, I normalised both the balanced distribution data frame and the natural distribution data frame. The normalised data frames have two columns (Behaviour, Illness) which are both bit lists where a 1 represents the presence of that Behaviour/Illness and 0 represents an absence. This form makes the dataset machine-readable for future machine-learning models.
 
 Process of Normalisation
+
+
 ![](../code/plantUML/Risk-Assessment/images/normalisation.png)
 
 Normalised Data Set Example
