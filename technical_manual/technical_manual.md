@@ -187,7 +187,7 @@ The Life Lens System stores data from such a file by creating an instances of a 
 
 
 ### 3.5.4 Accumulate Activity Durations
-![](../code/plantUML/React/images/AdditemOrUpdateDuration.png)
+![](../code/plantUML/React/images/AddItemOrUpdateDuration.png)
 
 
 ### 3.5.5 Time Series Data Visualisation
