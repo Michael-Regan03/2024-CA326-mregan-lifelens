@@ -219,35 +219,34 @@ The Life Lens System stores data from such a file by creating an instances of a 
 
 ## 3.6 Machine Learning Design
 ### 3.6.1 Machine Leaning Overview
-The data that Life-lens is using for its risk assessment algorithm is from the CDC’s Behavioural Risk Factor Analysis Surveillance System. The data is of American adults and includes relevant data to me such as age, sleep, alcohol, tobacco consumption and activity. Life-lens uses this data to train a model that can take behaviour and user data and perform a risk assessment on a series of chronic illnesses.
+The data that Life-lens is using for its risk assessment algorithm is from the CDC’s Behavioural Risk Factor Analysis Surveillance System. The data is of American adults and includes relevant data for corelating behaviour to chronic illness such as age, sleep, alcohol, tobacco consumption and activity. Life-lens uses this data to train a model that can take behaviour and user data and perform a risk assessment on a series of chronic illnesses.
+
+Anaylising the BRFSS data we can identify initial correlations from the heatmap
 
 ![](../code/Risk_Assessment/images/correlation_heatmap.png)
 
-Overview of the preprocessing steps to prepare the data to train the model
+
+### 3.6.2 Data Pre-Processing
+#### 3.6.2.1
+State Machine Diagram of an overview of the preprocessing steps to prepare the data to train a model.
 
 ![](../code/plantUML/Risk-Assessment/images/preprocessing.png)
 
+#### 3.6.2.1 Data Loading and Integration
+To accumulate as much data as possible, 5 BRFSS datasets were used (2010, 2012, 2013, 2014, 2015).
+There we coverted into pandas data frames and concatenated together. This resulted total of *43211* rows,
 
-### 3.6.2 Data Pre-Processing
 #### 3.6.2.1 Data Decoding and Cleaning
-Pandas was used to concatenated BRSS data from 5 years(2010, 2012, 2013, 2014, 2015). This resulted total of *43211* rows,
-
-
 Relevant columns where decoded by mapping the values of each column to a dictionary that contained a string representation of the value.
 
-An Overview oof the distrabution of both chronic ilnesses and behaviours
+Overview oof the distrabution of both chronic ilnesses and behaviours
 
 ![](../code/Risk_Assessment/images/bar_chart.png)
-
 
 
 #### 3.6.2.2  Data Balancing
 Data balancing began by adding two new columns to the data frame, one was the number of illnesses the user is suffering from, and the other column was a list representation of the user's chronic illnesses. 
 
-Visualisation of multi-illness distribution.
-
-
-![](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
 
 Visualisation of Illness Distribution
 
@@ -257,16 +256,22 @@ Visualisation of Illness Distribution
 
 The mean being much larger than the median signifies a rightward skew, which means there are a few outliers that have an overwhelming majority. This intuitively makes sense that some diseases will be more prevalent than others.  To handle multi-illness patients when balancing the data set was devided by the number of illnesses in each row. The mean number of people inflicted by each combination of Illnesses in each division was found up to combinations of 5 illnesses. Each combination of illnesses was then under and over-sampled to the mean in their division. For reproducible, I used a seed in sampling which adds determinism to the function. 
 
+Visualisation of multi-illness distribution.
+
+![](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
+
+Data Balanicng Activity Diagram
+
 ![](../code/plantUML/Risk-Assessment/images/DataBalancing.png)
 
-To prevent overfitting the model the mean number of illnesses after balancing was calulated and entries without illnesses where sampled to that mean and inserted that into the balanced df
+To prevent overfitting the model the mean number of illnesses after balancing was calulated and entries without illnesses where sampled to that mean and inserted that into the balanced df:
 
+Adding None Illness entries to Balanced DF Activity Diagram
 
 ![](../code/plantUML/Risk-Assessment/images/AddingNoneIllness.png)
 
 
 Visualtisation of Illness Distrabution after balancing
-
 
 ![](../code/Risk_Assessment/images/BalancedIllnessDistrabution.png)
 
@@ -275,8 +280,7 @@ Visualtisation of Illness Distrabution after balancing
 #### 3.6.2.3 Data Normalisation
 Finally, I normalised both the balanced distribution data frame and the natural distribution data frame. The normalised data frames have two columns (Behaviour, Illness) which are both bit lists where a 1 represents the presence of that Behaviour/Illness and 0 represents an absence. This form makes the dataset machine-readable for future machine-learning models.
 
-Process of Normalisation
-
+State Machine Diagram of Normalisation
 
 ![](../code/plantUML/Risk-Assessment/images/normalisation.png)
 
@@ -288,9 +292,19 @@ Normalised Data Set Example
 
 
 ### 3.6.3 Model Training 
-
+Trainig was done with a  70/30 data split. For reproducability the seed ("326") was adeed to the data splitting function, adding determinism.
 
 ### 3.6.4 Model Selection
+#### 3.6.4.1 Logistical Regresion
+- **Description**: Logistical regression, although being a binary classifier, outputs the probability of an event occurring which suits the risk assessment however its unable to handle the non-linear relationship between behaviours and illnesses. 
+ 
+ 
+#### 3.6.4.2 Random Forest Classification
+- **Description**: Random Forest is an ensemble method that takes the mean prediction across several decision trees. Random Forest risk assesment takes the models probability for each illness of the user best fiting into each of the classes. The proabilitys is linked to the following risk levels: 
+* 0.3 > : low risk
+* 0.3 ->  0.7 :medium risk
+* < 0.7 : high risk
+
 
 ## 3.6.5 Model Evaluation and Results
 #### 4.6.5.1 Accuracy
