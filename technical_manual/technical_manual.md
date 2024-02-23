@@ -240,7 +240,7 @@ To prevent overfitting the model the mean number of illnesses after balancing wa
 
 
 Visualtisation of Illness Distrabution after balancing
-[](../code/Risk_Assessment/images/BalancedIllnessDistrabution.png)
+![](../code/Risk_Assessment/images/BalancedIllnessDistrabution.png)
 
 
 
