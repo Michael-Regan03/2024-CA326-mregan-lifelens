@@ -3,7 +3,7 @@ by Michael Regan 22112111
 
 # 1. Introduction
 ## 1.1. OverView
-Lifelens is a web application that visualises its user's life-log data and based on that data alongside other user data, the system predicts the user's current risk of 10 chronic illnesses.
+Life Lens is a web application that helps its user's extract meaningful insight from their lifelog data through visualisations. It also uses that lifelog data alongside user information to run a chronic illness risk assessments of 10 diffrent chronic illnesses ranking the user either 'low-risk', 'mid-risk' or 'high-risk' of each illness. In this way Life Lens can be used to help its users prevent chronic illness and maintain good health.
 
 
 # 2. System Architecture
@@ -232,6 +232,7 @@ Visualisation of Illness Distribution
 
 
 The mean being much larger than the median signifies a rightward skew, which means there are a few outliers that have an overwhelming majority. This intuitively makes sense that some diseases will be more prevalent than others.  To handle multi-illness patients when balancing the data set was devided by the number of illnesses in each row. The mean number of people inflicted by each combination of Illnesses in each division was found up to combinations of 5 illnesses. Each combination of illnesses was then under and over-sampled to the mean in their division. For reproducible, I used a seed in sampling which adds determinism to the function. 
+
 ![](../code/plantUML/Risk-Assessment/images/DataBalancing.png)
 
 To prevent overfitting the model the mean number of illnesses after balancing was calulated and entries without illnesses where sampled to that mean and inserted that into the balanced df
