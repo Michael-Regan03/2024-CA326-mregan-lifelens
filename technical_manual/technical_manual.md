@@ -65,26 +65,24 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 - **Date Time Formatting**: Provides flexible date time formats which are used to visualise data on different timespans.
 
 
-## 2.5 Devations from SRS
+## 2.5 Deviations from SRS
 ### 2.5.1 Activity Suggestions
-- **Description**: The feature in which the Life Lens system was excluded from the final Life Lens application.
-- **Reasoning**: This feature was removed due to time constraights and also it offered no further technical difficulty given it would simply be prompting for activity sugresstions from frontedn to backend.
+- **Description**: The feature in which the Life Lens system suggests future activities to the user was excluded from the final Life Lens application.
+- **Reasoning**: This feature was removed due to time constraints and also it offered no further technical difficulty given it would simply be prompting for activity suggestions from frontend to backend.
+
 
 ### 2.5.2 Text Generation API
-- **Description**: The feature in which the Life Lens system prompts a text generatiom API was excluded from the final Life Lens application.
-- **Reasoning**: This feature was removed due to time constraights and also it didnt seem to seamlessly fit in with Life Lens other functionality
+- **Description**: The feature in which the Life Lens system prompts a text generation API was excluded from the final Life Lens application.
+- **Reasoning**: This feature was removed due to time constraints and also it didn't seem to seamlessly fit in with Life Len's other functionality
 
 
 # 3 High Level Design
-
 ## 3.1 Design Overview
 
 ## 3.2 Component Interaction Diagram
 
-## 3.3 Data Flow Diagram
-
-## 3.4 Database Design
-### 3.4.1 Storing Life Log Data
+## 3.3 Database Design
+### 3.3.1 Storing Life Log Data
 This is how Lifelog Data is represented in a CSV file where every entry represents a minute in time recorded with a unix timestamp.
 
 |ts|action|actionOption|actionSub|actionSubOption| condition|conditionSub1Option|conditionSub2Option|place| emotionPositive | emotionTension | activity |
@@ -102,12 +100,12 @@ This is what each column means
 
 The Life Lens System stores data from such a file by creating an instances of a day entity with the date of the first timestamp. That day is associated with the user who uploaded the file. The database then stores actions as one instance with a start time, end time and duration. That action is stored in a table called DailyActivity. Each daily activity is assocated with sub actions which aslo have a start time, end time and duration. Sub actions include actionSubOption, condition, conditionSub1Option, conditionSub1Option, place emotionPositive, emotionTension and activity. Each of these actions represent
 
-### 3.4.2 Entity Relationship Diagram
+### 3.3.2 Entity Relationship Diagram
 ![](./images/ERDiagram.jpeg)
 
 
-## 3.5 API design
-### 3.5.1 Daily Activity CSV Upload
+## 3.4 API design
+### 3.4.1 Daily Activity CSV Upload
 
 ![](../code/plantUML/Backend/images/DailyActivityCSVUpload.png)
 
@@ -115,115 +113,112 @@ The Life Lens System stores data from such a file by creating an instances of a 
 
 ![](../code/plantUML/Backend/images/DailyActivityView.png)
 
-### 3.5.3 Day View
+### 3.4.3 Day View
 
 ![](../code/plantUML/Backend/images/DayView.png)
 
-### 3.5.4 Day View For Survey
+### 3.4.4 Day View For Survey
 
 ![](../code/plantUML/Backend/images/DayViewForSurvey.png)
 
-### 3.5.5 Survey AM Upload
+### 3.4.5 Survey AM Upload
 
 ![](../code/plantUML/Backend/images/SurveyAMUpload.png)
 
-### 3.5.5 Survey PM Upload
+### 3.4.5 Survey PM Upload
 
 ![](../code/plantUML/Backend/images/SurveyPMUpload.png)
 
-### 3.5.6 Chronic Illness Parameters View
+### 3.4.6 Chronic Illness Parameters View
 
 ![](../code/plantUML/Backend/images/ChronicIllnessParametersView.png)
 
-### 3.5.7 Chronic Illness Parameters View
+### 3.4.7 Chronic Illness Parameters View
 
 ![](../code/plantUML/Backend/images/ChronicIllnessFormatedView.png)
 
-### 3.5.8 Illness Description View
+### 3.4.8 Illness Description View
 
 ![](../code/plantUML/Backend/images/IllnessDesciptionView.png)
 
-## 3.6 Frontend Design
-
-### 3.6.1 Authorisation system
-#### 3.6.1.1 Authorisation Context
+## 3.5 Frontend Design
+### 3.5.1 Authorisation system
+#### 3.5.1.1 Authorisation Context
 
 ![](../code/plantUML/React/images/AuthContext.png)
 
-#### 3.6.1.2 Log In
+#### 3.5.1.2 Log In
 
 ![](../code/plantUML/React/images/LogIn.png)
 
-#### 3.6.1.23 Log out
+#### 3.5.1.3 Log out
 
 ![](../code/plantUML/React/images/LogOut.png)
 
-#### 3.6.1.4 Sign up
+#### 3.5.1.4 Sign up
 
 ![](../code/plantUML/React/images/SignUp.png)
 
-#### 3.6.1.5 Navbar Contol
+#### 3.5.1.5 Navbar Contol
 
 ![](../code/plantUML/React/images/Header.png)
 
 
-### 3.6.2 Fetch Components
-#### 3.6.2.2 Fetch Component with Authorisation
+### 3.5.2 Fetch Components
+#### 3.5.2.2 Fetch Component with Authorisation
 
 ![](../code/plantUML/React/images/AuthFetchComp.png)
 
-#### 3.6.2.3 Load Data with Automatic Authorisation
+#### 3.5.2.3 Load Data with Automatic Authorisation
 
 ![](../code/plantUML/React/images/LoadData.png)
 
 ### Visualisation Menu
+#### 3.5.3.1 Create Data Structure Containing Dates in which the User has Uploaded Data
 
-#### 3.6.3.1 Create Data Structure Containing Dates in which the User has Uploaded Data
 ![](../code/plantUML/React/images/getYearsMonthsDays.png)
 
-#### 3.6.3.2 Load Menu for Visualisations
+#### 3.5.3.2 Load Menu for Visualisations
 ![](../code/plantUML/React/images/DaysDropDownMenu.png)
 
-#### 3.6.3.3 Date Select for visualistations
+#### 3.5.3.3 Date Select for visualistations
 
 ![](../code/plantUML/React/images/MenuSelect.png)
 
 
-### 3.6.4 Accumulate Activity Durations
+### 3.5.4 Accumulate Activity Durations
 ![](../code/plantUML/React/images/AdditemOrUpdateDuration.png)
 
 
-### 3.6.5 Time Series Data Visualisation
-#### 3.6.5.1 Determine Time Span
+### 3.5.5 Time Series Data Visualisation
+#### 3.5.5.1 Determine Time Span
 ![](../code/plantUML/React/images/DetermineTimeSpan.png)
 
-#### 3.6.5.2 Graph Data over a day
+#### 3.5.5.2 Graph Data over a day
 ![](../code/plantUML/React/images/TimeSeriesGraphDay.png)
 
-#### 3.6.5.3 Graph Averages over time
+#### 3.5.5.3 Graph Averages over time
 ![](../code/plantUML/React/images/TimeSeriesGraphAverage.png)
 
-### 3.6.6 Surveys
+### 3.5.6 Surveys
 
-#### 3.6.6.1 Survey Form
+#### 3.5.6.1 Survey Form
 ![](../code/plantUML/React/images/SurveyForm.png)
 
-#### 3.6.6.2 Render Option Tags From Dictionary
+#### 3.5.6.2 Render Option Tags From Dictionary
 ![](../code/plantUML/React/images/RenderSelectOptions.png)
 
-### 3.6.7 Chronic Illness Risk Assessment
+### 3.5.7 Chronic Illness Risk Assessment
 
-#### 3.6.7.1 View Risk Assessment
+#### 3.5.7.1 View Risk Assessment
 ![](../code/plantUML/React/images/ChronicIllnessRiskAssessment.png)
 
-#### 3.6.7.1 View Risk
+#### 3.5.7.1 View Risk
 ![](../code/plantUML/React/images/RiskView.png)
 
 
-
-
-# 4 Machine Learning 
-## 4.1 Machine Leaning Overview
+## 3.6 Machine Learning Design
+### 3.6.1 Machine Leaning Overview
 The data that Life-lens is using for its risk assessment algorithm is from the CDC’s Behavioural Risk Factor Analysis Surveillance System. The data is of American adults and includes relevant data to me such as age, sleep, alcohol, tobacco consumption and activity. Life-lens uses this data to train a model that can take behaviour and user data and perform a risk assessment on a series of chronic illnesses.
 
 ![](../code/Risk_Assessment/images/correlation_heatmap.png)
@@ -233,7 +228,8 @@ Overview of the preprocessing steps to prepare the data to train the model
 ![](../code/plantUML/Risk-Assessment/images/preprocessing.png)
 
 
-## 4.2 Data Decoding and Cleaning
+### 3.6.2 Data Pre-Processing
+#### 3.6.2.1 Data Decoding and Cleaning
 Pandas was used to concatenated BRSS data from 5 years(2010, 2012, 2013, 2014, 2015). This resulted total of *43211* rows,
 
 
@@ -245,7 +241,7 @@ An Overview oof the distrabution of both chronic ilnesses and behaviours
 
 
 
-## 4.3 Data Balancing
+#### 3.6.2.2  Data Balancing
 Data balancing began by adding two new columns to the data frame, one was the number of illnesses the user is suffering from, and the other column was a list representation of the user's chronic illnesses. 
 
 Visualisation of multi-illness distribution.
@@ -276,7 +272,7 @@ Visualtisation of Illness Distrabution after balancing
 
 
 
-## 4.4 Data Normalisation
+#### 3.6.2.3 Data Normalisation
 Finally, I normalised both the balanced distribution data frame and the natural distribution data frame. The normalised data frames have two columns (Behaviour, Illness) which are both bit lists where a 1 represents the presence of that Behaviour/Illness and 0 represents an absence. This form makes the dataset machine-readable for future machine-learning models.
 
 Process of Normalisation
@@ -291,23 +287,21 @@ Normalised Data Set Example
 |"[0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]"|"[1, 0, 0, 0, 0, 0, 0, 0, 0, 1]"|
 
 
-
-## 4.5 Model Training 
-
-## 4.6 Model Selection
-
-## 4.7 Model Results
+### 3.6.3 Model Training 
 
 
-### 4.7.1 Accuracy
+### 3.6.4 Model Selection
+
+## 3.6.5 Model Evaluation and Results
+#### 4.6.5.1 Accuracy
 
 | ML Algorithm | Accurancy |
 | ---- | ---- |
-|  Logistical Regression | 0.22663185378590078  | 
-|  Random Forest Classification | 0.3199303742384682 | 
+| Logistical Regression | 0.22663185378590078  | 
+| Random Forest Classification | 0.3199303742384682 | 
 
 
-### 4.7.2  Precison, Recall, F1-Score
+#### 4.6.5.2  Precison, Recall, F1-Score
 
 <table>
   <tr>
