@@ -51,14 +51,12 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 - **Registration**: Provides a set of RESTful APIs for registration.
 - **Custom User Models**: Djoser provides flexibility with its RESTful API with its incorporation with custom user accounts.
 
-
 ### 2.4.3 React Chartjs 2
 - **Role**: React chartjs 2 is a react wrapper for the javascript library Chart.js. React chartjs 2 was used for dynamic visualisations of life log data.
 - **Responsibilities**:
 - **Data Visualisation**: Visualisations are implemented using React chartjs 2's `pie` , `bar` and `line`.
 - **Responsive Design**: Reacht chartjs 2 handles responsive design that will adapt to screen size.
 - **Integration with React**: Facilites the integration of Chart.js charts in a React application.
-
 
 ### 2.4.4 Moment
 - **Role**: Time Zone Conversion and Date Time Formatting on the frontend inside the component `KoreanTimeConverter`
@@ -68,6 +66,13 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 
 
 ## 2.5 Devations from SRS
+### 2.5.1 Activity Suggestions
+- **Description**: The feature in which the Life Lens system was excluded from the final Life Lens application.
+- **Reasoning**: This feature was removed due to time constraights and also it offered no further technical difficulty given it would simply be prompting for activity sugresstions from frontedn to backend.
+
+### 2.5.2 Text Generation API
+- **Description**: The feature in which the Life Lens system prompts a text generatiom API was excluded from the final Life Lens application.
+- **Reasoning**: This feature was removed due to time constraights and also it didnt seem to seamlessly fit in with Life Lens other functionality
 
 
 # 3 High Level Design
