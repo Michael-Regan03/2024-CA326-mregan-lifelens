@@ -236,7 +236,7 @@ At the top of both surveys, there will be an option to select a date. These date
 Here is the survey AM form and it includes questions about your sleep from the previous night.
 
 
-![](./images/SurveyAM.png)
+![](./images/SurveyAm.png)
 
 
 Here is the survey PM form and it includes questions about tour day such as stress, fatigue and alcohol consumption
