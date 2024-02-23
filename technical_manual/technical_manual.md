@@ -225,10 +225,10 @@ An Overview oof the distrabution of both chronic ilnesses and behaviours
 Data balancing began by adding two new columns to the data frame, one was the number of illnesses the user is suffering from, and the other column was a list representation of the user's chronic illnesses. 
 
 Visualisation of multi-illness distribution.
-[](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
+![](../code/Risk_Assessment/images/Multi_Ilness_Distrabution.png)
 
 Visualisation of Illness Distribution
-[](../code/Risk_Assessment/images/IllnessDistrabution.png)
+![](../code/Risk_Assessment/images/IllnessDistrabution.png)
 
 
 The mean being much larger than the median signifies a rightward skew, which means there are a few outliers that have an overwhelming majority. This intuitively makes sense that some diseases will be more prevalent than others.  To handle multi-illness patients when balancing the data set was devided by the number of illnesses in each row. The mean number of people inflicted by each combination of Illnesses in each division was found up to combinations of 5 illnesses. Each combination of illnesses was then under and over-sampled to the mean in their division. For reproducible, I used a seed in sampling which adds determinism to the function. 
