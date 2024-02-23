@@ -151,7 +151,7 @@ Django Unit testing was implemented to test all endpoints and API functionality
 Postman tests were implemented to test the RESTful API during development
 
 example of a postman test
-![](./images/postmatest.png)
+![](./images/postmantest.png)
 
 ## 3.4 Frontend Design
 ### 3.4.1 Authorisation system
