@@ -890,13 +890,13 @@ Life Lens app should work on any modern personal computer
 
 
 ## 5.2 Software
-- **Python** list of dependencies for both Django and Flask backends can be found at *code/Django-Backend/requirments.txt*
-- **Javascript**List of Javascript dependencies can be found at *code/Frontend/life-lens/package.json*
+- **Python** list of dependencies for both Django and Flask backends can be found at **code/Django-Backend/requirments.txt**
+- **Javascript**List of Javascript dependencies can be found at **code/Frontend/life-lens/package.json**
 
 
 ## 5.3 Running System
-- Navigate to *code/Frontend/life-lens* and run `npm start` in terminal
-- Navigate to *code/Django-Backend/* and run `python3 manage.py runserver` in terminal
-- Navigate to *code/Flask-Backend/* and run `flask run` in terminal
+- Navigate to **code/Frontend/life-lens** and run `npm start` in terminal
+- Navigate to **code/Django-Backend/** and run `python3 manage.py runserver` in terminal
+- Navigate to **code/Flask-Backend/** and run `flask run` in terminal
 
 
