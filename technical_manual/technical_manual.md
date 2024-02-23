@@ -77,8 +77,12 @@ Life Lens achieves its functionality from its 3 major components. The first is t
 
 
 # 3 High Level Design
-## 3.1 Database Design
-### 3.1.1 Storing Life Log Data
+
+## 3.1 Overview of design
+This section outlines how each componenet and its sub compoenets interact with one another aswell as the design choicees made during the development of the system.
+
+## 3.2 Database Design
+### 3.2.1 Storing Life Log Data
 This is how Lifelog Data is represented in a CSV file where every entry represents a minute in time recorded with a unix timestamp.
 
 |ts|action|actionOption|actionSub|actionSubOption| condition|conditionSub1Option|conditionSub2Option|place| emotionPositive | emotionTension | activity |
@@ -96,7 +100,7 @@ This is what each column means
 
 The Life Lens System stores data from such a file by creating an instances of a day entity with the date of the first timestamp. That day is associated with the user who uploaded the file. The database then stores actions as one instance with a start time, end time and duration. That action is stored in a table called DailyActivity. Each daily activity is assocated with sub actions which aslo have a start time, end time and duration. Sub actions include actionSubOption, condition, conditionSub1Option, conditionSub1Option, place emotionPositive, emotionTension and activity. Each of these actions represent
 
-### 3.1.2 Entity Relationship Diagram
+### 3.2.2 Entity Relationship Diagram
 ![](./images/ERDiagram.jpeg)
 
 
@@ -873,7 +877,20 @@ Trainig was done with a  70/30 data split. For reproducability the seed ("326") 
 User tests were conducting using google forms where participants were asked to demo the Life Lens web app and fill in a quistionaire.
 
 ### 4.2 Results of User Testing
-The Results can be found on the repo under testing/user_testing/
+The Results can be found on the repo under *testing/user_testing/*
 
+# 5 Installation Guide
+
+## 5.1 Hardware 
+Life Lens app should work on any modern personal computer
+
+## 5.2 Software
+- **Python** list of dependecies for both Django and Flask backends can be found at *code/Django-Backend/requirments.txt*
+- **Javascript**List of Javascript dependencies can be found at *code/Frontend/life-lens/package.json*
+
+## 5.3 Running System
+- Naviage to *code/Frontend/life-lens* and run `npm start` in terminal 
+- Naviage to *code/Django-Backend/* and run `python3 manage.py runserver` in terminal 
+- Naviage to *code/Flask-Backend/* and run `flask run` in terminal 
 
 
